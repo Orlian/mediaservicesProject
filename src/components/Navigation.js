@@ -46,11 +46,11 @@ const Navigation = () => {
           </Button>
         </Form>
         <Nav className="justify-content-end w-100">
-          <Nav.Link href="#home"><RouterLink to="/home">Home</RouterLink></Nav.Link>
-          <Nav.Link href="#upload"><RouterLink to="/upload">Upload</RouterLink></Nav.Link>
-          <Nav.Link href="#profile"><RouterLink to="/profile">Profile</RouterLink></Nav.Link>
-          <Nav.Link href="#favourites"><RouterLink to="/favourites">Favourites</RouterLink></Nav.Link>
-          <Nav.Link href="#logout"><RouterLink to="/logout">Logout</RouterLink></Nav.Link>
+          <RouterLink style={{textDecoration: 'none'}} to="/home"><Nav.Link href="#home">Home</Nav.Link></RouterLink>
+          <RouterLink style={{textDecoration: 'none'}} to="/upload"><Nav.Link href="#upload">Upload</Nav.Link></RouterLink>
+          <RouterLink style={{textDecoration: 'none'}} to="/profile"><Nav.Link href="#profile">Profile</Nav.Link></RouterLink>
+          <RouterLink style={{textDecoration: 'none'}} to="/favourites"><Nav.Link href="#favourites">Favourites</Nav.Link></RouterLink>
+          <RouterLink style={{textDecoration: 'none'}} to="/logout"><Nav.Link href="#logout">Logout</Nav.Link></RouterLink>
         </Nav>
       </Navbar>
     </>
