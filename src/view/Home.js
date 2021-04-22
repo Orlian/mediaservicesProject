@@ -6,7 +6,7 @@ const Home = () => {
       <div className={'row-cols'}>
         <div className={'col-12 banner'}>This is banner lol</div>
       </div>
-      <div className={'row-cols justify-content-center mt-3'}>
+      <div className={'row-cols d-flex justify-content-center mt-3'}>
         <div className={'col-6'}>
           <ul
             className={'d-flex home-sort-ul justify-content-between list-unstyled'}>
