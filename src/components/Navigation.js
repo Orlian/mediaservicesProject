@@ -7,7 +7,7 @@ import {withRouter} from 'react-router-dom';
 const Navigation = () => {
   return (
     <>
-      <Navbar>
+      <Navbar expand="lg" className="navbar-dark">
         <Navbar.Brand
           style={{
             paddingLeft: '1.25rem',
@@ -26,6 +26,7 @@ const Navigation = () => {
         <Form inline className="mr-0 position-absolute"
           style={{
             left: '50%',
+            top: '0.5rem',
             webkitTransform: 'translateX(-50%)',
             transform: 'translateX(-50%)',
           }}
@@ -45,13 +46,16 @@ const Navigation = () => {
             <Search color="#161616"/>
           </Button>
         </Form>
-        <Nav className="justify-content-end w-100">
-          <RouterLink style={{textDecoration: 'none'}} to="/home"><Nav.Link href="#home">Home</Nav.Link></RouterLink>
-          <RouterLink style={{textDecoration: 'none'}} to="/upload"><Nav.Link href="#upload">Upload</Nav.Link></RouterLink>
-          <RouterLink style={{textDecoration: 'none'}} to="/profile"><Nav.Link href="#profile">Profile</Nav.Link></RouterLink>
-          <RouterLink style={{textDecoration: 'none'}} to="/favourites"><Nav.Link href="#favourites">Favourites</Nav.Link></RouterLink>
-          <RouterLink style={{textDecoration: 'none'}} to="/logout"><Nav.Link href="#logout">Logout</Nav.Link></RouterLink>
-        </Nav>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="justify-content-end w-100">
+            <RouterLink style={{textDecoration: 'none'}} to="/home"><Nav.Link href="#home">Home</Nav.Link></RouterLink>
+            <RouterLink style={{textDecoration: 'none'}} to="/upload"><Nav.Link href="#upload">Upload</Nav.Link></RouterLink>
+            <RouterLink style={{textDecoration: 'none'}} to="/profile"><Nav.Link href="#profile">Profile</Nav.Link></RouterLink>
+            <RouterLink style={{textDecoration: 'none'}} to="/favourites"><Nav.Link href="#favourites">Favourites</Nav.Link></RouterLink>
+            <RouterLink style={{textDecoration: 'none'}} to="/logout"><Nav.Link href="#logout">Logout</Nav.Link></RouterLink>
+          </Nav>
+        </Navbar.Collapse>
       </Navbar>
     </>
   );
