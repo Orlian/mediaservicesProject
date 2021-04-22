@@ -5,26 +5,45 @@ const RegisterForm = () => {
   return (
 
     <>
-      <Form>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" />
-          <Form.Text className="text-muted">
-            Well never share your email with anyone else.
-          </Form.Text>
-        </Form.Group>
 
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" />
-        </Form.Group>
-        <Form.Group controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+      <div className="row-cols d-flex justify-content-center">
+        <div className="col-lg-3 mt-5" >
+          <Form
+            className="p-4 rounded-lg"
+            style={{backgroundColor: '#f8f8ff'}}
+          >
+            <Form.Group controlId="form-username">
+              <Form.Label>Username</Form.Label>
+              <Form.Control type="text" placeholder="Username" />
+            </Form.Group>
+            <Form.Group controlId="form-email">
+              <Form.Label>Email</Form.Label>
+              <Form.Control type="email" placeholder="Email" />
+              <Form.Text className="text-muted">
+                Enter an email you would like to share with other users.
+              </Form.Text>
+            </Form.Group>
+            <Form.Group controlId="form-password">
+              <Form.Label>Create password</Form.Label>
+              <Form.Control type="password" placeholder="Password" />
+            </Form.Group>
+            <Form.Group controlId="form-confirm">
+              <Form.Label>Repeat password</Form.Label>
+              <Form.Control type="password" placeholder="Repeat password" />
+            </Form.Group>
+            <Form.Group className="d-flex justify-content-center">
+              <Button variant="primary" type="submit" className="w-50" >
+                REGISTER
+              </Button>
+            </Form.Group>
+            <Form.Group className="d-flex justify-content-center">
+              <Button variant="outline-dark" type="submit" className="w-50" >
+                LOGIN
+              </Button>
+            </Form.Group>
+          </Form>
+        </div>
+      </div>
     </>
 
   );
