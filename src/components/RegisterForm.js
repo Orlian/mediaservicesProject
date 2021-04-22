@@ -1,6 +1,6 @@
 import {Form, Button} from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import '../app.scss';
+
 
 const RegisterForm = () => {
   return (

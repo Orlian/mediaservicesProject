@@ -1,5 +1,5 @@
 import RegisterForm from '../components/RegisterForm';
-
+import LoginForm from '../components/LoginForm';
 
 const Login = () => {
   return (
@@ -16,6 +16,7 @@ const Login = () => {
         <div style={{background: 'rgba(0, 0, 0, 0.4)',
           height: '100vh'}}>
           <RegisterForm></RegisterForm>
+          <LoginForm></LoginForm>
         </div>
 
       </div>

@@ -30,4 +30,55 @@ const useMedia = () => {
   return {getMedia, mediaArray};
 };
 
-export {useMedia};
+const useUsers = () => {
+  const register = async (inputs) => {
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputs),
+    };
+    try {
+      const response = await doFetch(baseUrl + 'users', fetchOptions);
+      return response;
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  const getUserAvailable = async (username) => {
+    try {
+      const response = await doFetch(baseUrl + 'users/username/' + username);
+      return response.available;
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  return {register, getUserAvailable};
+};
+
+const useLogin = () => {
+  const postLogin = async (inputs) => {
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputs),
+    };
+    try {
+      const response = await doFetch(baseUrl + 'login', fetchOptions);
+      return response;
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+  return {postLogin};
+};
+
+
+export {useMedia, useUsers, useLogin};
+
+
