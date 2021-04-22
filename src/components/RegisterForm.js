@@ -1,5 +1,6 @@
 import {Form, Button} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import '../app.scss';
 
 const RegisterForm = () => {
   return (
@@ -32,12 +33,21 @@ const RegisterForm = () => {
               <Form.Control type="password" placeholder="Repeat password" />
             </Form.Group>
             <Form.Group className="d-flex justify-content-center">
-              <Button variant="primary" type="submit" className="w-50" >
+              <Button type="submit"
+                className="w-50 font-weight-bold form-btn"
+                style={{backgroundColor: '#f6aa1c',
+                  border: '1px solid #f6aa1c',
+                  color: '#161616',
+                  borderRadius: '30em'}}>
                 REGISTER
               </Button>
             </Form.Group>
-            <Form.Group className="d-flex justify-content-center">
-              <Button variant="outline-dark" type="submit" className="w-50" >
+            <Form.Group className="d-flex justify-content-center ">
+              <Button type="submit" className="w-50 font-weight-bold form-btn"
+                style={{backgroundColor: '#f8f8ff',
+                  color: '#161616',
+                  border: '1px solid #161616',
+                  borderRadius: '30em'}}>
                 LOGIN
               </Button>
             </Form.Group>
