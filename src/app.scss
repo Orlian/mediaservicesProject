@@ -33,4 +33,9 @@
   }
 }
 
+@include media-breakpoint-only(md) {
+  #profile-card-avatar{
+    width: 100% !important;
+  }
+}
 

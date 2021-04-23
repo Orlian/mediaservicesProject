@@ -11,7 +11,7 @@ import Logout from './view/Logout';
 const App = () => {
   return (
     <Router basename={process.env.PUBLIC_URL}>
-      <div className="container-fluid">
+      <div className="container-fluid overflow-hidden">
         <Navigation/>
         <Switch>
           <Route path="/" exact component={Login} />

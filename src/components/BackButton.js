@@ -18,7 +18,6 @@ const BackButton = ({history}) => {
   );
 };
 
-
 BackButton.propTypes = {
   history: PropTypes.object,
 };
