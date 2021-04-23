@@ -9,19 +9,19 @@ const Navigation = () => {
     <>
       <Navbar expand="lg" className="navbar-dark">
         <Navbar.Brand
+          as={RouterLink}
+          to="/home"
           style={{
             paddingLeft: '1.25rem',
           }}
         >
-          <RouterLink to="/home">
-            <img
-              src="logo512.png"
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-              alt="React Bootstrap logo"
-            />
-          </RouterLink>
+          <img
+            src="logo512.png"
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+            alt="React Bootstrap logo"
+          />
         </Navbar.Brand>
         <Form inline className="mr-0 position-absolute"
           style={{
@@ -46,19 +46,20 @@ const Navigation = () => {
             <Search color="#161616"/>
           </Button>
         </Form>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="justify-content-end w-100">
-            <RouterLink style={{textDecoration: 'none'}} to="/home"><Nav.Link href="#home">Home</Nav.Link></RouterLink>
-            <RouterLink style={{textDecoration: 'none'}} to="/upload"><Nav.Link href="#upload">Upload</Nav.Link></RouterLink>
-            <RouterLink style={{textDecoration: 'none'}} to="/profile"><Nav.Link href="#profile">Profile</Nav.Link></RouterLink>
-            <RouterLink style={{textDecoration: 'none'}} to="/favourites"><Nav.Link href="#favourites">Favourites</Nav.Link></RouterLink>
-            <RouterLink style={{textDecoration: 'none'}} to="/logout"><Nav.Link href="#logout">Logout</Nav.Link></RouterLink>
+            <Nav.Link as={RouterLink} to="/home">Home</Nav.Link>
+            <Nav.Link as={RouterLink} to="/upload">Upload</Nav.Link>
+            <Nav.Link as={RouterLink} to="/profile">Profile</Nav.Link>
+            <Nav.Link as={RouterLink} to="/favourites">Favourites</Nav.Link>
+            <Nav.Link as={RouterLink} to="/logout">Logout</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
     </>
-  );
+  )
+  ;
 };
 
 
