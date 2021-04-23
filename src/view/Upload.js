@@ -14,7 +14,7 @@ const Upload = () => {
       checked: [],
     },
     validationSchema: Yup.object({
-      file: Yup.string()
+      file: Yup.mixed()
           .required('Required'),
       title: Yup.string()
           .max(20, 'Must be 20 characters or less')
@@ -36,14 +36,16 @@ const Upload = () => {
           >
             <h1>Upload Content</h1>
             <Form.Group controlId="form-title">
-              <Form.label>File</Form.label>
+              <Form.Label>File</Form.Label>
               <Form.Control
                 id="form-file"
                 name="file"
+                type="file"
                 accept="image/*, audio/*, video/*"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.file}
+                custom
               />
               {formik.touched.file && formik.errors.file ? (
                 <div>{formik.errors.file}</div>
