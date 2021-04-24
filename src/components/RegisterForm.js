@@ -4,30 +4,45 @@ import {useUsers} from '../hooks/ApiHooks';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 
-const validationSchema = yup.object({
-  username: yup.string()
-      .min(2, '*Names must have at least 2 characters')
-      .required('*Name is required'),
-  email: yup.string()
-      .email('*Must be a valid email address')
-      .required('*Email is required'),
-  password: yup.string()
-      .min(6, '*Password must have at least 6 characters')
-      .required('*Password is required'),
-  confirm: yup.string()
-      .min(6, '*Password must have at least 6 characters')
-      .required('*Password is required'),
-});
-
-
 const RegisterForm = () => {
   const {register, getUserAvailable} = useUsers();
+
+  const checkUsername = async (value) => {
+    try {
+      const available = await getUserAvailable(value);
+      console.log('onko vapaana', available);
+      return available;
+    } catch (e) {
+      console.log(e.message);
+      return true;
+    }
+  };
+
+  const validationSchema = yup.object({
+    username: yup.string()
+        .min(3, '*Usernname must have at least 3 characters')
+        .max(30, 'Maximum 30 characters')
+        .required('*Username is required')
+        .test('usernameTaken', '*Username is already taken', checkUsername),
+    email: yup.string()
+        .email('*Must be a valid email address')
+        .required('*Email is required'),
+    password: yup.string()
+        .min(8, '*Password must have at least 8 characters')
+        .required('*Password is required'),
+    confirm: yup.string()
+        .min(8, '*Password must have at least 8 characters')
+        .required('*Password is required')
+        .oneOf([yup.ref('password'), null], '*Passwords must match'),
+  });
+
+  const initialValues = {username: '', email: '', password: '', confirm: ''};
   const doRegister = async (inputs) => {
     try {
-      console.log('rekisteröinti lomake lähtee', inputs);
       const available = await getUserAvailable(inputs.username);
       console.log('available', available);
       if (available) {
+        console.log('rekisteröinti lomake lähtee', inputs);
         delete inputs.confirm;
         const result = await register(inputs);
         if (result.message.length > 0) {
@@ -44,20 +59,17 @@ const RegisterForm = () => {
     <>
 
       {/* eslint-disable-next-line max-len */}
-      <Formik initialValues={{username: '', email: '', password: '', confirm: ''}}
-
+      <Formik
+        initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={(values, {setSubmitting, resetForm}) => {
           setSubmitting(true);
           doRegister(values);
-
           setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
             resetForm();
             setSubmitting(false);
           }, 500);
         }}
-
       >
         {/* Callback function containing Formik state and helpers that handle
         common form actions */}
@@ -160,5 +172,6 @@ const RegisterForm = () => {
 
   );
 };
+
 
 export default RegisterForm;
