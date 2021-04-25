@@ -7,6 +7,22 @@ form {
   .form-label {
     font-weight: 600;
   }
+
+  .form-btn {
+    background-color: $yellow;
+    border: 1px solid $yellow;
+    color: $black;
+    border-radius: 30em;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+
+    &:hover {
+      background-color: $black;
+      border: 1px solid $black;
+      color: $white;
+    }
+  }
+
   .error-message {
     color: $error;
     height: 1em;
@@ -14,6 +30,9 @@ form {
     font-size: .8em;
     font-weight: 600;
   }
+
 }
+
+
 
 

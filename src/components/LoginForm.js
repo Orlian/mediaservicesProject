@@ -1,4 +1,4 @@
-import {Form, Button, Row, Col} from 'react-bootstrap';
+import {Form, Button, Row, Col, Image} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import {useContext} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
@@ -32,7 +32,7 @@ const LoginForm = ({history}) => {
       setUser(userdata.user);
       history.push('/home');
     } catch (e) {
-      console.log('doLogin', e.message);
+      console.log('doLogin unauthorised', e.message);
     }
     console.log(inputs);
   };
@@ -42,7 +42,8 @@ const LoginForm = ({history}) => {
 
   return (
     <>
-      <Row className=" d-flex justify-content-center">
+
+      <Row className="d-flex justify-content-center">
         <Col lg={4} className="mt-5" >
           <Formik
             initialValues={initialValues}
@@ -69,6 +70,13 @@ const LoginForm = ({history}) => {
                 className="p-4 rounded-lg"
                 style={{backgroundColor: '#f8f8ff'}}
               >
+                <div className="d-flex justify-content-center">
+                  <h1>Login</h1>
+                </div>
+                <div className="d-flex justify-content-center my-3">
+                  <Image src="logo192.png"
+                    style={{width: '50px'}}/>
+                </div>
                 <Form.Group>
                   <Form.Label>Username</Form.Label>
                   <Form.Control
@@ -85,25 +93,25 @@ const LoginForm = ({history}) => {
                   ): null}
                 </Form.Group>
                 <Form.Group>
-                  <Form.Label>Create password</Form.Label>
+                  <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="password"
                     name="password"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.password}
-                    className={touched.email && errors.email ? 'error' : null}
+                    className={touched.password && errors.password ?
+                      'error' : null}
                   />
-                  {touched.email && errors.email ? (
-                    <div className="error-message">{errors.email}</div>
+                  {touched.password && errors.password ? (
+                    <div className="error-message">{errors.password}</div>
                   ): null}
                 </Form.Group>
                 <Form.Group className="d-flex justify-content-center">
                   <Button
-                    variant="primary"
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-50"
+                    className="w-50 mt-3 form-btn"
                   >
                 LOGIN
                   </Button>

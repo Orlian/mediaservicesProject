@@ -22,7 +22,8 @@ const Login = () => {
       >
         <div
           style={{background: 'rgba(0, 0, 0, 0.4)',
-            height: '100vh'}}>
+            height: '100vh'}}
+        >
           { toggle ? <LoginForm/> : <RegisterForm setToggle={setToggle}/> }
           <Button onClick={showHide}>{toggle ? 'or register' : 'or login'}
           </Button>

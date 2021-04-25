@@ -154,11 +154,8 @@ const RegisterForm = () => {
                 <Form.Group className="d-flex justify-content-center">
                   <Button type="submit"
                     disabled={isSubmitting}
-                    className="w-50 font-weight-bold form-btn"
-                    style={{backgroundColor: '#f6aa1c',
-                      border: '1px solid #f6aa1c',
-                      color: '#161616',
-                      borderRadius: '30em'}}>
+                    className="w-50 mt-3 form-btn"
+                  >
                 REGISTER
                   </Button>
                 </Form.Group>
