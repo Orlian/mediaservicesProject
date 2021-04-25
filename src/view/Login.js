@@ -13,8 +13,9 @@ const Login = () => {
           height: '100vh',
           position: 'relative'}}
       >
-        <div style={{background: 'rgba(0, 0, 0, 0.4)',
-          height: '100vh'}}>
+        <div
+          style={{background: 'rgba(0, 0, 0, 0.4)',
+            height: '100vh'}}>
           <RegisterForm></RegisterForm>
           <LoginForm></LoginForm>
         </div>

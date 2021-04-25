@@ -1,4 +1,4 @@
-import {Form, Button} from 'react-bootstrap';
+import {Form, Button, Row, Col} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import useForm from '../hooks/FormHooks';
 // import {useContext} from 'react';
@@ -31,8 +31,8 @@ const LoginForm = ({history}) => {
   return (
     <>
 
-      <div className="row-cols d-flex justify-content-center">
-        <div className="col-lg-3 mt-5" >
+      <Row className=" d-flex justify-content-center">
+        <Col lg={4} className="mt-5" >
           <Form
             onSubmit={handleSubmit}
             className="p-4 rounded-lg"
@@ -69,8 +69,8 @@ const LoginForm = ({history}) => {
             </Form.Group>
             */}
           </Form>
-        </div>
-      </div>
+        </Col>
+      </Row>
     </>
 
   );
