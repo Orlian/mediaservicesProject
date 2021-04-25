@@ -1,5 +1,5 @@
 import
-{Form, Button, Row, Col, Image} from 'react-bootstrap';
+{Form, Button, Image} from 'react-bootstrap';
 // import useForm from '../hooks/FormHooks';
 import {useUsers} from '../hooks/ApiHooks';
 import {Formik} from 'formik';
@@ -61,105 +61,103 @@ const RegisterForm = () => {
 
   return (
     <>
-      <Row className="d-flex justify-content-center">
-        <Col lg={4} className="mt-5">
-          {/* eslint-disable-next-line max-len */}
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={(values, {setSubmitting, resetForm}) => {
-              setSubmitting(true);
-              doRegister(values);
-              setTimeout(() => {
-                resetForm();
-                setSubmitting(false);
-              }, 500);
-            }}
-          >
 
-            {( {values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting}) => (
-              <Form
-                onSubmit={handleSubmit}
-                className="p-4 rounded-lg"
-                style={{backgroundColor: '#f8f8ff'}}
-              >
-                <div className="d-flex justify-content-center">
-                  <h1>Welcome to Musikantti</h1>
-                </div>
-                <div className="d-flex justify-content-center my-3">
-                  <Image src="logo192.png"
-                    style={{width: '50px'}}/>
-                </div>
-                <Form.Group>
-                  <Form.Label className="font-we">Username</Form.Label>
-                  <Form.Control type="text"
-                    name="username"
-                    placeholder="Username"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.username}
-                    className={touched.username && errors.username ?
+
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={(values, {setSubmitting, resetForm}) => {
+          setSubmitting(true);
+          doRegister(values);
+          setTimeout(() => {
+            resetForm();
+            setSubmitting(false);
+          }, 500);
+        }}
+      >
+
+        {( {values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isSubmitting}) => (
+          <Form
+            onSubmit={handleSubmit}
+            className="pt-4 pb-0"
+          >
+            <div className="d-flex justify-content-center">
+              <h1>Register</h1>
+            </div>
+            <div className="d-flex justify-content-center my-3">
+              <Image src="logo192.png"
+                style={{width: '50px'}}/>
+            </div>
+            <Form.Group className="mx-4">
+              <Form.Label className="font-we">Username</Form.Label>
+              <Form.Control type="text"
+                name="username"
+                placeholder="Username"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.username}
+                className={touched.username && errors.username ?
                   'error' : null}/>
-                  {touched.username && errors.username ? (
+              {touched.username && errors.username ? (
                 <div className="error-message">{errors.username}</div>
               ): null}
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control type="email"
-                    name="email"
-                    placeholder="Email"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.email}
-                    className={touched.email && errors.email ? 'error' : null}/>
-                  {touched.email && errors.email ? (
+            </Form.Group>
+            <Form.Group className="mx-4">
+              <Form.Label>Email</Form.Label>
+              <Form.Control type="email"
+                name="email"
+                placeholder="Email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+                className={touched.email && errors.email ? 'error' : null}/>
+              {touched.email && errors.email ? (
                 <div className="error-message">{errors.email}</div>
               ): null}
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Create password</Form.Label>
-                  <Form.Control type="password"
-                    name="password"
-                    placeholder="Password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.password}
-                    className={touched.password && errors.password ?
+            </Form.Group>
+            <Form.Group className="mx-4">
+              <Form.Label>Create password</Form.Label>
+              <Form.Control type="password"
+                name="password"
+                placeholder="Password"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.password}
+                className={touched.password && errors.password ?
                   'error' : null}/>
-                  {touched.password && errors.password ? (
+              {touched.password && errors.password ? (
                 <div className="error-message">{errors.password}</div>
               ): null}
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Repeat password</Form.Label>
-                  <Form.Control type="password"
-                    name="confirm"
-                    placeholder="Repeat password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.confirm}
-                    className={touched.confirm && errors.confirm ?
+            </Form.Group>
+            <Form.Group className="mx-4">
+              <Form.Label>Repeat password</Form.Label>
+              <Form.Control type="password"
+                name="confirm"
+                placeholder="Repeat password"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.confirm}
+                className={touched.confirm && errors.confirm ?
                     'error' : null}/>
-                  {touched.confirm && errors.confirm? (
+              {touched.confirm && errors.confirm? (
                 <div className="error-message">{errors.confirm}</div>
               ): null}
-                </Form.Group>
-                <Form.Group className="d-flex justify-content-center">
-                  <Button type="submit"
-                    disabled={isSubmitting}
-                    className="w-50 mt-3 form-btn"
-                  >
+            </Form.Group>
+            <Form.Group className="d-flex justify-content-center">
+              <Button type="submit"
+                disabled={isSubmitting}
+                className="w-50 mt-3 form-btn"
+              >
                 REGISTER
-                  </Button>
-                </Form.Group>
-                {/*
+              </Button>
+            </Form.Group>
+            {/*
             <Form.Group className="d-flex justify-content-center ">
               <Button type="submit" className="w-50 font-weight-bold form-btn"
                 style={{backgroundColor: '#f8f8ff',
@@ -170,11 +168,10 @@ const RegisterForm = () => {
               </Button>
             </Form.Group>
             */}
-              </Form>
-            )}
-          </Formik>
-        </Col>
-      </Row>
+          </Form>
+        )}
+      </Formik>
+
     </>
 
   );
