@@ -1,7 +1,14 @@
 import RegisterForm from '../components/RegisterForm';
 import LoginForm from '../components/LoginForm';
+import {useState} from 'react';
+import {Button} from 'react-bootstrap';
 
 const Login = () => {
+  const [toggle, setToggle] = useState(true);
+  const showHide = () => {
+    setToggle(!toggle);
+  };
+
   return (
     <>
       <div
@@ -16,12 +23,11 @@ const Login = () => {
         <div
           style={{background: 'rgba(0, 0, 0, 0.4)',
             height: '100vh'}}>
-          <RegisterForm></RegisterForm>
-          <LoginForm></LoginForm>
+          { toggle ? <LoginForm/> : <RegisterForm setToggle={setToggle}/> }
+          <Button onClick={showHide}>{toggle ? 'or register' : 'or login'}
+          </Button>
         </div>
-
       </div>
-
     </>
   );
 };
