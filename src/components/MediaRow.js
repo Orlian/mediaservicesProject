@@ -1,15 +1,19 @@
+/* eslint-disable max-len */
 import PropTypes from 'prop-types';
 import {Card} from 'react-bootstrap';
-import {baseUrl} from '../utils/variables';
+import {uploadsUrl} from '../utils/variables';
 
 const MediaRow = ({file}) => {
   return (
     <>
-      <Card bg={'dark'}>
-        <Card.Img src={baseUrl + 'media/' + file.file_id}/>
+      <Card bg={'dark'} className='mb-3'>
+        <Card.Img src={uploadsUrl + file.thumbnails?.w320}/>
         <Card.ImgOverlay>
-          <Card.Text>Username</Card.Text>
+          <Card.Text>{file.user_id}</Card.Text>
         </Card.ImgOverlay>
+        <Card.Body>
+          <Card.Text className={'text-light'}>I&apos;m a goofy description lol</Card.Text>
+        </Card.Body>
       </Card>
     </>
   );

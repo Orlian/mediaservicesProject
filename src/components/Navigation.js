@@ -33,7 +33,7 @@ const Navigation = ({history}) => {
       <Navbar expand="lg" className="navbar-dark">
         <Navbar.Brand
           as={RouterLink}
-          to="/home"
+          to="/"
           style={{
             paddingLeft: '1.25rem',
           }}
