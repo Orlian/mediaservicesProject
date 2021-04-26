@@ -4,18 +4,21 @@ import
 import {useUsers} from '../hooks/ApiHooks';
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import PropTypes from 'prop-types';
 
-const RegisterForm = () => {
+const RegisterForm = ({setToggle}) => {
   const {register, getUserAvailable} = useUsers();
 
   const checkUsername = async (value) => {
-    try {
-      const available = await getUserAvailable(value);
-      console.log('onko vapaana', available);
-      return available;
-    } catch (e) {
-      console.log(e.message);
-      return true;
+    if (value?.length > 2) {
+      try {
+        const available = await getUserAvailable(value);
+        console.log('onko vapaana', value, available);
+        return available;
+      } catch (e) {
+        console.log(e.message);
+        return true;
+      }
     }
   };
 
@@ -51,6 +54,7 @@ const RegisterForm = () => {
         const result = await register(inputs);
         if (result.message.length > 0) {
           alert(result.message);
+          setToggle(true);
         }
       }
     } catch (e) {
@@ -177,5 +181,8 @@ const RegisterForm = () => {
   );
 };
 
+RegisterForm.propTypes = {
+  setToggle: PropTypes.func,
+};
 
 export default RegisterForm;
