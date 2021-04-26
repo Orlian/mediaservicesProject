@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import {Card} from 'react-bootstrap';
+import {baseUrl} from '../utils/variables';
 
 const MediaRow = ({file}) => {
   return (
     <>
       <Card bg={'dark'}>
-        <Card.Img />
+        <Card.Img src={baseUrl + 'media/' + file.file_id}/>
         <Card.ImgOverlay>
           <Card.Text>Username</Card.Text>
         </Card.ImgOverlay>
