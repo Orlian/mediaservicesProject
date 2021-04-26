@@ -1,17 +1,26 @@
 /* eslint-disable max-len */
 import MediaTable from '../components/MediaTable';
+import {Col, Row} from 'react-bootstrap';
 
 const Home = () => {
   return (
     <>
-      <div className={'row-cols'}>
-        <div className={'col-12 banner'}>This is banner lol</div>
-      </div>
-      <div className={'row-cols d-flex justify-content-center mt-3'}>
-        <div className={'col-6'}>
-          <MediaTable />
-        </div>
-      </div>
+      <Row>
+        <Col xs={12} className={'banner'}
+          style={{
+            backgroundImage: 'url("bg-image.jpg")',
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            height: '30vh',
+            position: 'relative',
+          }}>Banner lål</Col>
+      </Row>
+      <Row className={'d-flex justify-content-center mt-3'}>
+        <Col xs={10}>
+          <MediaTable/>
+        </Col>
+      </Row>
     </>
   );
 };
