@@ -1,19 +1,19 @@
-/* eslint-disable max-len */
 import PropTypes from 'prop-types';
 import {Card, Row} from 'react-bootstrap';
-import {uploadsUrl} from '../utils/variables';
+// import {uploadsUrl} from '../utils/variables';
 
-const MediaRow = ({file}) => {
+const UserRow = ({user}) => {
   return (
     <>
       <Card bg={'dark'} className="mb-3">
         <Card.ImgOverlay className="pt-0">
           <Row className="d-flex justify-content-center"
             style={{background: 'rgba(0, 0, 0, 0.6)'}}>
-            <Card.Text className="text-light">{file.user_id}</Card.Text>
+            <Card.Text className="text-light">{user.username}</Card.Text>
           </Row>
         </Card.ImgOverlay>
-        <Card.Img src={uploadsUrl + file.thumbnails?.w320}/>
+        {/* TODO: User avatar here */}
+        <Card.Img/>
         <Card.Body className="d-flex flex-column align-items-center">
           <Card.Text className="text-light">
             Skills
@@ -26,7 +26,7 @@ const MediaRow = ({file}) => {
     </>
   );
 };
-MediaRow.propTypes = {
-  file: PropTypes.object,
+UserRow.propTypes = {
+  user: PropTypes.object,
 };
-export default MediaRow;
+export default UserRow;

@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <>
       <Row>
-        <Col xs={12} className={'banner'}
+        <Col xs={12} className="banner"
           style={{
             backgroundImage: 'url("bg-image.jpg")',
             backgroundPosition: 'center',
@@ -16,7 +16,7 @@ const Home = () => {
             position: 'relative',
           }}>Banner lål</Col>
       </Row>
-      <Row className={'d-flex justify-content-center mt-3'}>
+      <Row className="d-flex justify-content-center mt-5">
         <Col xs={10}>
           <MediaTable/>
         </Col>
