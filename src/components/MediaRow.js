@@ -4,8 +4,11 @@ import {Card} from 'react-bootstrap';
 const MediaRow = ({file}) => {
   return (
     <>
-      <Card>
-        <Card.ImgOverlay></Card.ImgOverlay>
+      <Card bg={'dark'}>
+        <Card.Img />
+        <Card.ImgOverlay>
+          <Card.Text>Username</Card.Text>
+        </Card.ImgOverlay>
       </Card>
     </>
   );
