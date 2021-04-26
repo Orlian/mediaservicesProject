@@ -1,16 +1,20 @@
 import {Button, Form} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import {useEffect} from 'react';
 import CancelButton from '../components/CancelButton';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 
 
-const Upload = () => {
+const Upload = ({history}) => {
+  const {postMedia, loading} = useMedia();
+  const {postTag} = useTag();
+
   const formik = useFormik({
     initialValues: {
       file: null,
       title: '',
-      desc: '',
+      description: '',
       checked: [],
     },
     validationSchema: Yup.object({
@@ -19,12 +23,58 @@ const Upload = () => {
       title: Yup.string()
           .max(20, 'Must be 20 characters or less')
           .required('Required'),
-      desc: Yup.string().required('Required'),
+      description: Yup.string().required('Required'),
     }),
     onSubmit: (values) => {
+      doUpload(values);
       alert(JSON.stringify(values, null, 2));
     },
   });
+
+  const doUpload = async (inputs) => {
+    try {
+      const fd = new FormData();
+      fd.append('title', inputs.title);
+      // kuvaus + filtterit tallennetaan description kenttään
+      const desc = {
+        description: inputs.description,
+        genres: inputs.checked,
+      };
+      fd.append('description', JSON.stringify(desc));
+      fd.append('file', inputs.file);
+      const result = await postMedia(fd, localStorage.getItem('token'));
+      const tagResult = await postTag(localStorage.getItem('token'),
+          result.file_id);
+      console.log('doUpload', result, tagResult);
+    } catch (e) {
+      alert(e.message);
+    } finally {
+      history.push('/');
+    }
+  };
+
+  useEffect(() => {
+    const reader = new FileReader();
+
+    reader.addEventListener('load', () => {
+      setInputs((inputs) => ({
+        ...inputs,
+        dataUrl: reader.result,
+      }));
+    });
+
+    if (inputs.file !== null) {
+      if (inputs.file.type.includes('image')) {
+        reader.readAsDataURL(inputs.file);
+      } else {
+        setInputs((inputs) => ({
+          ...inputs,
+          dataUrl: 'logo512.png',
+        }));
+      }
+    }
+  }, [inputs.file]);
+
   return (
     <>
       <div className="row-cols d-flex justify-content-center">
@@ -45,7 +95,6 @@ const Upload = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.file}
-                custom
               />
               {formik.touched.file && formik.errors.file ? (
                 <div>{formik.errors.file}</div>
@@ -70,13 +119,13 @@ const Upload = () => {
                 as="textarea"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.desc}
+                value={formik.values.description}
                 style={{
                   resize: 'none',
                 }}
               />
-              {formik.touched.desc && formik.errors.desc ? (
-                <div>{formik.errors.desc}</div>
+              {formik.touched.description && formik.errors.description ? (
+                <div>{formik.errors.description}</div>
               ) : null}
             </Form.Group>
             <Form.Group>
