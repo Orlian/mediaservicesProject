@@ -104,8 +104,24 @@ const useUsers = () => {
     }
   };
 
+  const putUser = async (inputs, token) => {
+    const fetchOptions = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+      body: JSON.stringify(inputs),
+    };
+    try {
+      return await doFetch(baseUrl + 'users', fetchOptions);
+    } catch (e) {
+      alert(e.message);
+    }
+  };
 
-  return {register, getUserAvailable, getUser};
+
+  return {register, getUserAvailable, getUser, putUser};
 };
 
 const useLogin = () => {
