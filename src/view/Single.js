@@ -4,9 +4,9 @@ import {Card, Col, Container, Row} from 'react-bootstrap';
 
 const Single = () => {
   return (
-    <Container className="single-container">
+    <Container fluid>
       <Row className="my-4">
-        <Col xs={4} md={2}>
+        <Col xs={4} md={2} className="d-flex justify-content-center">
           <BackButton />
         </Col>
         <Col xs={8} md={10}>

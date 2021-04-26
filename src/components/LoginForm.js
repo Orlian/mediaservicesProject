@@ -30,7 +30,7 @@ const LoginForm = ({history}) => {
 
       localStorage.setItem('token', userdata.token);
       setUser(userdata.user);
-      history.push('/home');
+      history.push('/');
     } catch (e) {
       console.log('doLogin unauthorised', e.message);
     }
