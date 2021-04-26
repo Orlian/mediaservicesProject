@@ -120,8 +120,22 @@ const useUsers = () => {
     }
   };
 
+  const getUserById = async (token, id) => {
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      return await doFetch(baseUrl + 'users/' + id, fetchOptions);
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  };
 
-  return {register, getUserAvailable, getUser, putUser};
+
+  return {register, getUserAvailable, getUser, putUser, getUserById};
 };
 
 const useLogin = () => {
