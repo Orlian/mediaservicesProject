@@ -104,8 +104,24 @@ const useUsers = () => {
     }
   };
 
+  const putUser = async (inputs, token) => {
+    const fetchOptions = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+      body: JSON.stringify(inputs),
+    };
+    try {
+      return await doFetch(baseUrl + 'users', fetchOptions);
+    } catch (e) {
+      alert(e.message);
+    }
+  };
 
-  return {register, getUserAvailable, getUser};
+
+  return {register, getUserAvailable, getUser, putUser};
 };
 
 const useLogin = () => {
@@ -127,7 +143,39 @@ const useLogin = () => {
   return {postLogin};
 };
 
+const useTag = () => {
+  const postTag = async (token, id, tag = appIdentifier) => {
+    const data = {
+      file_id: id,
+      tag,
+    };
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      return await doFetch(baseUrl + 'tags', fetchOptions);
+    } catch (e) {
+      throw new Error('tagging failed');
+    }
+  };
 
-export {useMedia, useUsers, useLogin};
+  const getTag = async (tag) => {
+    try {
+      const response = await doFetch(baseUrl + 'tags/' + tag);
+      return response;
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  return {postTag, getTag};
+};
+
+export {useMedia, useUsers, useLogin, useTag};
 
 
