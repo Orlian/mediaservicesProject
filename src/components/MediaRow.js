@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
-import {uploadsUrl} from '../utils/variables';
+import {Card} from 'react-bootstrap';
 
 const MediaRow = ({file}) => {
   return (
     <>
-      <img
-        src={uploadsUrl + file.thumbnails ? file.thumbnails.w320 : 'https://placekitten.com/320/320'}
-        alt={file.title}
-      />
+      <Card>
+        <Card.ImgOverlay></Card.ImgOverlay>
+      </Card>
     </>
   );
 };

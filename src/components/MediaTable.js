@@ -2,7 +2,7 @@ import {useMedia} from '../hooks/ApiHooks';
 import MediaRow from './MediaRow';
 
 const MediaTable = () => {
-  const {mediaArray} = useMedia();
+  const {mediaArray} = useMedia(true);
   console.log('MediaArray', mediaArray);
   return (
     <div className="container">

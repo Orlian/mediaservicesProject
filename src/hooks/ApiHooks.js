@@ -1,5 +1,5 @@
 import {appIdentifier, baseUrl} from '../utils/variables';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 const doFetch = async (url, options = {}) => {
   const response = await fetch(url, options);
@@ -13,21 +13,55 @@ const doFetch = async (url, options = {}) => {
   }
 };
 
-const useMedia = () => {
+const useMedia = (update = false) => {
   const [mediaArray, setMediaArray] = useState([]);
+  const [loading, setLoading] = useState(false);
+  if (update) {
+    useEffect(() => {
+      try {
+        (async () => {
+          const media = await getMedia();
+          setMediaArray(media);
+        })();
+      } catch (e) {
+        console.error(e.message);
+      }
+    }, []);
+  }
   const getMedia = async () => {
     try {
-      const response = await fetch(baseUrl + '/tags/' + appIdentifier);
+      setLoading(true);
+      const response = await fetch(baseUrl + 'tags/' + appIdentifier);
       const files = await response.json();
+      console.log('getMedia files', files);
       const media = await Promise.all(files.map(async (item) => {
         return await doFetch(baseUrl + 'media/' + item.file_id);
       }));
-      setMediaArray(media);
+      return media;
     } catch (e) {
       console.error(e.message);
+    } finally {
+      setLoading(false);
     }
   };
-  return {getMedia, mediaArray};
+  const postMedia = async (data, token) => {
+    setLoading(true);
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'x-access-token': token,
+      },
+      body: data,
+    };
+    try {
+      return await doFetch(baseUrl + 'media', fetchOptions);
+    } catch (e) {
+      throw new Error('Upload failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+  return {getMedia, postMedia, loading, mediaArray};
 };
 
 const useUsers = () => {
