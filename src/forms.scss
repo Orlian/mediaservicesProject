@@ -1,0 +1,54 @@
+@import "custom";
+@import "variables";
+
+
+form {
+  color: $black;
+  .form-label {
+    font-weight: 600;
+  }
+
+  .form-btn {
+    background-color: $yellow;
+    border: 1px solid $yellow;
+    color: $black;
+    border-radius: 30em;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+
+    &:hover {
+      background-color: $dark;
+      border: 1px solid $dark;
+      color: $white;
+    }
+  }
+
+  .error-message {
+    color: $error;
+    height: 1em;
+    position: absolute;
+    font-size: .8em;
+    font-weight: 600;
+  }
+
+}
+
+.outline-button {
+  background-color: $white;
+  border: 1px solid $dark;
+  color: $black;
+  border-radius: 30em;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  &:hover, &:active, &:focus {
+    background-color: $dark;
+    border: 1px solid $dark;
+    color: $white;
+  }
+}
+
+
+
+
+
+

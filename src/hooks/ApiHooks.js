@@ -72,7 +72,7 @@ const useLogin = () => {
       const response = await doFetch(baseUrl + 'login', fetchOptions);
       return response;
     } catch (e) {
-      console.log(e.message);
+      alert(e.message);
     }
   };
   return {postLogin};
