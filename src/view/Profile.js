@@ -1,14 +1,18 @@
 /* eslint-disable max-len */
 import BackButton from '../components/BackButton';
-import {MusicNoteBeamed} from 'react-bootstrap-icons';
+import {MusicNoteBeamed, GeoAltFill} from 'react-bootstrap-icons';
 import {FaUserEdit} from 'react-icons/fa';
 import {GiGuitar} from 'react-icons/gi';
-import {GrLocation} from 'react-icons/gr';
 import {Button, Card, Col, Container, Row} from 'react-bootstrap';
 
 const Profile = () => {
   return (
-    <Container fluid>
+    <Container fluid
+      style={{
+        backgroundColor: '#161616',
+        minHeight: '100vh',
+      }}
+    >
       <Row>
         <Col xs={1} className="mt-2 ml-2">
           <BackButton/>
@@ -16,7 +20,13 @@ const Profile = () => {
       </Row>
       <section>
         <Container className="py-3">
-          <Card>
+          <Card
+            style={{
+              border: '1px solid #f8f8ff',
+              backgroundColor: '#161616',
+              color: '#f8f8ff',
+            }}
+          >
             <Row>
               <Col md={{order: 'last', col: 2}}
                 className=" d-flex justify-content-md-end justify-content-center"
@@ -35,13 +45,21 @@ const Profile = () => {
                       <Card.Title className="h4 position-relative">
                     Ville Vallaton</Card.Title>
                     </Col>
-                    <Col xs={{col: 1, offset: 3}}>
-                      <FaUserEdit />
+                    <Col xs={{col: 'auto', offset: 3}}>
+                      <Button
+                        style={{
+                          backgroundColor: '#f6aa1c',
+                        }}
+                      >
+                        <FaUserEdit style={{
+                          color: '#161616',
+                        }}/>
+                      </Button>
                     </Col>
                   </Row>
                   <Row>
                     <Col xs={'auto'}>
-                      <GrLocation/>
+                      <GeoAltFill/>
                     </Col>
                     <Col xs={'auto'}>
                       <h5>Helsinki</h5>
@@ -89,6 +107,50 @@ const Profile = () => {
               </Col>
             </Row>
           </Card>
+          <section>
+            <Row className="mt-4 d-flex justify-content-center">
+              <Col xs={'auto'}>
+                <Button
+                  className="sortButton"
+                  style={{
+                    backgroundColor: 'inherit',
+                    border: 'none',
+                  }}>
+                  All media
+                </Button>
+              </Col>
+              <Col xs={'auto'}>
+                <Button
+                  className="sortButton"
+                  style={{
+                    backgroundColor: 'inherit',
+                    border: 'none',
+                  }}>
+                  Audio
+                </Button>
+              </Col>
+              <Col xs={'auto'}>
+                <Button
+                  className="sortButton"
+                  style={{
+                    backgroundColor: 'inherit',
+                    border: 'none',
+                  }}>
+                  Videos
+                </Button>
+              </Col>
+              <Col xs={'auto'}>
+                <Button
+                  className="sortButton"
+                  style={{
+                    backgroundColor: 'inherit',
+                    border: 'none',
+                  }}>
+                  Images
+                </Button>
+              </Col>
+            </Row>
+          </section>
         </Container>
       </section>
 
