@@ -34,6 +34,32 @@
   }
 }
 
+.sortButton:hover{
+  color: $yellow;
+}
+
+.sortButton:active{
+  color: $yellow !important;
+}
+
+.sortButton:focus{
+  border: none;
+  color: $yellow;
+  box-shadow: none;
+}
+
+.sortButton:after {
+  transition: all ease-in-out .2s;
+  background: none repeat scroll 0 0 $yellow;
+  content: "";
+  display: block;
+  height: 2px;
+  width: 0;
+}
+.sortButton:hover:after{
+  width: 100%;
+}
+
 @include media-breakpoint-only(md) {
   #profile-card-avatar{
     width: 100% !important;
