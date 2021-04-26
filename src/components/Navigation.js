@@ -6,6 +6,7 @@ import {withRouter} from 'react-router-dom';
 import {useContext, useEffect} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
 import {useUsers} from '../hooks/ApiHooks';
+import PropTypes from 'prop-types';
 
 
 const Navigation = ({history}) => {
@@ -72,13 +73,14 @@ const Navigation = ({history}) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="justify-content-end w-100">
 
-            {user ? <Nav.Link as={RouterLink} to="/logout">Logout</Nav.Link> :
-            <Nav.Link as={RouterLink} to="/login">Login</Nav.Link> }
-            <Nav.Link as={RouterLink} to="/home">Home</Nav.Link>
+
+            <Nav.Link as={RouterLink} to="/">Home</Nav.Link>
             {user && <><Nav.Link as={RouterLink} to="/upload">Upload</Nav.Link>
               <Nav.Link as={RouterLink} to="/profile">Profile</Nav.Link>
               <Nav.Link as={RouterLink} to="/favourites">Favourites</Nav.Link>
             </>}
+            {user ? <Nav.Link as={RouterLink} to="/logout">Logout</Nav.Link> :
+              <Nav.Link as={RouterLink} to="/login">Login</Nav.Link> }
 
 
           </Nav>
@@ -89,7 +91,7 @@ const Navigation = ({history}) => {
   ;
 };
 
-let PropTypes;
+
 Navigation.propTypes = {
   history: PropTypes.object,
 };
