@@ -3,8 +3,30 @@ import {Navbar, Nav, Form, FormControl, Button} from 'react-bootstrap';
 import {Search} from 'react-bootstrap-icons';
 import {Link as RouterLink} from 'react-router-dom';
 import {withRouter} from 'react-router-dom';
+import {useContext, useEffect} from 'react';
+import {MediaContext} from '../contexts/MediaContext';
+import {useUsers} from '../hooks/ApiHooks';
 
-const Navigation = () => {
+
+const Navigation = ({history}) => {
+  const [user, setUser] = useContext(MediaContext);
+  const {getUser} = useUsers();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const userData = await getUser(token);
+        setUser(userData);
+      } catch (e) {
+        // send to login
+        history.push('/');
+      }
+    };
+    checkUser();
+  }, []);
+
+
   return (
     <>
       <Navbar expand="lg" className="navbar-dark">
@@ -49,17 +71,27 @@ const Navigation = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="justify-content-end w-100">
+
+            {user ? <Nav.Link as={RouterLink} to="/logout">Logout</Nav.Link> :
+            <Nav.Link as={RouterLink} to="/login">Login</Nav.Link> }
             <Nav.Link as={RouterLink} to="/home">Home</Nav.Link>
-            <Nav.Link as={RouterLink} to="/upload">Upload</Nav.Link>
-            <Nav.Link as={RouterLink} to="/profile">Profile</Nav.Link>
-            <Nav.Link as={RouterLink} to="/favourites">Favourites</Nav.Link>
-            <Nav.Link as={RouterLink} to="/logout">Logout</Nav.Link>
+            {user && <><Nav.Link as={RouterLink} to="/upload">Upload</Nav.Link>
+              <Nav.Link as={RouterLink} to="/profile">Profile</Nav.Link>
+              <Nav.Link as={RouterLink} to="/favourites">Favourites</Nav.Link>
+            </>}
+
+
           </Nav>
         </Navbar.Collapse>
       </Navbar>
     </>
   )
   ;
+};
+
+let PropTypes;
+Navigation.propTypes = {
+  history: PropTypes.object,
 };
 
 

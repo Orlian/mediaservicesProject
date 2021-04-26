@@ -65,8 +65,6 @@ const RegisterForm = ({setToggle}) => {
 
   return (
     <>
-
-
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
