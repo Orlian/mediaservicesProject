@@ -1,4 +1,5 @@
-import {Button, Form, Spinner} from 'react-bootstrap';
+/* eslint-disable max-len */
+import {Button, Form, Spinner, Row, Col} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import {useState, useEffect} from 'react';
 import CancelButton from '../components/CancelButton';
@@ -18,6 +19,19 @@ const Upload = ({history}) => {
     'image/png',
     'image/heic',
     'image/heif',
+    'video/gif',
+    'video/mp4',
+    'video/avi',
+    'video/mov',
+    'video/wmv',
+    'video/flv',
+    'audio/aac',
+    'audio/wma',
+    'audio/wav',
+    'audio/mp4',
+    'audio/mp3',
+    'audio/flac',
+    'audio/m4a',
   ];
 
   const [file, setFile] = useState({file: null, dataUrl: ''});
@@ -91,7 +105,7 @@ const Upload = ({history}) => {
     reader.addEventListener('load', setImage);
 
     if (file.file !== null) {
-      if (file.file.type.includes('image')) {
+      if (file.file.type.includes('image' || 'video')) {
         reader.readAsDataURL(file.file);
       } else {
         setFile((file) => ({
@@ -139,9 +153,18 @@ const Upload = ({history}) => {
                   style={{backgroundColor: '#f8f8ff'}}
                 >
                   <h1>Upload Content</h1>
+                  <Row className="d-flex justify-content-center">
+                    <Col xs={'auto'}>
+                      <img src={file.dataUrl}
+                        style={{
+                          maxWidth: '200px',
+                          height: 'auto',
+                        }}
+                      />
+                    </Col>
+                  </Row>
                   <Form.Group>
                     <Form.Label>File</Form.Label>
-                    <img src={file.dataUrl}/>
                     <Form.Control
                       id="form-file"
                       name="file"
@@ -188,34 +211,48 @@ const Upload = ({history}) => {
                     ): null}
                   </Form.Group>
                   <Form.Group>
-                    <h2>Choose genres</h2>
+                    <h2 className="h6">Choose genres</h2>
                     <div role="group" aria-labelledby="checkbox-group">
-                      <label>
-                        <Field type="checkbox" name="checked" value="EDM" />
-                        EDM
-                      </label>
-                      <label>
-                        <Field type="checkbox" name="checked"
-                          value="Hip-hop/ Rap" />
-                        Hip-hop/ Rap
-                      </label>
-                      <label>
-                        <Field type="checkbox" name="checked" value="Rock" />
-                        Rock
-                      </label>
-                      <label>
-                        <Field type="checkbox" name="checked" value="Pop" />
-                        Pop
-                      </label>
-                      <label>
-                        <Field type="checkbox" name="checked" value="Metal" />
-                        Metal
-                      </label>
-                      <label>
-                        <Field type="checkbox" name="checked"
-                          value="Alternative" />
-                        Alternative
-                      </label>
+                      <Row>
+                        <Col xs={'auto'}>
+                          <label>
+                            <Field type="checkbox" name="checked" value="EDM"/>
+                            EDM
+                          </label>
+                        </Col>
+                        <Col xs={'auto'}>
+                          <label>
+                            <Field type="checkbox" name="checked"
+                              value="Hip-hop/ Rap" />
+                            Hip-hop/ Rap
+                          </label>
+                        </Col>
+                        <Col xs={'auto'}>
+                          <label>
+                            <Field type="checkbox" name="checked" value="Rock"/>
+                            Rock
+                          </label>
+                        </Col>
+                        <Col xs={'auto'}>
+                          <label>
+                            <Field type="checkbox" name="checked" value="Pop" />
+                            Pop
+                          </label>
+                        </Col>
+                        <Col xs={'auto'}>
+                          <label>
+                            <Field type="checkbox" name="checked" value="Metal"/>
+                            Metal
+                          </label>
+                        </Col>
+                        <Col xs={'auto'}>
+                          <label>
+                            <Field type="checkbox" name="checked"
+                              value="Alternative" />
+                            Alternative
+                          </label>
+                        </Col>
+                      </Row>
                     </div>
                   </Form.Group>
                   <Form.Group className="d-flex justify-content-center">
