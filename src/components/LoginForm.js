@@ -8,8 +8,10 @@ import * as yup from 'yup';
 import {useLogin} from '../hooks/ApiHooks';
 
 const LoginForm = ({history}) => {
+  // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useContext(MediaContext);
   const {postLogin} = useLogin();
+
 
   const validationSchema = yup.object({
     username: yup.string()
@@ -32,12 +34,9 @@ const LoginForm = ({history}) => {
       setUser(userdata.user);
       history.push('/');
     } catch (e) {
-      console.log('doLogin unauthorised', e.message);
     }
     console.log(inputs);
   };
-
-  console.log(user);
 
 
   return (
