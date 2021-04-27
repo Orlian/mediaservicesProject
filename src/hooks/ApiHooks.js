@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {appIdentifier, baseUrl} from '../utils/variables';
 import {useEffect, useState} from 'react';
 
@@ -104,6 +105,20 @@ const useUsers = () => {
     }
   };
 
+  const getUserList = async (token) => {
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      return await doFetch(baseUrl + 'users', fetchOptions);
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  };
+
   const putUser = async (inputs, token) => {
     const fetchOptions = {
       method: 'PUT',
@@ -135,7 +150,7 @@ const useUsers = () => {
   };
 
 
-  return {register, getUserAvailable, getUser, putUser, getUserById};
+  return {register, getUserAvailable, getUser, putUser, getUserById, getUserList};
 };
 
 const useLogin = () => {
