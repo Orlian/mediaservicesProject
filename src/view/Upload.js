@@ -32,11 +32,13 @@ const Upload = ({history}) => {
     'audio/mp3',
     'audio/flac',
     'audio/m4a',
+    'audio/mpeg',
   ];
 
   const [file, setFile] = useState({file: null, dataUrl: ''});
 
   const onChange = (evt) => {
+    console.log('jotain', evt.currentTarget.files[0].type);
     if (supportedFormats.includes(evt.currentTarget.files[0].type)) {
       setFile({file: evt.currentTarget.files[0]});
     } else {
@@ -105,8 +107,18 @@ const Upload = ({history}) => {
     reader.addEventListener('load', setImage);
 
     if (file.file !== null) {
-      if (file.file.type.includes('image' || 'video')) {
+      if (file.file.type.includes('image')) {
         reader.readAsDataURL(file.file);
+      } else if (file.file.type.includes('video')) {
+        setFile((file) => ({
+          ...file,
+          dataUrl: 'video-camera.png',
+        }));
+      } else if (file.file.type.includes('audio')) {
+        setFile((file) => ({
+          ...file,
+          dataUrl: 'speaker-filled-audio-tool.png',
+        }));
       } else {
         setFile((file) => ({
           ...file,
@@ -124,9 +136,17 @@ const Upload = ({history}) => {
 
   return (
     <>
-      <div className="row-cols d-flex justify-content-center">
-        <div className="col-lg-3 mt-5" >
-          {!loading ?
+      <div
+        className="container-fluid"
+        style={{backgroundImage: 'url(bg-image.jpg)',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          position: 'relative'}}
+      >
+        <div className="row-cols d-flex justify-content-center">
+          <div className="col-lg-3 mt-5 mb-5" >
+            {!loading ?
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -273,7 +293,8 @@ const Upload = ({history}) => {
                 </Form> )}
             </Formik>:
             <Spinner animation="border" />
-          }
+            }
+          </div>
         </div>
       </div>
     </>
