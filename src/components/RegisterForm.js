@@ -5,6 +5,8 @@ import {useUsers} from '../hooks/ApiHooks';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
+import {appIdentifier} from '../utils/variables';
+
 
 const RegisterForm = ({setToggle}) => {
   const {register, getUserAvailable} = useUsers();
@@ -31,6 +33,8 @@ const RegisterForm = ({setToggle}) => {
             // eslint-disable-next-line max-len
             'Username may contain letters, numbers, dots, hyphens and underscores ')
         .test('usernameTaken', '*Username is already taken', checkUsername),
+    full_name: yup.string()
+        .min(5, '*Password must have at least 5 characters'),
     email: yup.string()
         .email('*Must be a valid email address')
         .required('*Email is required'),
@@ -43,13 +47,22 @@ const RegisterForm = ({setToggle}) => {
         .oneOf([yup.ref('password'), null], '*Passwords must match'),
   });
 
-  const initialValues = {username: '', email: '', password: '', confirm: ''};
+  // eslint-disable-next-line max-len
+  const initialValues = {username: '', email: '', full_name: '', password: '', confirm: ''};
   const doRegister = async (inputs) => {
     try {
+      console.log('rekisteröinti lomake lähtee', inputs);
       const available = await getUserAvailable(inputs.username);
       console.log('available', available);
+
+      const userInfo = {
+        artist_name: inputs.full_name,
+        identifier: appIdentifier,
+      };
+      inputs.full_name = userInfo;
+      console.log('uusi inputs', inputs);
+
       if (available) {
-        console.log('rekisteröinti lomake lähtee', inputs);
         delete inputs.confirm;
         const result = await register(inputs);
         if (result.message.length > 0) {
@@ -61,7 +74,6 @@ const RegisterForm = ({setToggle}) => {
       console.log(e.message);
     }
   };
-
 
   return (
     <>
@@ -108,6 +120,20 @@ const RegisterForm = ({setToggle}) => {
                   'error' : null}/>
               {touched.username && errors.username ? (
                 <div className="error-message">{errors.username}</div>
+              ): null}
+            </Form.Group>
+            <Form.Group className="mx-4">
+              <Form.Label className="font-we">Artist name</Form.Label>
+              <Form.Control type="text"
+                name="full_name"
+                placeholder="Artist name"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.full_name}
+                className={touched.full_name && errors.full_name ?
+                              'error' : null}/>
+              {touched.full_name && errors.full_name ? (
+                <div className="error-message">{errors.full_name}</div>
               ): null}
             </Form.Group>
             <Form.Group className="mx-4">
