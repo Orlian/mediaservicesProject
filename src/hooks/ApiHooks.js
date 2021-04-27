@@ -66,6 +66,8 @@ const useMedia = (update = false) => {
 };
 
 const useUsers = () => {
+  // TODO: Sekoilua
+  const [userArray, setUserArray] = useState([]);
   const register = async (inputs) => {
     const fetchOptions = {
       method: 'POST',
@@ -105,7 +107,7 @@ const useUsers = () => {
     }
   };
 
-  const getUserList = async (token) => {
+  const getUserRecommendations = async (user, token) => {
     const fetchOptions = {
       method: 'GET',
       headers: {
@@ -113,7 +115,29 @@ const useUsers = () => {
       },
     };
     try {
-      return await doFetch(baseUrl + 'users', fetchOptions);
+      const allUsers = await doFetch(baseUrl + 'users', fetchOptions);
+      const allUsersData = await Promise.all(allUsers.map(async (item) => {
+        if (item.user_id < 400) {
+          return false;
+        } else {
+          return await doFetch(baseUrl + 'users/' + item.user_id, fetchOptions);
+        }
+      }));
+      const recommendedUsers = allUsersData.filter((data) => {
+        return data !== false;
+      });
+      console.log('allUsersData', recommendedUsers);
+      // TODO: Check if this is stupid
+      /* recommendedUsers = recommendedUsers.filter((item) => {
+        for (let i = 0; i < user.full_name.genres; i++) {
+          if (item.full_name.genres.indexOf(user.full_name.genres[i]) > -1) {
+            return true;
+          }
+      });
+        } */
+      console.log('recommendedUsers', recommendedUsers);
+      // TODO: Selvitä sekoilut
+      setUserArray(recommendedUsers);
     } catch (e) {
       throw new Error(e.message);
     }
@@ -134,7 +158,6 @@ const useUsers = () => {
       alert(e.message);
     }
   };
-
   const getUserById = async (token, id) => {
     const fetchOptions = {
       method: 'GET',
@@ -150,7 +173,7 @@ const useUsers = () => {
   };
 
 
-  return {register, getUserAvailable, getUser, putUser, getUserById, getUserList};
+  return {register, getUserAvailable, getUser, putUser, getUserById, getUserRecommendations, userArray};
 };
 
 const useLogin = () => {
