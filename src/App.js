@@ -8,6 +8,7 @@ import Single from './view/Single';
 import Upload from './view/Upload';
 import Logout from './view/Logout';
 import {MediaProvider} from './contexts/MediaContext';
+import EditMedia from './view/EditMedia';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="/single" component={Single} />
             <Route path="/upload" component={Upload} />
             <Route path="/logout" component={Logout} />
+            <Route path="/editmedia" component={EditMedia} />
           </Switch>
         </div>
       </MediaProvider>

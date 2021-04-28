@@ -19,7 +19,7 @@ const Home = () => {
       </Row>
       <Row className="d-flex justify-content-center mt-5">
         <Col xs={10}>
-          <MediaTable/>
+          <MediaTable ownFiles={false}/>
           <UserTable />
         </Col>
       </Row>

@@ -1,126 +1,53 @@
 /* eslint-disable max-len */
 import {Button, Form, Spinner, Row, Col} from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import {useState, useEffect} from 'react';
 import CancelButton from '../components/CancelButton';
 import {Formik, Field} from 'formik';
-import {useMedia, useTag} from '../hooks/ApiHooks';
+import {useMedia} from '../hooks/ApiHooks';
 import * as Yup from 'yup';
+import {uploadsUrl} from '../utils/variables';
 
-const EditMedia = ({history}) => {
+const EditMedia = ({history, location}) => {
   const {putMedia, loading} = useMedia();
-  const {postTag} = useTag();
+  const mediaFile = location.state;
 
-  const supportedFormats = [
-    'image/jpg',
-    'image/jpeg',
-    'image/gif',
-    'image/png',
-    'image/heic',
-    'image/heif',
-    'video/gif',
-    'video/mp4',
-    'video/avi',
-    'video/mov',
-    'video/wmv',
-    'video/flv',
-    'audio/aac',
-    'audio/wma',
-    'audio/wav',
-    'audio/mp4',
-    'audio/mp3',
-    'audio/flac',
-    'audio/m4a',
-    'audio/mpeg',
-  ];
-
-  const [file, setFile] = useState({file: null, dataUrl: ''});
-
-  const onChange = (evt) => {
-    console.log('jotain', evt.currentTarget.files[0].type);
-    if (supportedFormats.includes(evt.currentTarget.files[0].type)) {
-      setFile({file: evt.currentTarget.files[0]});
-    } else {
-      setFile({file: null, dataUrl: ''});
-    }
-  };
+  const desc = JSON.parse(mediaFile.description);
 
   const initialValues = {
-    title: '',
-    description: '',
-    checked: [],
+    title: mediaFile.title,
+    description: desc.description,
+    checked: desc.genres,
   };
 
+  console.log(initialValues);
 
   const validationSchema = Yup.object({
     title: Yup.string()
         .max(20, 'Must be 20 characters or less')
         .required('Required'),
-    description: Yup.string().required('Required'),
   });
 
 
   const doUpload = async (inputs) => {
     try {
-      console.log('blääh', inputs.file);
-      const fd = new FormData();
-      fd.append('title', inputs.title);
-      // kuvaus + filtterit tallennetaan description kenttään
-      const desc = {
-        description: inputs.description,
-        genres: inputs.checked,
+      const data ={
+        title: inputs.title,
+        description: JSON.stringify({
+          description: inputs.description,
+          genres: inputs.checked,
+        }),
       };
-      fd.append('description', JSON.stringify(desc));
-      const result = await postMedia(fd, localStorage.getItem('token'));
-      const tagResult = await postTag(localStorage.getItem('token'),
-          result.file_id);
-      console.log('doUpload', result, tagResult);
+      const result = await putMedia(data, mediaFile.file_id,
+          localStorage.getItem('token'));
+      console.log('doUpload', result);
     } catch (e) {
       alert(e.message);
     } finally {
-      history.push('/');
+      history.push('/profile');
     }
   };
 
-  useEffect(() => {
-    const reader = new FileReader();
-
-    const setImage = () => {
-      setFile((file) => ({
-        ...file,
-        dataUrl: reader.result,
-      }));
-    };
-
-    reader.addEventListener('load', setImage);
-
-    if (file.file !== null) {
-      if (file.file.type.includes('image')) {
-        reader.readAsDataURL(file.file);
-      } else if (file.file.type.includes('video')) {
-        setFile((file) => ({
-          ...file,
-          dataUrl: 'video-camera.png',
-        }));
-      } else if (file.file.type.includes('audio')) {
-        setFile((file) => ({
-          ...file,
-          dataUrl: 'speaker-filled-audio-tool.png',
-        }));
-      } else {
-        setFile((file) => ({
-          ...file,
-          dataUrl: 'logo512.png',
-        }));
-      }
-    }
-
-    return () => {
-      reader.removeEventListener('load', setImage);
-    };
-  }, [file.file]);
-
-  console.log('inputs', file);
+  console.log('mediaFIle', mediaFile);
 
   return (
     <>
@@ -163,7 +90,7 @@ const EditMedia = ({history}) => {
                     <h1>Upload Content</h1>
                     <Row className="d-flex justify-content-center">
                       <Col xs={'auto'}>
-                        <img src={file.dataUrl}
+                        <img src={uploadsUrl + mediaFile.filename}
                           style={{
                             maxWidth: '200px',
                             height: 'auto',
@@ -272,6 +199,7 @@ const EditMedia = ({history}) => {
 
 EditMedia.propTypes = {
   history: PropTypes.object,
+  location: PropTypes.object,
 };
 
 
