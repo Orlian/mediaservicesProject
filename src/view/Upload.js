@@ -136,9 +136,17 @@ const Upload = ({history}) => {
 
   return (
     <>
-      <div className="row-cols d-flex justify-content-center">
-        <div className="col-lg-3 mt-5" >
-          {!loading ?
+      <div
+        className="container-fluid"
+        style={{backgroundImage: 'url(bg-image.jpg)',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          position: 'relative'}}
+      >
+        <div className="row-cols d-flex justify-content-center">
+          <div className="col-lg-3 mt-5 mb-5" >
+            {!loading ?
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -285,7 +293,8 @@ const Upload = ({history}) => {
                 </Form> )}
             </Formik>:
             <Spinner animation="border" />
-          }
+            }
+          </div>
         </div>
       </div>
     </>
