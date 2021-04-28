@@ -23,6 +23,7 @@ const Navigation = ({history}) => {
           user_id: userData.user_id,
           username: userData.username,
           full_name: JSON.parse(userData.full_name),
+
         };
 
         console.log('tuletko tästä?', userData);

@@ -102,7 +102,10 @@ const UserForm = ({user, setUser}) => {
             </Form.Group>
             <Form.Group className="mx-4">
               <Form.Label>Bio</Form.Label>
-              <Form.Control type="txt"
+              <Form.Control
+                as="textarea"
+                rows={3}
+                type="txt"
                 name="full_name.bio"
                 placeholder="Tell something about yourself..."
                 onChange={handleChange}
@@ -112,6 +115,18 @@ const UserForm = ({user, setUser}) => {
               {touched.full_name && errors.full_name ? (
                 <div className="error-message">{errors.full_name}</div>
               ): null}
+            </Form.Group>
+            <Form.Group
+              controlId="selectLocation"
+              className="mx-4">
+              <Form.Label>Region</Form.Label>
+              <Form.Control as="select" custom>
+                <option>Helsinki</option>
+                <option>Espoo</option>
+                <option>Joensuu</option>
+                <option>Kuusamo</option>
+                <option>Mikkeli</option>
+              </Form.Control>
             </Form.Group>
             <Form.Group className="mx-4">
               <Form.Label>Email</Form.Label>

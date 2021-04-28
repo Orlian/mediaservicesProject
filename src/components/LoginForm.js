@@ -36,7 +36,6 @@ const LoginForm = ({history}) => {
         user_id: userdata.user.user_id,
         username: userdata.user.username,
         full_name: JSON.parse(userdata.user.full_name),
-
       };
 
       setUser(newUser);
