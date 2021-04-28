@@ -18,7 +18,16 @@ const Navigation = ({history}) => {
       try {
         const token = localStorage.getItem('token');
         const userData = await getUser(token);
-        setUser(userData);
+        const newUser = {
+          email: userData.email,
+          user_id: userData.user_id,
+          username: userData.username,
+          full_name: JSON.parse(userData.full_name),
+        };
+
+        console.log('tuletko tästä?', userData);
+        console.log('oletko objekti?', newUser);
+        setUser(newUser);
       } catch (e) {
         // send to login
         history.push('/');

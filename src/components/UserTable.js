@@ -1,19 +1,21 @@
+import {useMedia} from '../hooks/ApiHooks';
+import MediaRow from './MediaRow';
 import {Col, Container, Row} from 'react-bootstrap';
-import UserRow from './UserRow';
 
-const UserTable = () => {
+const MediaTable = () => {
+  const {mediaArray} = useMedia(true);
   console.log('MediaArray', mediaArray);
   return (
     <Container>
       <Row>
         {
-          userArray.map((item) =>
+          mediaArray.map((item) =>
             <Col xs={12} md={6} lg={4} key={item.file_id}>
-              <UserRow user={item} />
+              <MediaRow file={item} />
             </Col>)
         }
       </Row>
     </Container>
   );
 };
-export default UserTable;
+export default MediaTable;

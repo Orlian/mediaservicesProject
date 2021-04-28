@@ -58,8 +58,11 @@ const RegisterForm = ({setToggle}) => {
       const userInfo = {
         artist_name: inputs.full_name,
         identifier: appIdentifier,
+        bio: '',
       };
-      inputs.full_name = userInfo;
+
+      inputs.full_name = JSON.stringify(userInfo);
+
       console.log('uusi inputs', inputs);
 
       if (available) {
@@ -129,7 +132,7 @@ const RegisterForm = ({setToggle}) => {
                 placeholder="Artist name"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.full_name}
+                value={values.full_name.full_name}
                 className={touched.full_name && errors.full_name ?
                               'error' : null}/>
               {touched.full_name && errors.full_name ? (
