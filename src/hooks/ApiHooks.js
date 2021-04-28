@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import {appIdentifier, baseUrl} from '../utils/variables';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useContext} from 'react';
+import {MediaContext} from '../contexts/MediaContext';
 
 const doFetch = async (url, options = {}) => {
   const response = await fetch(url, options);
@@ -14,9 +15,11 @@ const doFetch = async (url, options = {}) => {
   }
 };
 
-const useMedia = (update = false) => {
+const useMedia = (update = false, ownFiles) => {
   const [mediaArray, setMediaArray] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [user] = useContext(MediaContext);
+
   if (update) {
     useEffect(() => {
       try {
@@ -35,9 +38,14 @@ const useMedia = (update = false) => {
       const response = await fetch(baseUrl + 'tags/' + appIdentifier);
       const files = await response.json();
       console.log('getMedia files', files);
-      const media = await Promise.all(files.map(async (item) => {
+      let media = await Promise.all(files.map(async (item) => {
         return await doFetch(baseUrl + 'media/' + item.file_id);
       }));
+      if (ownFiles && user !== null) {
+        media = media.filter((item) => {
+          return item.user_id === user.user_id;
+        });
+      }
       return media;
     } catch (e) {
       console.error(e.message);
@@ -45,6 +53,7 @@ const useMedia = (update = false) => {
       setLoading(false);
     }
   };
+
   const postMedia = async (data, token) => {
     setLoading(true);
     const fetchOptions = {
