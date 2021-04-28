@@ -3,7 +3,7 @@ import {Col, Row} from 'react-bootstrap';
 import {MediaContext} from '../contexts/MediaContext';
 import {useContext} from 'react';
 
-const Edit = () => {
+const EditProfile = () => {
   const [user, setUser] = useContext(MediaContext);
   return (
     <>
@@ -31,4 +31,4 @@ const Edit = () => {
     </>
   );
 };
-export default Edit;
+export default EditProfile;

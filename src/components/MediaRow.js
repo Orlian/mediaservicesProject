@@ -12,13 +12,14 @@ import {CardText, MusicNoteBeamed, PencilSquare} from 'react-bootstrap-icons';
 import {FaStar, FaRegComment} from 'react-icons/fa';
 import {MdPageview} from 'react-icons/md';
 import {useUsers} from '../hooks/ApiHooks';
+import {Link, withRouter} from 'react-router-dom';
 
 const MediaRow = ({file, ownFiles}) => {
   const {getUserById} = useUsers();
   const [owner, setOwner] = useState(null);
   let genreString = '';
 
-  console.log('file.description', JSON.parse(file.description).description);
+  console.log('file.description', JSON.parse(file.description).description, ownFiles);
 
   {JSON.parse(file.description).genres?.forEach(
       (genre) =>{
@@ -148,10 +149,15 @@ const MediaRow = ({file, ownFiles}) => {
                 </Col>
                 {ownFiles &&
                 <Col xs={'auto'}>
-                  <Button
-                    style={{
-                      backgroundColor: '#f6aa1c',
-                    }}
+                  <Button as={Link} to={
+                    {
+                      pathname: '/editmedia',
+                      state: file,
+                    }
+                  }
+                  style={{
+                    backgroundColor: '#f6aa1c',
+                  }}
                   >
                     <PencilSquare style={{
                       color: '#161616',
@@ -172,4 +178,4 @@ MediaRow.propTypes = {
   file: PropTypes.object,
   ownFiles: PropTypes.bool,
 };
-export default MediaRow;
+export default withRouter(MediaRow);
