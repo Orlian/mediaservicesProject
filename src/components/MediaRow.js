@@ -72,12 +72,25 @@ const MediaRow = ({file, ownFiles}) => {
             <Card.Body className="px-3">
               <Row className="d-flex justify-content-center">
                 <Col xs={'auto'}>
+                  {file.media_type === 'image' &&
                   <img src={file.thumbnails ? uploadsUrl + file.thumbnails.w160 : '#'} alt={file.title}
                     style={{
                       maxWidth: '300px',
                       height: 'auto',
                     }}
                   />
+                  }
+                  { file.media_type === 'video' &&
+                  <video src={uploadsUrl + file.filename} controls
+                    style={{
+                      maxWidth: '300px',
+                      height: 'auto',
+                    }}
+                  />
+                  }
+                  {file.media_type === 'audio' &&
+                  <audio src={uploadsUrl + file.filename} controls/>
+                  }
                 </Col>
               </Row>
               <Row>
@@ -137,6 +150,12 @@ const MediaRow = ({file, ownFiles}) => {
                 </Col>
                 <Col xs={'auto'}>
                   <Button
+                    as={Link} to={
+                      {
+                        pathname: '/single',
+                        state: file,
+                      }
+                    }
                     style={{
                       backgroundColor: '#f6aa1c',
                     }}
