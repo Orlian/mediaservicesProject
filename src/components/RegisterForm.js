@@ -11,7 +11,7 @@ import * as fs from 'fs';
 
 const RegisterForm = ({setToggle}) => {
   const {register, getUserAvailable} = useUsers();
-  const {} = useMedia();
+  const {postMedia} = useMedia();
   const checkUsername = async (value) => {
     if (value?.length > 2) {
       try {
@@ -81,6 +81,7 @@ const RegisterForm = ({setToggle}) => {
           fd.append('file', fs.createReadStream('avatar-default.png'));
           fd.append('title', inputs.username);
           fd.append('description', JSON.stringify(avatarInfo));
+          await postMedia(fd, localStorage.getItem('token'));
           setToggle(true);
         }
       }
