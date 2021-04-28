@@ -1,11 +1,28 @@
 /* eslint-disable max-len */
+import {useEffect, useState} from 'react';
 import BackButton from '../components/BackButton';
 import {MusicNoteBeamed, GeoAltFill} from 'react-bootstrap-icons';
 import {FaUserEdit} from 'react-icons/fa';
 import {GiGuitar} from 'react-icons/gi';
 import {Button, Card, Col, Container, Row} from 'react-bootstrap';
+import {useUsers} from '../hooks/ApiHooks';
+import MediaTable from '../components/MediaTable';
 
 const Profile = () => {
+  const {getUser} = useUsers();
+  // eslint-disable-next-line no-unused-vars
+  const [user, setUser] = useState(null);
+
+  useEffect(()=>{
+    (async ()=>{
+      try {
+        setUser(await getUser(localStorage.getItem('token')));
+      } catch (e) {
+        console.log(e.message);
+      }
+    })();
+  }, []);
+
   return (
     <Container fluid
       style={{
@@ -43,7 +60,7 @@ const Profile = () => {
                   <Row>
                     <Col xs={7}>
                       <Card.Title className="h4 position-relative">
-                    Ville Vallaton</Card.Title>
+                        {user?.username}</Card.Title>
                     </Col>
                     <Col xs={{col: 'auto', offset: 3}}>
                       <Button
@@ -62,7 +79,7 @@ const Profile = () => {
                       <GeoAltFill/>
                     </Col>
                     <Col xs={'auto'}>
-                      <h5>Helsinki</h5>
+                      <h2 className="h5">Helsinki</h2>
                     </Col>
                   </Row>
                   <Row>
@@ -70,7 +87,7 @@ const Profile = () => {
                       <MusicNoteBeamed/>
                     </Col>
                     <Col xs={'auto'}>
-                      <h5>Genres:</h5>
+                      <h2 className="h5">Genres:</h2>
                     </Col>
                     <Col xs={'auto'} className="pl-0">
                       <p>Rock, Metal</p>
@@ -81,7 +98,7 @@ const Profile = () => {
                       <GiGuitar/>
                     </Col>
                     <Col xs={'auto'}>
-                      <h5>Skills:</h5>
+                      <h2 className="h5">Skills:</h2>
                     </Col>
                     <Col xs={'auto'} className="pl-0">
                       <p>Signing, Piano</p>
@@ -153,7 +170,7 @@ const Profile = () => {
           </section>
         </Container>
       </section>
-
+      <MediaTable ownFiles={true}/>
     </Container>
   );
 };
