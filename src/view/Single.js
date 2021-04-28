@@ -1,11 +1,49 @@
 /* eslint-disable max-len */
 import BackButton from '../components/BackButton';
+import PropTypes from 'prop-types';
 import {Button, Card, Col, Container, Row, InputGroup, FormControl, Form} from 'react-bootstrap';
 import {MusicNoteBeamed, CardText, PencilSquare} from 'react-bootstrap-icons';
 import {FaStar} from 'react-icons/fa';
+import {useEffect, useState} from 'react';
+import {uploadsUrl} from '../utils/variables';
+import {useUsers} from '../hooks/ApiHooks';
 
 
-const Single = () => {
+const Single = ({location}) => {
+  const [owner, setOwner] = useState(null);
+  const {getUserById, getUser} = useUsers();
+  let mediaOwner = false;
+
+  const file = location.state;
+  const desc = JSON.parse(file.description);
+
+  let genreString = '';
+
+  console.log('owner', owner);
+
+  {JSON.parse(file.description).genres?.forEach(
+      (genre) =>{
+        genreString += genre + ' ';
+      },
+  );}
+
+  useEffect(()=>{
+    (async ()=>{
+      try {
+        setOwner(await getUserById(localStorage.getItem('token'),
+            file.user_id));
+        const result = await getUser(localStorage.getItem('token'));
+        if (owner.user_id === result.user_id) {
+          mediaOwner = true;
+        }
+        console.log('hahaaa', owner.user_id, result.user_id, mediaOwner);
+      } catch (e) {
+        console.log(e.message);
+      }
+    })();
+  }, []);
+
+
   return (
     <Container fluid
       style={{
@@ -16,11 +54,6 @@ const Single = () => {
       <Row>
         <Col xs={'auto'} className="d-flex justify-content-center mt-2 ml-2">
           <BackButton />
-        </Col>
-        <Col xs={'auto'} className="mt-2">
-          <h1 className="h2" id="single-title" style={{
-            color: '#f8f8ff',
-          }}>Title</h1>
         </Col>
       </Row>
       <section>
@@ -48,7 +81,7 @@ const Single = () => {
                       width: 'fit-content',
                       backgroundColor: 'rgba(255, 255, 255, 0.5)',
                     }}
-                  >Username</Card.Text>
+                  >{owner?.username}</Card.Text>
                 </Card.ImgOverlay>
               </Col>
 
@@ -56,12 +89,31 @@ const Single = () => {
                 <Card.Body className="px-3">
                   <Row className="d-flex justify-content-center">
                     <Col xs={'auto'}>
-                      <img src="video-camera.png" alt="#"
+                      {file.media_type === 'image' &&
+                      <img src={uploadsUrl + file.filename} alt={file.title}
                         style={{
                           maxWidth: '300px',
                           height: 'auto',
                         }}
                       />
+                      }
+                      { file.media_type === 'video' &&
+                        <video src={uploadsUrl + file.filename} controls/>
+                      }
+                      {file.media_type === 'audio' &&
+                        <audio src={uploadsUrl + file.filename} controls/>
+                      }
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={'auto'}>
+                      <CardText/>
+                    </Col>
+                    <Col xs={'auto'}>
+                      <h2 className="h5">Title:</h2>
+                    </Col>
+                    <Col xs={10} className="ml-5">
+                      <p>{file.title}</p>
                     </Col>
                   </Row>
                   <Row>
@@ -72,12 +124,7 @@ const Single = () => {
                       <h2 className="h5">Description:</h2>
                     </Col>
                     <Col xs={10} className="ml-5">
-                      <p>Consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt
-                        ut labore et dolore magna aliqua.
-                        Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi
-                        ut aliquip ex ea commodo consequat.</p>
+                      <p>{desc.description}</p>
                     </Col>
                   </Row>
                   <Row>
@@ -88,7 +135,7 @@ const Single = () => {
                       <h5>Genres:</h5>
                     </Col>
                     <Col xs={'auto'} className="pl-0">
-                      <p>Rock, Metal</p>
+                      <p>{genreString}</p>
                     </Col>
                   </Row>
                   <Row>
@@ -111,6 +158,7 @@ const Single = () => {
                         }}
                       >3,7 stars</p>
                     </Col>
+                    {mediaOwner &&
                     <Col xs={'auto'}>
                       <Button
                         style={{
@@ -122,6 +170,7 @@ const Single = () => {
                         }}/>
                       </Button>
                     </Col>
+                    }
                   </Row>
                   <Row>
                     <Col xs={'auto'}>
@@ -171,6 +220,11 @@ const Single = () => {
       </section>
     </Container>
   );
+};
+
+Single.propTypes = {
+  location: PropTypes.object,
+  ownFiles: PropTypes.object,
 };
 
 export default Single;

@@ -1,16 +1,17 @@
 import
 {Form, Button, Image} from 'react-bootstrap';
 // import useForm from '../hooks/FormHooks';
-import {useUsers} from '../hooks/ApiHooks';
+import {useMedia, useUsers} from '../hooks/ApiHooks';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
 import {appIdentifier} from '../utils/variables';
+import * as fs from 'fs';
 
 
 const RegisterForm = ({setToggle}) => {
   const {register, getUserAvailable} = useUsers();
-
+  const {postMedia} = useMedia();
   const checkUsername = async (value) => {
     if (value?.length > 2) {
       try {
@@ -57,7 +58,6 @@ const RegisterForm = ({setToggle}) => {
 
       const userInfo = {
         artist_name: inputs.full_name,
-        identifier: appIdentifier,
         bio: '',
       };
 
@@ -70,6 +70,18 @@ const RegisterForm = ({setToggle}) => {
         const result = await register(inputs);
         if (result.message.length > 0) {
           alert(result.message);
+          // TODO: genres: inputs.genres,
+          //             skills: inputs.skills,
+          //             location: inputs.location,
+          const avatarInfo = {
+            identifier: appIdentifier,
+            owner_id: inputs.user_id,
+          };
+          const fd = new FormData;
+          fd.append('file', fs.createReadStream('avatar-default.png'));
+          fd.append('title', inputs.username);
+          fd.append('description', JSON.stringify(avatarInfo));
+          await postMedia(fd, localStorage.getItem('token'));
           setToggle(true);
         }
       }

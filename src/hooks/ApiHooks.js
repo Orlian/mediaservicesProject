@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import {appIdentifier, baseUrl} from '../utils/variables';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useContext} from 'react';
+import {MediaContext} from '../contexts/MediaContext';
 
 const doFetch = async (url, options = {}) => {
   const response = await fetch(url, options);
@@ -14,9 +15,11 @@ const doFetch = async (url, options = {}) => {
   }
 };
 
-const useMedia = (update = false) => {
+const useMedia = (update = false, ownFiles) => {
   const [mediaArray, setMediaArray] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [user] = useContext(MediaContext);
+
   if (update) {
     useEffect(() => {
       try {
@@ -35,9 +38,14 @@ const useMedia = (update = false) => {
       const response = await fetch(baseUrl + 'tags/' + appIdentifier);
       const files = await response.json();
       console.log('getMedia files', files);
-      const media = await Promise.all(files.map(async (item) => {
+      let media = await Promise.all(files.map(async (item) => {
         return await doFetch(baseUrl + 'media/' + item.file_id);
       }));
+      if (ownFiles && user !== null) {
+        media = media.filter((item) => {
+          return item.user_id === user.user_id;
+        });
+      }
       return media;
     } catch (e) {
       console.error(e.message);
@@ -45,6 +53,7 @@ const useMedia = (update = false) => {
       setLoading(false);
     }
   };
+
   const postMedia = async (data, token) => {
     setLoading(true);
     const fetchOptions = {
@@ -93,7 +102,10 @@ const useMedia = (update = false) => {
     };
     try {
       const response = await doFetch(baseUrl + 'media/' +id, fetchOptions);
-      return response;
+      if (response) {
+        const media = await getMedia();
+        setMediaArray(media);
+      }
     } catch (e) {
       throw new Error('delete failed');
     } finally {
@@ -105,8 +117,6 @@ const useMedia = (update = false) => {
 };
 
 const useUsers = () => {
-  // TODO: Sekoilua
-  const [userArray, setUserArray] = useState([]);
   const register = async (inputs) => {
     const fetchOptions = {
       method: 'POST',
@@ -116,8 +126,7 @@ const useUsers = () => {
       body: JSON.stringify(inputs),
     };
     try {
-      const response = await doFetch(baseUrl + 'users', fetchOptions);
-      return response;
+      return await doFetch(baseUrl + 'users', fetchOptions);
     } catch (e) {
       alert(e.message);
     }
@@ -146,40 +155,7 @@ const useUsers = () => {
     }
   };
 
-  const getUserRecommendations = async (user, token) => {
-    const fetchOptions = {
-      method: 'GET',
-      headers: {
-        'x-access-token': token,
-      },
-    };
-    try {
-      const allUsers = await doFetch(baseUrl + 'users', fetchOptions);
-      const allUsersData = await Promise.all(allUsers.map(async (item) => {
-        if (item.user_id < 400) {
-          return false;
-        } else {
-          return await doFetch(baseUrl + 'users/' + item.user_id, fetchOptions);
-        }
-      }));
-      const recommendedUsers = allUsersData.filter((data) => {
-        return data !== false;
-      });
-      console.log('allUsersData', recommendedUsers);
-      // TODO: Check if this is stupid
-      /* recommendedUsers = recommendedUsers.filter((item) => {
-        for (let i = 0; i < user.full_name.genres; i++) {
-          if (item.full_name.genres.indexOf(user.full_name.genres[i]) > -1) {
-            return true;
-          }
-      });
-        } */
-      console.log('recommendedUsers', recommendedUsers);
-      // TODO: Selvitä sekoilut
-      setUserArray(recommendedUsers);
-    } catch (e) {
-      throw new Error(e.message);
-    }
+  const getUserRecommendations = async () => {
   };
 
   const putUser = async (inputs, token) => {
@@ -212,7 +188,7 @@ const useUsers = () => {
   };
 
 
-  return {register, getUserAvailable, getUser, putUser, getUserById, getUserRecommendations, userArray};
+  return {register, getUserAvailable, getUser, putUser, getUserById, getUserRecommendations};
 };
 
 const useLogin = () => {
