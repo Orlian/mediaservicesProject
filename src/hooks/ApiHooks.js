@@ -105,8 +105,6 @@ const useMedia = (update = false) => {
 };
 
 const useUsers = () => {
-  // TODO: Sekoilua
-  const [userArray, setUserArray] = useState([]);
   const register = async (inputs) => {
     const fetchOptions = {
       method: 'POST',
@@ -116,8 +114,7 @@ const useUsers = () => {
       body: JSON.stringify(inputs),
     };
     try {
-      const response = await doFetch(baseUrl + 'users', fetchOptions);
-      return response;
+      return await doFetch(baseUrl + 'users', fetchOptions);
     } catch (e) {
       alert(e.message);
     }
@@ -146,40 +143,7 @@ const useUsers = () => {
     }
   };
 
-  const getUserRecommendations = async (user, token) => {
-    const fetchOptions = {
-      method: 'GET',
-      headers: {
-        'x-access-token': token,
-      },
-    };
-    try {
-      const allUsers = await doFetch(baseUrl + 'users', fetchOptions);
-      const allUsersData = await Promise.all(allUsers.map(async (item) => {
-        if (item.user_id < 400) {
-          return false;
-        } else {
-          return await doFetch(baseUrl + 'users/' + item.user_id, fetchOptions);
-        }
-      }));
-      const recommendedUsers = allUsersData.filter((data) => {
-        return data !== false;
-      });
-      console.log('allUsersData', recommendedUsers);
-      // TODO: Check if this is stupid
-      /* recommendedUsers = recommendedUsers.filter((item) => {
-        for (let i = 0; i < user.full_name.genres; i++) {
-          if (item.full_name.genres.indexOf(user.full_name.genres[i]) > -1) {
-            return true;
-          }
-      });
-        } */
-      console.log('recommendedUsers', recommendedUsers);
-      // TODO: Selvitä sekoilut
-      setUserArray(recommendedUsers);
-    } catch (e) {
-      throw new Error(e.message);
-    }
+  const getUserRecommendations = async () => {
   };
 
   const putUser = async (inputs, token) => {
@@ -212,7 +176,7 @@ const useUsers = () => {
   };
 
 
-  return {register, getUserAvailable, getUser, putUser, getUserById, getUserRecommendations, userArray};
+  return {register, getUserAvailable, getUser, putUser, getUserById, getUserRecommendations};
 };
 
 const useLogin = () => {
