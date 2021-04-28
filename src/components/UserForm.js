@@ -8,7 +8,9 @@ import PropTypes from 'prop-types';
 
 const UserForm = ({user, setUser}) => {
   const {putUser, getUser} = useUsers();
-  console.log(user);
+  console.log('User', user);
+
+  // eslint-disable-next-line no-unused-vars
 
 
   const validationSchema = yup.object({
@@ -25,12 +27,23 @@ const UserForm = ({user, setUser}) => {
     try {
       console.log('user muokkaus lomake lähtee');
       delete inputs.confirm;
+      inputs.full_name = JSON.stringify(inputs.full_name);
       const result = await putUser(inputs, localStorage.getItem('token'));
       console.log('doUpdate', result);
       if (result) {
         alert(result.message);
         const userData = await getUser(localStorage.getItem('token'));
-        setUser(userData);
+        console.log('mikä olet', userData);
+
+        const newUser = {
+          email: userData.email,
+          user_id: userData.user_id,
+          username: userData.username,
+          full_name: JSON.parse(userData.full_name),
+        };
+
+        setUser(newUser);
+        console.log('mikä olet new user update oletko objekti', newUser);
       }
     } catch (e) {
       console.log(e.message);
@@ -41,11 +54,12 @@ const UserForm = ({user, setUser}) => {
     <>
       { user &&
       <Formik
-        initialValues={user}
+        initialValues={{...user}}
         validationSchema={validationSchema}
         onSubmit={(values, {setSubmitting, resetForm}) => {
           setSubmitting(true);
           doUpdate(values);
+          console.log('mikä olet', user);
           setTimeout(() => {
             resetForm();
             setSubmitting(false);
@@ -72,6 +86,33 @@ const UserForm = ({user, setUser}) => {
               <Image src="logo192.png"
                 style={{width: '50px'}}/>
             </div>
+            <Form.Group className="mx-4">
+              <Form.Label>Artist name</Form.Label>
+              <Form.Control type="text"
+                name="full_name.artist_name"
+                placeholder="Full name"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values?.full_name.artist_name}
+
+              />
+              {touched.full_name && errors.full_name ? (
+                <div className="error-message">{errors.full_name}</div>
+              ): null}
+            </Form.Group>
+            <Form.Group className="mx-4">
+              <Form.Label>Bio</Form.Label>
+              <Form.Control type="txt"
+                name="full_name.bio"
+                placeholder="Tell something about yourself..."
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values?.full_name.bio}
+              />
+              {touched.full_name && errors.full_name ? (
+                <div className="error-message">{errors.full_name}</div>
+              ): null}
+            </Form.Group>
             <Form.Group className="mx-4">
               <Form.Label>Email</Form.Label>
               <Form.Control type="email"
