@@ -2,7 +2,7 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Login from './view/Login';
 import Home from './view/Home';
-import Edit from './view/Edit';
+import EditProfile from './view/EditProfile';
 import Profile from './view/Profile';
 import Single from './view/Single';
 import Upload from './view/Upload';
@@ -18,7 +18,7 @@ const App = () => {
           <Switch>
             <Route path="/login" component={Login} />
             <Route path="/" exact component={Home} />
-            <Route path="/edit" component={Edit} />
+            <Route path="/editprofile" component={EditProfile} />
             <Route path="/profile" component={Profile} />
             <Route path="/single" component={Single} />
             <Route path="/upload" component={Upload} />
