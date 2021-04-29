@@ -87,7 +87,8 @@ const RegisterForm = ({setToggle, history}) => {
           //             skills: inputs.skills,
           //             location: inputs.location,
           const avatarInfo = {
-            owner_id: inputs.user_id,
+            skills: ['Guitar', 'Piano'],
+            genres: ['Pop'],
           };
           const {dataView, mimeString} = dataURItoBase(dataUri);
           const fd = new FormData();

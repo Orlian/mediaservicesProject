@@ -116,16 +116,19 @@ const useMedia = (update = false, ownFiles) => {
   return {getMedia, postMedia, putMedia, deleteMedia, loading, mediaArray};
 };
 
-const useUsers = () => {
+const useUsers = (update = false) => {
   const [userArray, setUserArray] = useState([]);
-  useEffect(async () => {
-    try {
-      const users = await getUserRecommendations(localStorage.getItem('token'));
-      setUserArray(users);
-    } catch (e) {
-      console.error('useUsers error', e.message);
-    }
-  }, []);
+  // TODO: Looppaako tämä turhaan?
+  if (update) {
+    useEffect(async () => {
+      try {
+        const users = await getUserRecommendations(localStorage.getItem('token'));
+        setUserArray(users);
+      } catch (e) {
+        console.error('useUsers error', e.message);
+      }
+    }, []);
+  }
   const register = async (inputs) => {
     const fetchOptions = {
       method: 'POST',
