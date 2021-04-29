@@ -8,7 +8,7 @@ import {
 } from 'react-bootstrap';
 import {useEffect, useState} from 'react';
 import {uploadsUrl} from '../utils/variables';
-import {CardText, MusicNoteBeamed, PencilSquare} from 'react-bootstrap-icons';
+import {CardText, MusicNoteBeamed, PencilSquare, Trash} from 'react-bootstrap-icons';
 import {FaStar, FaRegComment} from 'react-icons/fa';
 import {MdPageview} from 'react-icons/md';
 import {useUsers} from '../hooks/ApiHooks';
@@ -167,23 +167,47 @@ const MediaRow = ({file, ownFiles, deleteMedia}) => {
                   </Button>
                 </Col>
                 {ownFiles &&
-                <Col xs={'auto'}>
-                  <Button as={Link} to={
-                    {
-                      pathname: '/editmedia',
-                      state: file,
-                    }
-                  }
-                  style={{
-                    backgroundColor: '#f6aa1c',
-                  }}
-                  >
-                    <PencilSquare style={{
-                      color: '#161616',
-                      fontSize: '18px',
-                    }}/>
-                  </Button>
-                </Col>
+                  <>
+                    <Col xs={'auto'}>
+                      <Button as={Link} to={
+                        {
+                          pathname: '/editmedia',
+                          state: file,
+                        }
+                      }
+                      style={{
+                        backgroundColor: '#f6aa1c',
+                      }}
+                      >
+                        <PencilSquare style={{
+                          color: '#161616',
+                          fontSize: '18px',
+                        }}/>
+                      </Button>
+                    </Col>
+                    <Col xs={'auto'}>
+                      <Button
+                        style={{
+                          backgroundColor: '#D11A2A',
+                          color: '#161616',
+                        }}
+                        onClick={() => {
+                          try {
+                            const conf = confirm('Do you really want to delete?');
+                            if (conf) {
+                              deleteMedia(file.file_id,
+                                  localStorage.getItem('token'));
+                            }
+                          } catch (e) {
+                            console.log(e.message);
+                          }
+                        }
+                        }
+                      >
+                        <Trash/>
+                      </Button>
+                    </Col>
+                  </>
                 }
               </Row>
             </Card.Body>

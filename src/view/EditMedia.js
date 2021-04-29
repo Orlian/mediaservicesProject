@@ -198,33 +198,6 @@ const EditMedia = ({history, location}) => {
                     <Form.Group className="d-flex justify-content-center">
                       <CancelButton/>
                     </Form.Group>
-                    <Form.Group className="d-flex justify-content-center">
-                      <Button type="submit"
-                        className="w-50 font-weight-bold form-btn"
-                        style={{
-                          backgroundColor: '#D11A2A',
-                          border: '1px solid #f6aa1c',
-                          color: '#161616',
-                          borderRadius: '30em',
-                        }}
-                        onClick={() => {
-                          try {
-                            const conf = confirm('Do you really want to delete?');
-                            if (conf) {
-                              deleteMedia(mediaFile.file_id,
-                                  localStorage.getItem('token'));
-                            }
-                          } catch (e) {
-                            console.log(e.message);
-                          } finally {
-                            history.push('/profile');
-                          }
-                        }
-                        }
-                      >
-                        DELETE
-                      </Button>
-                    </Form.Group>
                   </Form> )}
               </Formik>:
               <Spinner animation="border" />

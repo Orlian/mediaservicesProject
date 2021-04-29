@@ -1,11 +1,22 @@
 import PropTypes from 'prop-types';
 import {Card, Row} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 // import {uploadsUrl} from '../utils/variables';
 
 const UserRow = ({user}) => {
   return (
     <>
-      <Card bg={'dark'} className="mb-3">
+      <Card bg={'dark'} className="mb-3"
+        as={Link} to={
+          {
+            pathname: '/profile',
+            state: user,
+          }
+        }
+        style={{
+          backgroundColor: '#f6aa1c',
+        }}
+      >
         <Card.ImgOverlay className="pt-0">
           <Row className="d-flex justify-content-center"
             style={{background: 'rgba(0, 0, 0, 0.6)'}}>
