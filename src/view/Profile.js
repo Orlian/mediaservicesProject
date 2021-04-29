@@ -7,6 +7,7 @@ import {GiGuitar} from 'react-icons/gi';
 import {Button, Card, Col, Container, Row} from 'react-bootstrap';
 import {useUsers} from '../hooks/ApiHooks';
 import MediaTable from '../components/MediaTable';
+import {Link, withRouter} from 'react-router-dom';
 
 const Profile = () => {
   const {getUser} = useUsers();
@@ -67,6 +68,11 @@ const Profile = () => {
                         style={{
                           backgroundColor: '#f6aa1c',
                         }}
+                        as={Link} to={
+                          {
+                            pathname: '/editprofile',
+                          }
+                        }
                       >
                         <FaUserEdit style={{
                           color: '#161616',
@@ -175,4 +181,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default withRouter(Profile);

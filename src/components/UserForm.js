@@ -1,10 +1,11 @@
 import
-{Form, Button, Image} from 'react-bootstrap';
+{Form, Button, Image, FormGroup} from 'react-bootstrap';
 // import useForm from '../hooks/FormHooks';
 import {useUsers} from '../hooks/ApiHooks';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
+import CancelButton from './CancelButton';
 
 const UserForm = ({user, setUser}) => {
   const {putUser, getUser} = useUsers();
@@ -178,6 +179,9 @@ const UserForm = ({user, setUser}) => {
                 UPDATE
               </Button>
             </Form.Group>
+            <FormGroup className="d-flex justify-content-center">
+              <CancelButton className="w-50 mt-3 outline-button"></CancelButton>
+            </FormGroup>
           </Form>
         )}
       </Formik>
