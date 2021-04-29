@@ -1,29 +1,48 @@
 /* eslint-disable max-len */
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import BackButton from '../components/BackButton';
 import {MusicNoteBeamed, GeoAltFill} from 'react-bootstrap-icons';
 import {FaUserEdit} from 'react-icons/fa';
 import {GiGuitar} from 'react-icons/gi';
 import {Button, Card, Col, Container, Row} from 'react-bootstrap';
-import {useUsers} from '../hooks/ApiHooks';
 import MediaTable from '../components/MediaTable';
 import {Link, withRouter} from 'react-router-dom';
+import {MediaContext} from '../contexts/MediaContext';
+import PropTypes from 'prop-types';
 
-const Profile = () => {
-  const {getUser} = useUsers();
+const Profile = ({location}) => {
   // eslint-disable-next-line no-unused-vars
-  const [user, setUser] = useState(null);
+  const [user] = useContext(MediaContext);
+  const userInfo = location.state;
+  const [currentUser, setCurrentUser] = useState({});
+  const [ownFiles, setOwnFiles] = useState(true);
+
+  console.log(ownFiles);
 
   useEffect(()=>{
     (async ()=>{
       try {
-        setUser(await getUser(localStorage.getItem('token')));
+        console.log('joo joo', user, userInfo);
+        if (userInfo === undefined) {
+          setCurrentUser(user);
+          setOwnFiles(true);
+          console.log('1', currentUser);
+        } else if (user?.user_id === userInfo?.user_id) {
+          setCurrentUser(user);
+          setOwnFiles(true);
+          console.log('2', currentUser);
+        } else {
+          setCurrentUser(userInfo);
+          setOwnFiles(false);
+          console.log('3', currentUser);
+        }
       } catch (e) {
         console.log(e.message);
       }
     })();
   }, []);
 
+  console.log('ownfiles', ownFiles);
   return (
     <Container fluid
       style={{
@@ -61,7 +80,7 @@ const Profile = () => {
                   <Row>
                     <Col xs={7}>
                       <Card.Title className="h4 position-relative">
-                        {user?.username}</Card.Title>
+                        {currentUser?.username}</Card.Title>
                     </Col>
                     <Col xs={{col: 'auto', offset: 3}}>
                       <Button
@@ -138,7 +157,8 @@ const Profile = () => {
                   style={{
                     backgroundColor: 'inherit',
                     border: 'none',
-                  }}>
+                  }}
+                >
                   All media
                 </Button>
               </Col>
@@ -148,7 +168,8 @@ const Profile = () => {
                   style={{
                     backgroundColor: 'inherit',
                     border: 'none',
-                  }}>
+                  }}
+                >
                   Audio
                 </Button>
               </Col>
@@ -158,7 +179,8 @@ const Profile = () => {
                   style={{
                     backgroundColor: 'inherit',
                     border: 'none',
-                  }}>
+                  }}
+                >
                   Videos
                 </Button>
               </Col>
@@ -168,7 +190,8 @@ const Profile = () => {
                   style={{
                     backgroundColor: 'inherit',
                     border: 'none',
-                  }}>
+                  }}
+                >
                   Images
                 </Button>
               </Col>
@@ -176,9 +199,14 @@ const Profile = () => {
           </section>
         </Container>
       </section>
-      <MediaTable ownFiles={true}/>
+      <MediaTable update={true} ownFiles={ownFiles} currentUser={currentUser}
+      />
     </Container>
   );
+};
+
+Profile.propTypes = {
+  location: PropTypes.object,
 };
 
 export default withRouter(Profile);

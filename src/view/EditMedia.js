@@ -8,9 +8,8 @@ import * as Yup from 'yup';
 import {uploadsUrl} from '../utils/variables';
 
 const EditMedia = ({history, location}) => {
-  const {putMedia, deleteMedia, loading} = useMedia();
+  const {putMedia, loading} = useMedia();
   const mediaFile = location.state;
-
   const desc = JSON.parse(mediaFile.description);
 
   const initialValues = {
@@ -90,12 +89,25 @@ const EditMedia = ({history, location}) => {
                     <h1>Upload Content</h1>
                     <Row className="d-flex justify-content-center">
                       <Col xs={'auto'}>
-                        <img src={uploadsUrl + mediaFile.filename}
+                        {mediaFile.media_type === 'image' &&
+                        <img src={uploadsUrl + mediaFile.filename} alt={mediaFile.title}
                           style={{
-                            maxWidth: '200px',
+                            maxWidth: '300px',
                             height: 'auto',
                           }}
                         />
+                        }
+                        { mediaFile.media_type === 'video' &&
+                        <video src={uploadsUrl + mediaFile.filename} controls
+                          style={{
+                            maxWidth: '300px',
+                            height: 'auto',
+                          }}
+                        />
+                        }
+                        {mediaFile.media_type === 'audio' &&
+                        <audio src={uploadsUrl + mediaFile.filename} controls/>
+                        }
                       </Col>
                     </Row>
                     <Form.Group>
@@ -185,33 +197,6 @@ const EditMedia = ({history, location}) => {
                     </Form.Group>
                     <Form.Group className="d-flex justify-content-center">
                       <CancelButton/>
-                    </Form.Group>
-                    <Form.Group className="d-flex justify-content-center">
-                      <Button type="submit"
-                        className="w-50 font-weight-bold form-btn"
-                        style={{
-                          backgroundColor: '#D11A2A',
-                          border: '1px solid #f6aa1c',
-                          color: '#161616',
-                          borderRadius: '30em',
-                        }}
-                        onClick={() => {
-                          try {
-                            const conf = confirm('Do you really want to delete?');
-                            if (conf) {
-                              deleteMedia(mediaFile.file_id,
-                                  localStorage.getItem('token'));
-                            }
-                          } catch (e) {
-                            console.log(e.message);
-                          } finally {
-                            history.push('/profile');
-                          }
-                        }
-                        }
-                      >
-                        DELETE
-                      </Button>
                     </Form.Group>
                   </Form> )}
               </Formik>:

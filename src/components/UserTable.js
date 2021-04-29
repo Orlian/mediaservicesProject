@@ -4,7 +4,7 @@ import UserRow from './UserRow';
 import {useUsers} from '../hooks/ApiHooks';
 
 const UserTable = () => {
-  const {userArray} = useUsers();
+  const {userArray} = useUsers(true);
   console.log('userArray', userArray);
   return (
     <Container>

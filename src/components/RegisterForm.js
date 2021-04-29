@@ -1,23 +1,26 @@
 import
 {Form, Button, Image} from 'react-bootstrap';
 // import useForm from '../hooks/FormHooks';
-import {useMedia, useUsers} from '../hooks/ApiHooks';
+import {useLogin, useMedia, useUsers, useTag} from '../hooks/ApiHooks';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
-import {appIdentifier} from '../utils/variables';
-import * as fs from 'fs';
+import {useContext} from 'react';
+import {dataUri, dataURItoBase} from '../utils/avatarImg';
+import {MediaContext} from '../contexts/MediaContext';
 
 
-const RegisterForm = ({setToggle}) => {
+const RegisterForm = ({setToggle, history}) => {
   const {register, getUserAvailable} = useUsers();
   const {postMedia} = useMedia();
+  const {postLogin} = useLogin();
+  const {postTag} = useTag();
+  // eslint-disable-next-line no-unused-vars
+  const [user, setUser] = useContext(MediaContext);
   const checkUsername = async (value) => {
     if (value?.length > 2) {
       try {
-        const available = await getUserAvailable(value);
-        console.log('onko vapaana', value, available);
-        return available;
+        return await getUserAvailable(value);
       } catch (e) {
         console.log(e.message);
         return true;
@@ -70,19 +73,33 @@ const RegisterForm = ({setToggle}) => {
         const result = await register(inputs);
         if (result.message.length > 0) {
           alert(result.message);
+          const userdata = await postLogin(inputs);
+          console.log('userdata', userdata);
+          localStorage.setItem('token', userdata.token);
+          const newUser = {
+            email: userdata.user.email,
+            user_id: userdata.user.user_id,
+            username: userdata.user.username,
+            full_name: JSON.parse(userdata.user.full_name),
+          };
+          setUser(newUser);
           // TODO: genres: inputs.genres,
           //             skills: inputs.skills,
           //             location: inputs.location,
           const avatarInfo = {
-            identifier: appIdentifier,
-            owner_id: inputs.user_id,
+            skills: ['Guitar', 'Piano'],
+            genres: ['Pop'],
           };
-          const fd = new FormData;
-          fd.append('file', fs.createReadStream('avatar-default.png'));
-          fd.append('title', inputs.username);
+          const {dataView, mimeString} = dataURItoBase(dataUri);
+          const fd = new FormData();
+          fd.append('file', new Blob([dataView], {type: mimeString}));
+          fd.append('title', newUser.username);
           fd.append('description', JSON.stringify(avatarInfo));
-          await postMedia(fd, localStorage.getItem('token'));
+          const mediaResult = await postMedia(fd, userdata.token);
+          const tagResult = await postTag(userdata.token, mediaResult.file_id);
+          console.log('Register results', mediaResult, tagResult);
           setToggle(true);
+          history.push('/');
         }
       }
     } catch (e) {
@@ -222,6 +239,7 @@ const RegisterForm = ({setToggle}) => {
 
 RegisterForm.propTypes = {
   setToggle: PropTypes.func,
+  history: PropTypes.object,
 };
 
 export default RegisterForm;

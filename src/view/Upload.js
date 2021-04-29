@@ -4,13 +4,12 @@ import PropTypes from 'prop-types';
 import {useState, useEffect} from 'react';
 import CancelButton from '../components/CancelButton';
 import {Formik, Field} from 'formik';
-import {useMedia, useTag} from '../hooks/ApiHooks';
+import {useMedia} from '../hooks/ApiHooks';
 import * as Yup from 'yup';
 
 
 const Upload = ({history}) => {
   const {postMedia, loading} = useMedia();
-  const {postTag} = useTag();
 
   const supportedFormats = [
     'image/jpg',
@@ -84,13 +83,11 @@ const Upload = ({history}) => {
       fd.append('description', JSON.stringify(desc));
       fd.append('file', file.file);
       const result = await postMedia(fd, localStorage.getItem('token'));
-      const tagResult = await postTag(localStorage.getItem('token'),
-          result.file_id);
-      console.log('doUpload', result, tagResult);
+      console.log('doUpload', result);
     } catch (e) {
       alert(e.message);
     } finally {
-      history.push('/');
+      history.push('/profile');
     }
   };
 
@@ -98,6 +95,7 @@ const Upload = ({history}) => {
     const reader = new FileReader();
 
     const setImage = () => {
+      console.log('reader result', reader.result);
       setFile((file) => ({
         ...file,
         dataUrl: reader.result,

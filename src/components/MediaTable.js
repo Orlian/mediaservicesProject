@@ -3,16 +3,17 @@ import MediaRow from './MediaRow';
 import {Col, Container, Row} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const MediaTable = ({ownFiles}) => {
-  const {mediaArray} = useMedia(true, ownFiles);
-  console.log('MediaArray', mediaArray);
+const MediaTable = ({ownFiles, currentUser}) => {
+  const {mediaArray, deleteMedia} = useMedia(true, ownFiles, currentUser);
+  console.log('MediaArray', mediaArray, currentUser);
   return (
     <Container>
       <Row>
         {
-          mediaArray.map((item) =>
+          mediaArray?.map((item) =>
             <Col xs={12} md={6} lg={6} key={item.file_id}>
-              <MediaRow file={item} ownFiles={ownFiles}/>
+              <MediaRow file={item} ownFiles={ownFiles}
+                deleteMedia={deleteMedia}/>
             </Col>)
         }
       </Row>
@@ -22,6 +23,7 @@ const MediaTable = ({ownFiles}) => {
 
 MediaTable.propTypes = {
   ownFiles: PropTypes.bool,
+  currentUser: PropTypes.object,
 };
 
 
