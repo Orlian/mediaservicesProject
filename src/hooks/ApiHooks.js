@@ -117,6 +117,15 @@ const useMedia = (update = false, ownFiles) => {
 };
 
 const useUsers = () => {
+  const [userArray, setUserArray] = useState([]);
+  useEffect(async () => {
+    try {
+      const users = await getUserRecommendations(localStorage.getItem('token'));
+      setUserArray(users);
+    } catch (e) {
+      console.error('useUsers error', e.message);
+    }
+  }, []);
   const register = async (inputs) => {
     const fetchOptions = {
       method: 'POST',
@@ -155,7 +164,30 @@ const useUsers = () => {
     }
   };
 
-  const getUserRecommendations = async () => {
+  const getUserRecommendations = async (token) => {
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      const allUsers = await doFetch(baseUrl + 'users', fetchOptions);
+      const allUsersData = await Promise.all(allUsers.map(async (item) => {
+        if (item.user_id < 400 || item.user_id > 411) {
+          return false;
+        } else {
+          return await doFetch(baseUrl + 'users/' + item.user_id, fetchOptions);
+        }
+      }));
+      const recommendedUsers = allUsersData.filter((data) => {
+        return data !== false;
+      });
+      console.log('recommendedUsers', recommendedUsers);
+      return recommendedUsers;
+    } catch (e) {
+      console.log(e.message);
+    }
   };
 
   const putUser = async (inputs, token) => {
@@ -188,7 +220,7 @@ const useUsers = () => {
   };
 
 
-  return {register, getUserAvailable, getUser, putUser, getUserById, getUserRecommendations};
+  return {register, getUserAvailable, getUser, putUser, getUserById, getUserRecommendations, userArray};
 };
 
 const useLogin = () => {

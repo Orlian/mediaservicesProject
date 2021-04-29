@@ -1,17 +1,23 @@
 import
 {Form, Button, Image} from 'react-bootstrap';
 // import useForm from '../hooks/FormHooks';
-import {useMedia, useUsers} from '../hooks/ApiHooks';
+import {useLogin, useMedia, useUsers} from '../hooks/ApiHooks';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
 import {appIdentifier} from '../utils/variables';
-import * as fs from 'fs';
+import {useContext, useEffect, useState} from 'react';
+import {dataUrl} from '../utils/avatarImg';
+import {MediaContext} from '../contexts/MediaContext';
 
 
 const RegisterForm = ({setToggle}) => {
   const {register, getUserAvailable} = useUsers();
   const {postMedia} = useMedia();
+  const {postLogin} = useLogin();
+  // eslint-disable-next-line no-unused-vars
+  const [user, setUser] = useContext(MediaContext);
+  const [file, setFile] = useState();
   const checkUsername = async (value) => {
     if (value?.length > 2) {
       try {
@@ -24,6 +30,17 @@ const RegisterForm = ({setToggle}) => {
       }
     }
   };
+
+  useEffect(() => {
+    const reader = new FileReader();
+    const setImage = () => {
+      console.log('reader result', reader.result);
+      setFile(file);
+    };
+
+    reader.addEventListener('load', setImage);
+    reader.readAsArrayBuffer(new Blob([dataUrl], {type: 'image/png'}));
+  }, []);
 
   const validationSchema = yup.object({
     username: yup.string()
@@ -70,6 +87,16 @@ const RegisterForm = ({setToggle}) => {
         const result = await register(inputs);
         if (result.message.length > 0) {
           alert(result.message);
+          const userdata = await postLogin(inputs);
+          console.log('userdata', userdata);
+          localStorage.setItem('token', userdata.token);
+          const newUser = {
+            email: userdata.user.email,
+            user_id: userdata.user.user_id,
+            username: userdata.user.username,
+            full_name: JSON.parse(userdata.user.full_name),
+          };
+          setUser(newUser);
           // TODO: genres: inputs.genres,
           //             skills: inputs.skills,
           //             location: inputs.location,
@@ -77,11 +104,12 @@ const RegisterForm = ({setToggle}) => {
             identifier: appIdentifier,
             owner_id: inputs.user_id,
           };
+          alert('moro');
           const fd = new FormData();
-          fd.append('file', fs.createReadStream('avatar-default.png'));
-          fd.append('title', inputs.username);
+          fd.append('file', new Blob([dataUrl], {type: 'image/png'}));
+          fd.append('title', newUser.username);
           fd.append('description', JSON.stringify(avatarInfo));
-          await postMedia(fd, localStorage.getItem('token'));
+          await postMedia(fd, userdata.token);
           setToggle(true);
         }
       }

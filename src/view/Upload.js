@@ -98,6 +98,7 @@ const Upload = ({history}) => {
     const reader = new FileReader();
 
     const setImage = () => {
+      console.log('reader result', reader.result);
       setFile((file) => ({
         ...file,
         dataUrl: reader.result,
