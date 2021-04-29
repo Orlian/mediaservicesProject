@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 import {appIdentifier, baseUrl} from '../utils/variables';
-import {useEffect, useState, useContext} from 'react';
-import {MediaContext} from '../contexts/MediaContext';
+import {useEffect, useState} from 'react';
 
 const doFetch = async (url, options = {}) => {
   const response = await fetch(url, options);
@@ -15,16 +14,16 @@ const doFetch = async (url, options = {}) => {
   }
 };
 
-const useMedia = (update = false, ownFiles) => {
+const useMedia = (update = false, ownFiles, currentUser) => {
   const [mediaArray, setMediaArray] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [user] = useContext(MediaContext);
+
 
   if (update) {
     useEffect(() => {
       try {
         (async () => {
-          const media = await getMedia();
+          const media = await getMedia(currentUser, localStorage.getItem('token'));
           setMediaArray(media);
         })();
       } catch (e) {
@@ -32,20 +31,17 @@ const useMedia = (update = false, ownFiles) => {
       }
     }, []);
   }
-  const getMedia = async () => {
+  const getMedia = async (currentUser, token) => {
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    };
     try {
       setLoading(true);
-      const response = await fetch(baseUrl + 'tags/' + appIdentifier);
-      const files = await response.json();
-      console.log('getMedia files', files);
-      let media = await Promise.all(files.map(async (item) => {
-        return await doFetch(baseUrl + 'media/' + item.file_id);
-      }));
-      if (ownFiles && user !== null) {
-        media = media.filter((item) => {
-          return item.user_id === user.user_id;
-        });
-      }
+      const media = await doFetch(baseUrl + 'media/user/' + currentUser.user_id, fetchOptions);
+      console.log('jooa', media);
       return media;
     } catch (e) {
       console.error(e.message);
@@ -172,19 +168,15 @@ const useUsers = () => {
       },
     };
     try {
-      const allUsers = await doFetch(baseUrl + 'users', fetchOptions);
-      const allUsersData = await Promise.all(allUsers.map(async (item) => {
-        if (item.user_id < 400 || item.user_id > 411) {
-          return false;
-        } else {
-          return await doFetch(baseUrl + 'users/' + item.user_id, fetchOptions);
-        }
-      }));
-      const recommendedUsers = allUsersData.filter((data) => {
-        return data !== false;
+      let avatars = await doFetch(baseUrl + 'tags/' + appIdentifier);
+      avatars = avatars.filter((avatar)=>{
+        console.log('avatar', avatar);
+        return !!JSON.parse(avatar.description).skills;
       });
-      console.log('recommendedUsers', recommendedUsers);
-      return recommendedUsers;
+      console.log('users', avatars);
+      return await Promise.all(avatars.map(async (item) => {
+        return await doFetch(baseUrl + 'users/' + item.user_id, fetchOptions);
+      }));
     } catch (e) {
       console.log(e.message);
     }

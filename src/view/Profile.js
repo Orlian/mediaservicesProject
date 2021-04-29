@@ -14,8 +14,8 @@ const Profile = ({location}) => {
   // eslint-disable-next-line no-unused-vars
   const [user] = useContext(MediaContext);
   const userInfo = location.state;
-  const [currentUser, setCurrentUser] = useState(null);
-  let ownFiles= true;
+  const [currentUser, setCurrentUser] = useState({});
+  const [ownFiles, setOwnFiles] = useState(true);
 
   console.log(ownFiles);
 
@@ -25,14 +25,16 @@ const Profile = ({location}) => {
         console.log('joo joo', user, userInfo);
         if (userInfo === undefined) {
           setCurrentUser(user);
-          ownFiles = true;
-        } else if (user.user_id === userInfo.user_id) {
+          setOwnFiles(true);
+          console.log('1', currentUser);
+        } else if (user?.user_id === userInfo?.user_id) {
           setCurrentUser(user);
-          ownFiles = true;
+          setOwnFiles(true);
+          console.log('2', currentUser);
         } else {
           setCurrentUser(userInfo);
-          ownFiles = false;
-          console.log('wauuuu', ownFiles);
+          setOwnFiles(false);
+          console.log('3', currentUser);
         }
       } catch (e) {
         console.log(e.message);
@@ -197,7 +199,8 @@ const Profile = ({location}) => {
           </section>
         </Container>
       </section>
-      <MediaTable ownFiles={ownFiles}/>
+      <MediaTable update={true} ownFiles={ownFiles} currentUser={currentUser}
+      />
     </Container>
   );
 };
