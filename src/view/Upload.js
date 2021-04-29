@@ -4,13 +4,12 @@ import PropTypes from 'prop-types';
 import {useState, useEffect} from 'react';
 import CancelButton from '../components/CancelButton';
 import {Formik, Field} from 'formik';
-import {useMedia, useTag} from '../hooks/ApiHooks';
+import {useMedia} from '../hooks/ApiHooks';
 import * as Yup from 'yup';
 
 
 const Upload = ({history}) => {
   const {postMedia, loading} = useMedia();
-  const {postTag} = useTag();
 
   const supportedFormats = [
     'image/jpg',
