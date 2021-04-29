@@ -1,46 +1,32 @@
 import
 {Form, Button, Image} from 'react-bootstrap';
 // import useForm from '../hooks/FormHooks';
-import {useLogin, useMedia, useUsers} from '../hooks/ApiHooks';
+import {useLogin, useMedia, useUsers, useTag} from '../hooks/ApiHooks';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
-import {appIdentifier} from '../utils/variables';
-import {useContext, useEffect, useState} from 'react';
-import {dataUrl} from '../utils/avatarImg';
+import {useContext} from 'react';
+import {dataUri, dataURItoBase} from '../utils/avatarImg';
 import {MediaContext} from '../contexts/MediaContext';
 
 
-const RegisterForm = ({setToggle}) => {
+const RegisterForm = ({setToggle, history}) => {
   const {register, getUserAvailable} = useUsers();
   const {postMedia} = useMedia();
   const {postLogin} = useLogin();
+  const {postTag} = useTag();
   // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useContext(MediaContext);
-  const [file, setFile] = useState();
   const checkUsername = async (value) => {
     if (value?.length > 2) {
       try {
-        const available = await getUserAvailable(value);
-        console.log('onko vapaana', value, available);
-        return available;
+        return await getUserAvailable(value);
       } catch (e) {
         console.log(e.message);
         return true;
       }
     }
   };
-
-  useEffect(() => {
-    const reader = new FileReader();
-    const setImage = () => {
-      console.log('reader result', reader.result);
-      setFile(file);
-    };
-
-    reader.addEventListener('load', setImage);
-    reader.readAsArrayBuffer(new Blob([dataUrl], {type: 'image/png'}));
-  }, []);
 
   const validationSchema = yup.object({
     username: yup.string()
@@ -101,16 +87,18 @@ const RegisterForm = ({setToggle}) => {
           //             skills: inputs.skills,
           //             location: inputs.location,
           const avatarInfo = {
-            identifier: appIdentifier,
             owner_id: inputs.user_id,
           };
-          alert('moro');
+          const {dataView, mimeString} = dataURItoBase(dataUri);
           const fd = new FormData();
-          fd.append('file', new Blob([dataUrl], {type: 'image/png'}));
+          fd.append('file', new Blob([dataView], {type: mimeString}));
           fd.append('title', newUser.username);
           fd.append('description', JSON.stringify(avatarInfo));
-          await postMedia(fd, userdata.token);
+          const mediaResult = await postMedia(fd, userdata.token);
+          const tagResult = await postTag(userdata.token, mediaResult.file_id);
+          console.log('Register results', mediaResult, tagResult);
           setToggle(true);
+          history.push('/');
         }
       }
     } catch (e) {
@@ -250,6 +238,7 @@ const RegisterForm = ({setToggle}) => {
 
 RegisterForm.propTypes = {
   setToggle: PropTypes.func,
+  history: PropTypes.object,
 };
 
 export default RegisterForm;
