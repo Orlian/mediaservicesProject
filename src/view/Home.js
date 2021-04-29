@@ -34,12 +34,14 @@ const Home = () => {
 
   return (
     <>
-      <Container fluid className="bg-dark home-container pb-5">
+      <Container fluid className="bg-dark home-container pb-5"
+        id="home">
         <Row>
           <Col xs={12} className="banner"
             style={{
               backgroundImage: 'url("bg-image.jpg")',
               backgroundPosition: 'center',
+              backgroundAttachment: 'fixed',
               backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat',
               height: '85vh',
