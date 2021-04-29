@@ -1,10 +1,7 @@
 /* eslint-disable max-len */
-<<<<<<< HEAD
+
 import MediaTable from '../components/MediaTable';
 import {Container, Col, Row, Button, Image} from 'react-bootstrap';
-=======
-import {Col, Row} from 'react-bootstrap';
->>>>>>> 210939039dfe0e73eb0dce56c8ad90139ad28ce0
 import UserTable from '../components/UserTable';
 import {useContext, useEffect} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
@@ -39,7 +36,6 @@ const Home = () => {
 
   return (
     <>
-<<<<<<< HEAD
       <Container fluid className="bg-dark home-container pb-5">
         <Row>
           <Col xs={12} className="banner"
@@ -133,7 +129,6 @@ const Home = () => {
           </>
         }
       </Container>
-=======
       <Row>
         <Col xs={12} className="banner"
           style={{
@@ -150,10 +145,10 @@ const Home = () => {
           <UserTable />
         </Col>
       </Row>
->>>>>>> 210939039dfe0e73eb0dce56c8ad90139ad28ce0
     </>
   );
 }
 ;
+
 
 export default withRouter(Home);
