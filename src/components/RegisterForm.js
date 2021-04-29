@@ -77,7 +77,7 @@ const RegisterForm = ({setToggle}) => {
             identifier: appIdentifier,
             owner_id: inputs.user_id,
           };
-          const fd = new FormData;
+          const fd = new FormData();
           fd.append('file', fs.createReadStream('avatar-default.png'));
           fd.append('title', inputs.username);
           fd.append('description', JSON.stringify(avatarInfo));

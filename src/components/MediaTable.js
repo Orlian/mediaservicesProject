@@ -4,7 +4,7 @@ import {Col, Container, Row} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 const MediaTable = ({ownFiles}) => {
-  const {mediaArray} = useMedia(true, ownFiles);
+  const {mediaArray, deleteMedia} = useMedia(true, ownFiles);
   console.log('MediaArray', mediaArray);
   return (
     <Container>
@@ -12,7 +12,8 @@ const MediaTable = ({ownFiles}) => {
         {
           mediaArray.map((item) =>
             <Col xs={12} md={6} lg={6} key={item.file_id}>
-              <MediaRow file={item} ownFiles={ownFiles}/>
+              <MediaRow file={item} ownFiles={ownFiles}
+                deleteMedia={deleteMedia}/>
             </Col>)
         }
       </Row>

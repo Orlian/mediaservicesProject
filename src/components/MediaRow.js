@@ -14,7 +14,7 @@ import {MdPageview} from 'react-icons/md';
 import {useUsers} from '../hooks/ApiHooks';
 import {Link, withRouter} from 'react-router-dom';
 
-const MediaRow = ({file, ownFiles}) => {
+const MediaRow = ({file, ownFiles, deleteMedia}) => {
   const {getUserById} = useUsers();
   const [owner, setOwner] = useState(null);
   let genreString = '';
@@ -196,5 +196,6 @@ const MediaRow = ({file, ownFiles}) => {
 MediaRow.propTypes = {
   file: PropTypes.object,
   ownFiles: PropTypes.bool,
+  deleteMedia: PropTypes.func,
 };
 export default withRouter(MediaRow);

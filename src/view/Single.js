@@ -4,14 +4,16 @@ import PropTypes from 'prop-types';
 import {Button, Card, Col, Container, Row, InputGroup, FormControl, Form} from 'react-bootstrap';
 import {MusicNoteBeamed, CardText, PencilSquare} from 'react-bootstrap-icons';
 import {FaStar} from 'react-icons/fa';
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {uploadsUrl} from '../utils/variables';
 import {useUsers} from '../hooks/ApiHooks';
+import {MediaContext} from '../contexts/MediaContext';
 
 
 const Single = ({location}) => {
   const [owner, setOwner] = useState(null);
   const {getUserById, getUser} = useUsers();
+  const [user] = useContext(MediaContext);
   let mediaOwner = false;
 
   const file = location.state;
@@ -158,7 +160,7 @@ const Single = ({location}) => {
                         }}
                       >3,7 stars</p>
                     </Col>
-                    {mediaOwner &&
+                    {user.user_id === file.user_id &&
                     <Col xs={'auto'}>
                       <Button
                         style={{

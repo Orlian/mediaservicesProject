@@ -90,7 +90,7 @@ const Upload = ({history}) => {
     } catch (e) {
       alert(e.message);
     } finally {
-      history.push('/');
+      history.push('/profile');
     }
   };
 
