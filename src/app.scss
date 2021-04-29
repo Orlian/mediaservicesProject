@@ -1,6 +1,12 @@
 @import "custom";
 @import "variables";
+@import "home";
 @import "forms";
+@import "cards";
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
 
 .container-fluid{
   padding: 0;

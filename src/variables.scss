@@ -1,7 +1,25 @@
+@font-face {
+  font-family: 'Montserrat';
+  src: local('Montserrat'),
+  url(./assets/fonts/Montserrat/Montserrat-Regular.ttf),
+  url(./assets/fonts/Montserrat/Montserrat-Medium.ttf),
+  url(./assets/fonts/Montserrat/Montserrat-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: 'BOOTLE__';
+  src: local('BOOTLE__'),
+    url(./assets/fonts/bootle/BOOTLE__.TTF);
+}
+
 $black: #161616;
 $teal: #065A82;
 $grey: #707070;
 $yellow: #f6aa1c;
 $white: #f8f8ff;
+$greymist: #282d32;
+$shadow: #1a1c21;
 $error: #FF6565;
+
+
 

@@ -1,0 +1,33 @@
+@import "custom";
+@import "variables";
+
+
+.home-container {
+  color: $white;
+
+
+.banner {
+  font-family: Montserrat, sans-serif;
+  h1, h2 {
+    font-family: 'BOOTLE__', serif;
+    text-align: center;
+  }
+
+  .banner-btn {
+    background-color: $yellow;
+    border: 1px solid $yellow;
+    color: $black;
+    border-radius: 30em;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+
+
+    &:hover {
+      background-color: $white;
+      border: 1px solid $white;
+      color: $black;
+    }
+  }
+}
+}
+
