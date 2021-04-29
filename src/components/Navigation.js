@@ -87,7 +87,12 @@ const Navigation = ({history}) => {
             <Nav.Link as={RouterLink} to="/">Home</Nav.Link>
             {user && <><Nav.Link as={RouterLink} to="/upload">Upload</Nav.Link>
               <Nav.Link as={RouterLink} to="/favourites">Followed</Nav.Link>
-              <Nav.Link as={RouterLink} to="/profile">My Profile</Nav.Link>
+              <Nav.Link as={RouterLink} to={
+                {
+                  pathname: '/profile',
+                  state: user,
+                }
+              } >My Profile</Nav.Link>
             </>}
             {user ? <Nav.Link as={RouterLink} to="/logout">Logout</Nav.Link> :
               <Nav.Link as={RouterLink} to="/login">Login</Nav.Link> }
