@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-
 import MediaTable from '../components/MediaTable';
 import {Container, Col, Row, Button, Image} from 'react-bootstrap';
 import UserTable from '../components/UserTable';
@@ -7,7 +6,6 @@ import {useContext, useEffect} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
 import {useUsers} from '../hooks/ApiHooks';
 import {Link, withRouter} from 'react-router-dom';
-
 
 const Home = () => {
   // eslint-disable-next-line no-unused-vars
@@ -78,8 +76,6 @@ const Home = () => {
             </div>
           </Col>
         </Row>
-
-
         {user ?
           <>
             <Row id="home-cards-area">
@@ -128,27 +124,15 @@ const Home = () => {
             </Container>
           </>
         }
+        <Row className="d-flex justify-content-center mt-5">
+          <Col xs={10}>
+            <UserTable />
+          </Col>
+        </Row>
       </Container>
-      <Row>
-        <Col xs={12} className="banner"
-          style={{
-            backgroundImage: 'url("bg-image.jpg")',
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-            height: '30vh',
-            position: 'relative',
-          }}>Banner lål</Col>
-      </Row>
-      <Row className="d-flex justify-content-center mt-5">
-        <Col xs={10}>
-          <UserTable />
-        </Col>
-      </Row>
     </>
   );
 }
 ;
-
 
 export default withRouter(Home);

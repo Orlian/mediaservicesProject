@@ -40,13 +40,7 @@ const MediaRow = ({file, ownFiles, deleteMedia}) => {
 
   return (
     <>
-      <Card
-        style={{
-          border: '1px solid #f8f8ff',
-          backgroundColor: '#161616',
-          color: '#f8f8ff',
-        }}
-      >
+      <Card className="px-3 pb-3 pt-0 mt-5">
         <Row>
           <Col md={{order: 'last', col: 2}}
             className=" d-flex justify-content-md-end justify-content-center"
