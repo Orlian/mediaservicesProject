@@ -84,9 +84,7 @@ const Upload = ({history}) => {
       fd.append('description', JSON.stringify(desc));
       fd.append('file', file.file);
       const result = await postMedia(fd, localStorage.getItem('token'));
-      const tagResult = await postTag(localStorage.getItem('token'),
-          result.file_id);
-      console.log('doUpload', result, tagResult);
+      console.log('doUpload', result);
     } catch (e) {
       alert(e.message);
     } finally {
