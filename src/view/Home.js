@@ -88,7 +88,6 @@ const Home = () => {
             </Row>
             <Row className="d-flex justify-content-center mt-5">
               <Col xs={10}>
-                <MediaTable ownFiles={false}/>
                 <UserTable/>
               </Col>
             </Row>
@@ -126,11 +125,6 @@ const Home = () => {
             </Container>
           </>
         }
-        <Row className="d-flex justify-content-center mt-5">
-          <Col xs={10}>
-            <UserTable />
-          </Col>
-        </Row>
       </Container>
     </>
   );
