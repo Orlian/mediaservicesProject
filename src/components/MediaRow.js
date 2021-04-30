@@ -19,13 +19,14 @@ const MediaRow = ({file, ownFiles, deleteMedia}) => {
   const [owner, setOwner] = useState(null);
   let genreString = '';
 
-  console.log('file.description', JSON.parse(file.description).description, ownFiles);
 
   {JSON.parse(file.description).genres?.forEach(
       (genre) =>{
         genreString += genre + ' ';
       },
   );}
+
+  console.log('file.thumbnail', file);
 
   useEffect(()=>{
     (async ()=>{
@@ -67,9 +68,9 @@ const MediaRow = ({file, ownFiles, deleteMedia}) => {
               <Row className="d-flex justify-content-center">
                 <Col xs={'auto'}>
                   {file.media_type === 'image' &&
-                  <img src={file.thumbnails ? uploadsUrl + file.thumbnails.w160 : '#'} alt={file.title}
+                  <img src={uploadsUrl + file.thumbnails?.w320} alt={file.title}
                     style={{
-                      maxWidth: '300px',
+                      maxWidth: '160px',
                       height: 'auto',
                     }}
                   />

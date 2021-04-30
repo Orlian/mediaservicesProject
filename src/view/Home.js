@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-import MediaTable from '../components/MediaTable';
 import {Container, Col, Row, Button, Image} from 'react-bootstrap';
 import UserTable from '../components/UserTable';
 import {useContext, useEffect} from 'react';
