@@ -59,7 +59,6 @@ const Upload = ({history}) => {
             'fileFormat',
             'Unsupported Format',
             (value) =>{
-              console.log('validation file', file.file);
               return file.file ? true : false;
             },
         ),

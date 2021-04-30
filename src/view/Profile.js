@@ -14,35 +14,35 @@ const Profile = ({location}) => {
   // eslint-disable-next-line no-unused-vars
   const [user] = useContext(MediaContext);
   const userInfo = location.state;
-  const [currentUser, setCurrentUser] = useState({});
-  const [ownFiles, setOwnFiles] = useState(true);
+  const [ownFiles, setOwnFiles] = useState(false);
+  const [mediaType, setMediaType] = useState('all');
 
   console.log(ownFiles);
 
   useEffect(()=>{
     (async ()=>{
-      try {
-        console.log('joo joo', user, userInfo);
-        if (userInfo === undefined) {
-          setCurrentUser(user);
-          setOwnFiles(true);
-          console.log('1', currentUser);
-        } else if (user?.user_id === userInfo?.user_id) {
-          setCurrentUser(user);
-          setOwnFiles(true);
-          console.log('2', currentUser);
-        } else {
-          setCurrentUser(userInfo);
-          setOwnFiles(false);
-          console.log('3', currentUser);
+      if (user) {
+        try {
+          console.log('joo joo', user, userInfo);
+          if (userInfo === undefined) {
+            setOwnFiles(true);
+          } else if (user?.user_id === userInfo?.user_id) {
+            setOwnFiles(true);
+          } else {
+            setOwnFiles(false);
+          }
+        } catch (e) {
+          console.log(e.message);
         }
-      } catch (e) {
-        console.log(e.message);
       }
     })();
   }, []);
 
-  console.log('ownfiles', ownFiles);
+  useEffect(()=>{
+
+  }, [mediaType]);
+
+  console.log('ownfiles, currentuser', ownFiles);
   return (
     <Container fluid
       style={{
@@ -80,7 +80,7 @@ const Profile = ({location}) => {
                   <Row>
                     <Col xs={7}>
                       <Card.Title className="h4 position-relative">
-                        {currentUser?.username}</Card.Title>
+                        {ownFiles ? user?.username : userInfo?.username}</Card.Title>
                     </Col>
                     <Col xs={{col: 'auto', offset: 3}}>
                       <Button
@@ -158,6 +158,11 @@ const Profile = ({location}) => {
                     backgroundColor: 'inherit',
                     border: 'none',
                   }}
+                  onClick={
+                    ()=>{
+                      setMediaType('all');
+                    }
+                  }
                 >
                   All media
                 </Button>
@@ -169,6 +174,11 @@ const Profile = ({location}) => {
                     backgroundColor: 'inherit',
                     border: 'none',
                   }}
+                  onClick={
+                    ()=>{
+                      setMediaType('audio');
+                    }
+                  }
                 >
                   Audio
                 </Button>
@@ -180,6 +190,11 @@ const Profile = ({location}) => {
                     backgroundColor: 'inherit',
                     border: 'none',
                   }}
+                  onClick={
+                    ()=>{
+                      setMediaType('video');
+                    }
+                  }
                 >
                   Videos
                 </Button>
@@ -191,6 +206,11 @@ const Profile = ({location}) => {
                     backgroundColor: 'inherit',
                     border: 'none',
                   }}
+                  onClick={
+                    ()=>{
+                      setMediaType('image');
+                    }
+                  }
                 >
                   Images
                 </Button>
@@ -199,7 +219,8 @@ const Profile = ({location}) => {
           </section>
         </Container>
       </section>
-      <MediaTable update={true} ownFiles={ownFiles} currentUser={currentUser}
+      <MediaTable update={true} ownFiles={ownFiles} currentUser={ownFiles ? user : userInfo}
+        mediaType={mediaType}
       />
     </Container>
   );

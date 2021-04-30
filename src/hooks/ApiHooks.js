@@ -29,7 +29,7 @@ const useMedia = (update = false, ownFiles, currentUser) => {
       } catch (e) {
         console.error(e.message);
       }
-    }, []);
+    }, [currentUser]);
   }
   const getMedia = async (currentUser, token) => {
     const fetchOptions = {
@@ -40,9 +40,16 @@ const useMedia = (update = false, ownFiles, currentUser) => {
     };
     try {
       setLoading(true);
+      console.log('getmedia user', currentUser);
       const media = await doFetch(baseUrl + 'media/user/' + currentUser.user_id, fetchOptions);
-      console.log('jooa', media);
-      return media;
+      let mediaFiles = await Promise.all(media.map(async (file)=>{
+        return await doFetch(baseUrl + 'media/' + file.file_id);
+      }));
+      mediaFiles = mediaFiles.filter((file)=>{
+        return file.description.includes('description');
+      });
+      console.log('jooa', mediaFiles);
+      return mediaFiles;
     } catch (e) {
       console.error(e.message);
     } finally {
