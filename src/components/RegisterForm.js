@@ -1,19 +1,21 @@
 import
-{Form, Button, Image} from 'react-bootstrap';
+{Form, Button, Image, Row, Col} from 'react-bootstrap';
 // import useForm from '../hooks/FormHooks';
 import {useLogin, useMedia, useUsers, useTag} from '../hooks/ApiHooks';
-import {Formik} from 'formik';
+import {Field, Formik} from 'formik';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
 import {useContext} from 'react';
 import {dataUri, dataURItoBase} from '../utils/avatarImg';
 import {MediaContext} from '../contexts/MediaContext';
+import {useHistory} from 'react-router-dom';
 
 
-const RegisterForm = ({setToggle, history}) => {
+const RegisterForm = ({setToggle}) => {
   const {register, getUserAvailable} = useUsers();
   const {postMedia} = useMedia();
   const {postLogin} = useLogin();
+  const history = useHistory();
   const {postTag} = useTag();
   // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useContext(MediaContext);
@@ -37,8 +39,6 @@ const RegisterForm = ({setToggle, history}) => {
             // eslint-disable-next-line max-len
             'Username may contain letters, numbers, dots, hyphens and underscores ')
         .test('usernameTaken', '*Username is already taken', checkUsername),
-    full_name: yup.string()
-        .min(5, '*Password must have at least 5 characters'),
     email: yup.string()
         .email('*Must be a valid email address')
         .required('*Email is required'),
@@ -52,7 +52,18 @@ const RegisterForm = ({setToggle, history}) => {
   });
 
   // eslint-disable-next-line max-len
-  const initialValues = {username: '', email: '', full_name: '', password: '', confirm: ''};
+  const initialValues = {
+    username: '',
+    email: '',
+    full_name: '',
+    password: '',
+    confirm: '',
+    bio: '',
+    checked: [],
+    selected: [],
+    skills: [],
+  };
+
   const doRegister = async (inputs) => {
     try {
       console.log('rekisteröinti lomake lähtee', inputs);
@@ -61,15 +72,23 @@ const RegisterForm = ({setToggle, history}) => {
 
       const userInfo = {
         artist_name: inputs.full_name,
-        bio: '',
+        bio: inputs.bio,
       };
 
       inputs.full_name = JSON.stringify(userInfo);
+
 
       console.log('uusi inputs', inputs);
 
       if (available) {
         delete inputs.confirm;
+        delete inputs.bio;
+        const checked = inputs.checked;
+        const selected = inputs.selected;
+        const skills = inputs.skills;
+        delete inputs.checked;
+        delete inputs.selected;
+        delete inputs.skills;
         const result = await register(inputs);
         if (result.message.length > 0) {
           alert(result.message);
@@ -87,9 +106,11 @@ const RegisterForm = ({setToggle, history}) => {
           //             skills: inputs.skills,
           //             location: inputs.location,
           const avatarInfo = {
-            skills: ['Guitar', 'Piano'],
-            genres: ['Pop'],
+            skills: skills,
+            genres: checked,
+            regions: selected,
           };
+
           const {dataView, mimeString} = dataURItoBase(dataUri);
           const fd = new FormData();
           fd.append('file', new Blob([dataView], {type: mimeString}));
@@ -98,6 +119,7 @@ const RegisterForm = ({setToggle, history}) => {
           const mediaResult = await postMedia(fd, userdata.token);
           const tagResult = await postTag(userdata.token, mediaResult.file_id);
           console.log('Register results', mediaResult, tagResult);
+          console.log('Mikä olet avatarInfo?', avatarInfo);
           setToggle(true);
           history.push('/');
         }
@@ -161,12 +183,130 @@ const RegisterForm = ({setToggle, history}) => {
                 placeholder="Artist name"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.full_name.full_name}
+                value={values?.artist_name}
                 className={touched.full_name && errors.full_name ?
                               'error' : null}/>
               {touched.full_name && errors.full_name ? (
                 <div className="error-message">{errors.full_name}</div>
               ): null}
+            </Form.Group>
+            <Form.Group className="mx-4">
+              <Form.Label>Bio</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                type="txt"
+                name="bio"
+                placeholder="Tell something about yourself..."
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values?.bio}
+              />
+              {touched.full_name && errors.full_name ? (
+                <div className="error-message">{errors.full_name}</div>
+              ): null}
+            </Form.Group>
+            <Form.Group className="mx-4">
+              <Form.Label>Choose genres</Form.Label>
+              <div role="group" aria-labelledby="checkbox-group">
+                <Row>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="checked" value="EDM"/>
+                      EDM
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="checked"
+                        value="Hip-hop/ Rap" />
+                      Hip-hop/ Rap
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="checked" value="Rock"/>
+                      Rock
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="checked" value="Pop" />
+                      Pop
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="checked" value="Metal"/>
+                      Metal
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="checked"
+                        value="Alternative" />
+                      Alternative
+                    </label>
+                  </Col>
+                </Row>
+              </div>
+            </Form.Group>
+            <Form.Group className="mx-4">
+              <Form.Label>Choose skills</Form.Label>
+              <div role="group" aria-labelledby="checkbox-group">
+                <Row>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="skills" value="singing"/>
+                      Singing
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="skills"
+                        value="piano" />
+                      Piano
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="skills" value="guitar"/>
+                      Guitar
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="skills" value="drums" />
+                      Drums
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="skills" value="violin"/>
+                      Violin
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="skills"
+                        value="hurdygurdy" />
+                      Medieval hurdygurdy
+                    </label>
+                  </Col>
+                </Row>
+              </div>
+            </Form.Group>
+            <Form.Group
+              controlId="selectLocation"
+              className="mx-4">
+              <Form.Label>Region</Form.Label>
+              <Field as="select" name="selected" custom>
+                <option value="Helsinki">Helsinki</option>
+                <option value="Espoo">Espoo</option>
+                <option value="Joensuu">Joensuu</option>
+                <option value="Kuusamo">Kuusamo</option>
+                <option value="Mikkeli">Mikkeli</option>
+              </Field>
             </Form.Group>
             <Form.Group className="mx-4">
               <Form.Label>Email</Form.Label>
@@ -239,7 +379,6 @@ const RegisterForm = ({setToggle, history}) => {
 
 RegisterForm.propTypes = {
   setToggle: PropTypes.func,
-  history: PropTypes.object,
 };
 
 export default RegisterForm;
