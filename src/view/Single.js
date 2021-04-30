@@ -8,6 +8,7 @@ import {useContext, useEffect, useState} from 'react';
 import {uploadsUrl} from '../utils/variables';
 import {useUsers} from '../hooks/ApiHooks';
 import {MediaContext} from '../contexts/MediaContext';
+import CommentTable from '../components/CommentTable';
 
 
 const Single = ({location}) => {
@@ -21,7 +22,6 @@ const Single = ({location}) => {
 
   let genreString = '';
 
-  console.log('owner', owner);
 
   {JSON.parse(file.description).genres?.forEach(
       (genre) =>{
@@ -45,6 +45,8 @@ const Single = ({location}) => {
     })();
   }, []);
 
+
+  console.log('owner', owner, file);
 
   return (
     <Container fluid
@@ -83,7 +85,7 @@ const Single = ({location}) => {
                       width: 'fit-content',
                       backgroundColor: 'rgba(255, 255, 255, 0.5)',
                     }}
-                  >{owner?.username}</Card.Text>
+                  >{owner?.username}, aka { JSON.parse(owner?.full_name).artist_name}</Card.Text>
                 </Card.ImgOverlay>
               </Col>
 
@@ -205,15 +207,7 @@ const Single = ({location}) => {
                       </Form>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col xs={12}>
-                      <div style={{
-                        width: '100%',
-                        height: '5rem',
-                        backgroundColor: '#d3d3d3',
-                      }}>s</div>
-                    </Col>
-                  </Row>
+                  <CommentTable file={file}/>
                 </Card.Body>
               </Col>
             </Row>

@@ -277,6 +277,53 @@ const useTag = () => {
   return {postTag, getTag};
 };
 
-export {useMedia, useUsers, useLogin, useTag};
+const useComment = (update, file) => {
+  const [commentArray, setCommentArray] = useState([]);
+
+  if (update) {
+    useEffect(() => {
+      try {
+        (async () => {
+          const comments = await getComment(file.file_id);
+          setCommentArray(comments);
+        })();
+      } catch (e) {
+        console.error(e.message);
+      }
+    }, []);
+  }
+
+  const postComment = async (token, fileId, comment) => {
+    const data = {
+      file_id: fileId,
+      comment: comment,
+    };
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'x-access-token': token,
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      return await doFetch(baseUrl + 'comments', fetchOptions);
+    } catch (e) {
+      throw new Error('commenting failed');
+    }
+  };
+
+  const getComment = async (fileId) => {
+    try {
+      const response = await doFetch(baseUrl + 'comments/file/' + fileId);
+      return response;
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  return {postComment, getComment, commentArray};
+};
+
+export {useMedia, useUsers, useLogin, useTag, useComment};
 
 

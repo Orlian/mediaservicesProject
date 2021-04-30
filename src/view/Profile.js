@@ -82,6 +82,7 @@ const Profile = ({location}) => {
                       <Card.Title className="h4 position-relative">
                         {ownFiles ? user?.username : userInfo?.username}</Card.Title>
                     </Col>
+                    {ownFiles &&
                     <Col xs={{col: 'auto', offset: 3}}>
                       <Button
                         style={{
@@ -98,6 +99,7 @@ const Profile = ({location}) => {
                         }}/>
                       </Button>
                     </Col>
+                    }
                   </Row>
                   <Row>
                     <Col xs={'auto'}>
@@ -136,15 +138,18 @@ const Profile = ({location}) => {
                           quis nostrud exercitation ullamco laboris nisi
                           ut aliquip ex ea commodo consequat.
                   </Card.Text>
+                  {ownFiles === false &&
                   <Button className="w-25 font-weight-bold form-btn"
-                    style={{backgroundColor: '#f6aa1c',
+                    style={{
+                      backgroundColor: '#f6aa1c',
                       border: '1px solid #f6aa1c',
                       color: '#161616',
                       borderRadius: '30em',
                       marginTop: '1rem',
                     }}>
-                        FOLLOW
+                    FOLLOW
                   </Button>
+                  }
                 </Card.Body>
               </Col>
             </Row>
