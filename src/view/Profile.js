@@ -42,7 +42,7 @@ const Profile = ({location}) => {
 
   }, [mediaType]);
 
-  console.log('ownfiles, currentuser', ownFiles);
+  console.log('ownfiles', ownFiles);
   return (
     <Container fluid
       style={{

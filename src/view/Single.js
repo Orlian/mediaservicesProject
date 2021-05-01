@@ -85,7 +85,7 @@ const Single = ({location}) => {
                       width: 'fit-content',
                       backgroundColor: 'rgba(255, 255, 255, 0.5)',
                     }}
-                  >{owner?.username}, aka { JSON.parse(owner?.full_name).artist_name}</Card.Text>
+                  >{owner?.username} {/* JSON.parse(owner?.full_name).artist_name */}</Card.Text>
                 </Card.ImgOverlay>
               </Col>
 
@@ -162,7 +162,7 @@ const Single = ({location}) => {
                         }}
                       >3,7 stars</p>
                     </Col>
-                    {user.user_id === file.user_id &&
+                    {user?.user_id === file.user_id &&
                     <Col xs={'auto'}>
                       <Button
                         style={{
