@@ -2,7 +2,6 @@ import
 {Form, Button, Image, FormGroup, Row, Col} from 'react-bootstrap';
 // import useForm from '../hooks/FormHooks';
 import {useUsers} from '../hooks/ApiHooks';
-import {useMedia} from '../hooks/ApiHooks';
 import {Field, Formik} from 'formik';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
@@ -11,24 +10,19 @@ import {useHistory} from 'react-router-dom';
 
 const UserForm = ({user, setUser}) => {
   const {putUser, getUser} = useUsers();
-  const {avatar} = useMedia();
-  const history = useHistory();
-  console.log('avatar', avatar);
 
-  const description = JSON.parse(avatar?.description);
+  const history = useHistory();
 
   // eslint-disable-next-line no-unused-vars
-
-
   const initialValues = {
     email: user.email,
     full_name: user.full_name.artist_name,
     password: '',
     confirm: '',
     bio: user.full_name.bio,
-    checked: description.genres,
-    selected: description.location,
-    skills: description.skills,
+    checked: [],
+    selected: [],
+    skills: [],
   };
 
 
