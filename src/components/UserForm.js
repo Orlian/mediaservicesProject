@@ -1,14 +1,16 @@
 import
-{Form, Button, Image, FormGroup} from 'react-bootstrap';
+{Form, Button, Image, FormGroup, Row, Col} from 'react-bootstrap';
 // import useForm from '../hooks/FormHooks';
 import {useUsers} from '../hooks/ApiHooks';
-import {Formik} from 'formik';
+import {Field, Formik} from 'formik';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
 import CancelButton from './CancelButton';
+import {useHistory} from 'react-router-dom';
 
 const UserForm = ({user, setUser}) => {
   const {putUser, getUser} = useUsers();
+  const history = useHistory();
   console.log('User', user);
 
   // eslint-disable-next-line no-unused-vars
@@ -45,6 +47,7 @@ const UserForm = ({user, setUser}) => {
 
         setUser(newUser);
         console.log('mikä olet new user update oletko objekti', newUser);
+        history.push('/profile');
       }
     } catch (e) {
       console.log(e.message);
@@ -116,6 +119,96 @@ const UserForm = ({user, setUser}) => {
               {touched.full_name && errors.full_name ? (
                 <div className="error-message">{errors.full_name}</div>
               ): null}
+            </Form.Group>
+            <Form.Group className="mx-4">
+              <Form.Label>Choose genres</Form.Label>
+              <div role="group" aria-labelledby="checkbox-group">
+                <Row>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="checked" value="EDM"/>
+                      EDM
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="checked"
+                        value="Hip-hop/ Rap" />
+                      Hip-hop/ Rap
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="checked" value="Rock"/>
+                      Rock
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="checked" value="Pop" />
+                      Pop
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="checked" value="Metal"/>
+                      Metal
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="checked"
+                        value="Alternative" />
+                      Alternative
+                    </label>
+                  </Col>
+                </Row>
+              </div>
+            </Form.Group>
+            <Form.Group className="mx-4">
+              <Form.Label>Choose skills</Form.Label>
+              <div role="group" aria-labelledby="checkbox-group">
+                <Row>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="skills" value="singing"/>
+                      Singing
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="skills"
+                        value="piano" />
+                      Piano
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="skills" value="guitar"/>
+                      Guitar
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="skills" value="drums" />
+                      Drums
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="skills" value="violin"/>
+                      Violin
+                    </label>
+                  </Col>
+                  <Col xs={'auto'}>
+                    <label>
+                      <Field type="checkbox" name="skills"
+                        value="hurdygurdy" />
+                      Medieval hurdygurdy
+                    </label>
+                  </Col>
+                </Row>
+              </div>
             </Form.Group>
             <Form.Group
               controlId="selectLocation"

@@ -17,12 +17,12 @@ const Login = () => {
           backgroundPosition: 'center',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
-          height: '100vh',
+          minHeight: '100vh',
           position: 'relative'}}
       >
         <div
           style={{background: 'rgba(0, 0, 0, 0.4)',
-            height: '100vh'}}
+            minHeight: '100vh'}}
         >
           <Row className="d-flex justify-content-center">
             <Col lg={4} className="mt-5 pb-5 rounded-lg"
