@@ -40,7 +40,7 @@ const MediaRow = ({file, ownFiles, deleteMedia}) => {
 
   return (
     <>
-      <Card>
+      <Card className="media-card">
         <Card.Text className="font-weight-bold pl-3 py-2 mb-0">
           {owner?.username}</Card.Text>
         <Card.Header className="d-flex justify-content-center p-0 m-0"

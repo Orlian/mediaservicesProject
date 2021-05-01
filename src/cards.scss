@@ -6,9 +6,7 @@
   color: $white;
   box-shadow: 3px 5px 15px $shadow;
   filter:brightness(90%);
-  &:hover {
-    filter:brightness(100%);
-  }
+
 
   .card-controls {
     background-color: $grey;
@@ -19,6 +17,13 @@
       background-color: #c9c9d0;
       color: #161616;
     }
+  }
+}
+
+.media-card {
+  filter:brightness(90%);
+  &:hover {
+    filter:brightness(100%);
   }
 }
 
