@@ -17,6 +17,7 @@ const doFetch = async (url, options = {}) => {
 const useMedia = (update = false, ownFiles, currentUser) => {
   const [mediaArray, setMediaArray] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [avatar, setAvatar] = useState({});
 
 
   if (update) {
@@ -31,6 +32,19 @@ const useMedia = (update = false, ownFiles, currentUser) => {
       }
     }, [currentUser]);
   }
+
+  useEffect(() => {
+    try {
+      (async () => {
+        const avatar = await getAvatar(localStorage.getItem('token'));
+        console.log('avatar mikä olet', avatar);
+        setAvatar(avatar);
+      })();
+    } catch (e) {
+      console.error(e.message);
+    }
+  }, []);
+
   const getMedia = async (currentUser, token) => {
     const fetchOptions = {
       method: 'GET',
@@ -49,6 +63,27 @@ const useMedia = (update = false, ownFiles, currentUser) => {
         return file.description.includes('description');
       });
       console.log('jooa', mediaFiles);
+      return mediaFiles;
+    } catch (e) {
+      console.error(e.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getAvatar = async (token) => {
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+
+    try {
+      setLoading(true);
+      console.log('get avatar info of current user', currentUser);
+      const media = await doFetch(baseUrl + 'media/user/', fetchOptions);
+      const mediaFiles = media[0];
       return mediaFiles;
     } catch (e) {
       console.error(e.message);
@@ -116,7 +151,7 @@ const useMedia = (update = false, ownFiles, currentUser) => {
     }
   };
 
-  return {getMedia, postMedia, putMedia, deleteMedia, loading, mediaArray};
+  return {getMedia, postMedia, putMedia, deleteMedia, loading, mediaArray, getAvatar, avatar};
 };
 
 const useUsers = (update = false) => {
