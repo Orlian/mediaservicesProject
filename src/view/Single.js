@@ -6,19 +6,22 @@ import {MusicNoteBeamed, CardText, PencilSquare} from 'react-bootstrap-icons';
 import {FaStar} from 'react-icons/fa';
 import {useContext, useEffect, useState} from 'react';
 import {uploadsUrl} from '../utils/variables';
-import {useUsers} from '../hooks/ApiHooks';
+import {useComment, useUsers} from '../hooks/ApiHooks';
 import {MediaContext} from '../contexts/MediaContext';
 import CommentTable from '../components/CommentTable';
+import {Formik} from 'formik';
+import * as yup from 'yup';
 
 
 const Single = ({location}) => {
   const [owner, setOwner] = useState(null);
   const {getUserById, getUser} = useUsers();
+  const {postComment} = useComment();
   const [user] = useContext(MediaContext);
-  let mediaOwner = false;
 
   const file = location.state;
-  const desc = JSON.parse(file.description);
+  const desc = JSON.parse(file?.description);
+  console.log('Single file', file);
 
   let genreString = '';
 
@@ -35,18 +38,30 @@ const Single = ({location}) => {
         setOwner(await getUserById(localStorage.getItem('token'),
             file.user_id));
         const result = await getUser(localStorage.getItem('token'));
-        if (owner.user_id === result.user_id) {
-          mediaOwner = true;
-        }
-        console.log('hahaaa', owner.user_id, result.user_id, mediaOwner);
+        console.log('owner id, getUser id', owner?.user_id, result?.user_id);
       } catch (e) {
         console.log(e.message);
       }
     })();
   }, []);
 
+  const validationSchema = yup.object({
+    comment: yup.string().min(1).required('Write something').matches(/^[a-zA-Z0-9_.-]*$/,
+        'Invalid characters'),
+  });
 
-  console.log('owner', owner, file);
+  // TODO: Tästä tulee bad request oikeilla tiedoilla, selvitä
+  const doComment = async (input) => {
+    try {
+      const result = await postComment(localStorage.getItem('token'), file.file_id, input.comment);
+      console.log('doComment response', result);
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
+
+  console.log('owner', owner);
 
   return (
     <Container fluid
@@ -183,28 +198,52 @@ const Single = ({location}) => {
                   </Row>
                   <Row>
                     <Col xs={12}>
-                      <Form>
-                        <InputGroup className="mb-3">
-                          <FormControl
-                            placeholder="Please comment"
-                            aria-label="Comment"
-                            type="text"
-                            name="comment"
-                            style={{
-                              borderRadius: '0.25rem',
-                            }}
-                          />
-                          <InputGroup.Append>
-                            <Button type="submit" className="font-weight-bold form-btn ml-2"
-                              style={{
-                                backgroundColor: '#f6aa1c',
-                                border: '1px solid #f6aa1c',
-                                color: '#161616',
-                                borderRadius: '0.25rem',
-                              }}>Comment</Button>
-                          </InputGroup.Append>
-                        </InputGroup>
-                      </Form>
+                      <Formik initialValues={{comment: ''}} validationSchema={validationSchema} onSubmit={(values, {setSubmitting, resetForm}) => {
+                        setSubmitting(true);
+                        doComment(values);
+                        setTimeout(() => {
+                          resetForm();
+                          setSubmitting(false);
+                        }, 500);
+                      }}>
+                        {( {values,
+                          errors,
+                          touched,
+                          handleChange,
+                          handleBlur,
+                          handleSubmit,
+                          isSubmitting}) => (
+                          <Form onSubmit={handleSubmit}>
+                            <InputGroup className="mb-3">
+                              <FormControl
+                                placeholder="Please comment"
+                                aria-label="Comment"
+                                type="text"
+                                name="comment"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                className={touched.comment && errors.comment ?
+                                  'error' : null}
+                                value={values.comment}
+                                style={{
+                                  borderRadius: '0.25rem',
+                                }}
+                              />{touched.comment && errors.comment ? (
+                              <div className="error-message">{errors.comment}</div>
+                            ): null}
+                              <InputGroup.Append>
+                                <Button type="submit" className="font-weight-bold form-btn ml-2" disabled={isSubmitting}
+                                  style={{
+                                    backgroundColor: '#f6aa1c',
+                                    border: '1px solid #f6aa1c',
+                                    color: '#161616',
+                                    borderRadius: '0.25rem',
+                                  }}>Comment</Button>
+                              </InputGroup.Append>
+                            </InputGroup>
+                          </Form>
+                        )}
+                      </Formik>
                     </Col>
                   </Row>
                   <CommentTable file={file}/>
@@ -220,7 +259,6 @@ const Single = ({location}) => {
 
 Single.propTypes = {
   location: PropTypes.object,
-  ownFiles: PropTypes.object,
 };
 
 export default Single;

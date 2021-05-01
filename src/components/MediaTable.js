@@ -5,17 +5,21 @@ import PropTypes from 'prop-types';
 
 const MediaTable = ({update, ownFiles, currentUser, mediaType}) => {
   const {mediaArray, deleteMedia} = useMedia(update, ownFiles, currentUser);
-  console.log('MediaArray', mediaArray, currentUser);
+  console.log('MediaArray', mediaArray);
+  console.log('CurrentUser', currentUser);
+  const mediaArrayNoAvatar = mediaArray.filter((item) => {
+    return item.description.includes('description');
+  });
 
-  const audioArray = mediaArray?.filter((file)=>{
+  const audioArray = mediaArrayNoAvatar?.filter((file)=>{
     return file.media_type === 'audio';
   });
 
-  const videoArray = mediaArray?.filter((file)=>{
+  const videoArray = mediaArrayNoAvatar?.filter((file)=>{
     return file.media_type === 'video';
   });
 
-  const imageArray = mediaArray?.filter((file)=>{
+  const imageArray = mediaArrayNoAvatar?.filter((file)=>{
     return file.media_type === 'image';
   });
 
@@ -23,7 +27,7 @@ const MediaTable = ({update, ownFiles, currentUser, mediaType}) => {
     <Container>
       <Row>
         { mediaType === 'all' &&
-          mediaArray?.map((item) =>
+          mediaArrayNoAvatar?.map((item) =>
             <Col xs={12} md={6} lg={6} key={item.file_id}>
               <MediaRow file={item} ownFiles={ownFiles}
                 deleteMedia={deleteMedia}/>

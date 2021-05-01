@@ -5,7 +5,7 @@ const CommentRow = ({comment}) => {
   return (
     <>
       <Row>
-        <Col xs={'auto'}>
+        <Col xs={'auto'} className='bg-dark text-white'>
           <h1>{comment.comment}</h1>
         </Col>
       </Row>

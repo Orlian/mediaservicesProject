@@ -31,7 +31,7 @@ const Navigation = ({history}) => {
         setUser(newUser);
       } catch (e) {
         // send to login
-        history.push('/');
+        history.push('/login');
       }
     };
     checkUser();

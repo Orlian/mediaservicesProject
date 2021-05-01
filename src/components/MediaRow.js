@@ -26,7 +26,7 @@ const MediaRow = ({file, ownFiles, deleteMedia}) => {
       },
   );}
 
-  console.log('file.thumbnail', file);
+  // console.log('file.thumbnail', file);
 
   useEffect(()=>{
     (async ()=>{

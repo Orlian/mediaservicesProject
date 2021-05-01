@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 const CommentTable = ({file}) => {
   const {commentArray} = useComment(true, file);
+  console.log('commentArray', commentArray);
   return (
     <div style={{
       width: '100%',

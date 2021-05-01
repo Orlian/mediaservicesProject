@@ -47,7 +47,6 @@ const useMedia = (update = false, ownFiles, currentUser) => {
       const mediaFiles = await Promise.all(media.map(async (file)=>{
         return await doFetch(baseUrl + 'media/' + file.file_id);
       }));
-      console.log('jooa', mediaFiles);
       return mediaFiles;
     } catch (e) {
       console.error(e.message);
@@ -121,7 +120,6 @@ const useMedia = (update = false, ownFiles, currentUser) => {
 
 const useUsers = (update = false) => {
   const [userArray, setUserArray] = useState([]);
-  // TODO: Looppaako tämä turhaan?
   if (update) {
     useEffect(async () => {
       try {
@@ -180,10 +178,8 @@ const useUsers = (update = false) => {
     try {
       let avatars = await doFetch(baseUrl + 'tags/' + appIdentifier);
       avatars = avatars.filter((avatar)=>{
-        console.log('avatar', avatar);
         return !!JSON.parse(avatar.description).skills;
       });
-      console.log('users', avatars);
       return await Promise.all(avatars.map(async (item) => {
         return await doFetch(baseUrl + 'users/' + item.user_id, fetchOptions);
       }));
@@ -314,8 +310,7 @@ const useComment = (update, file) => {
 
   const getComment = async (fileId) => {
     try {
-      const response = await doFetch(baseUrl + 'comments/file/' + fileId);
-      return response;
+      return await doFetch(baseUrl + 'comments/file/' + fileId);
     } catch (e) {
       alert(e.message);
     }

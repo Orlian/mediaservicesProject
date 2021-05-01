@@ -17,13 +17,13 @@ const Profile = ({location}) => {
   const [ownFiles, setOwnFiles] = useState(false);
   const [mediaType, setMediaType] = useState('all');
 
-  console.log(ownFiles);
+  console.log('ownFiles beginning', ownFiles);
 
   useEffect(()=>{
     (async ()=>{
       if (user) {
         try {
-          console.log('joo joo', user, userInfo);
+          console.log('profile user, userInfo', user, userInfo);
           if (userInfo === undefined) {
             setOwnFiles(true);
           } else if (user?.user_id === userInfo?.user_id) {
@@ -36,13 +36,13 @@ const Profile = ({location}) => {
         }
       }
     })();
-  }, []);
+  }, [userInfo]);
 
   useEffect(()=>{
 
   }, [mediaType]);
 
-  console.log('ownfiles', ownFiles);
+  console.log('ownFiles end', ownFiles);
   return (
     <Container fluid
       style={{
