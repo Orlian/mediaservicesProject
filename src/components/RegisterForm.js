@@ -60,7 +60,7 @@ const RegisterForm = ({setToggle}) => {
     confirm: '',
     bio: '',
     checked: [],
-    selected: [],
+    selected: '',
     skills: [],
   };
 
@@ -73,6 +73,9 @@ const RegisterForm = ({setToggle}) => {
       const userInfo = {
         artist_name: inputs.full_name,
         bio: inputs.bio,
+        skills: inputs.skills,
+        genres: inputs.checked,
+        regions: inputs.selected,
       };
 
       inputs.full_name = JSON.stringify(userInfo);

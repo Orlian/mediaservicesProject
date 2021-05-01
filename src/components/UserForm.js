@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import
 {Form, Button, Image, FormGroup, Row, Col} from 'react-bootstrap';
 // import useForm from '../hooks/FormHooks';
@@ -10,19 +11,13 @@ import {useHistory} from 'react-router-dom';
 
 const UserForm = ({user, setUser}) => {
   const {putUser, getUser} = useUsers();
-
   const history = useHistory();
 
   // eslint-disable-next-line no-unused-vars
   const initialValues = {
-    email: user.email,
-    full_name: user.full_name.artist_name,
-    password: '',
-    confirm: '',
-    bio: user.full_name.bio,
-    checked: [],
-    selected: [],
     skills: [],
+    genres: '',
+    regions: [],
   };
 
 
@@ -68,7 +63,7 @@ const UserForm = ({user, setUser}) => {
     <>
       { user &&
       <Formik
-        initialValues={initialValues}
+        initialValues={{...user}}
         validationSchema={validationSchema}
         onSubmit={(values, {setSubmitting, resetForm}) => {
           setSubmitting(true);
@@ -136,38 +131,39 @@ const UserForm = ({user, setUser}) => {
                 <Row>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="checked" value="EDM"/>
+                      {/* eslint-disable-next-line max-len */}
+                      <Field type="checkbox" name="full_name.genres" value="EDM"/>
                       EDM
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="checked"
+                      <Field type="checkbox" name="full_name.genres"
                         value="Hip-hop/ Rap" />
                       Hip-hop/ Rap
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="checked" value="Rock"/>
+                      <Field type="checkbox" name="full_name.genres" value="Rock"/>
                       Rock
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="checked" value="Pop" />
+                      <Field type="checkbox" name="full_name.genres" value="Pop" />
                       Pop
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="checked" value="Metal"/>
+                      <Field type="checkbox" name="full_name.genres" value="Metal"/>
                       Metal
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="checked"
+                      <Field type="checkbox" name="full_name.genres"
                         value="Alternative" />
                       Alternative
                     </label>
@@ -181,38 +177,38 @@ const UserForm = ({user, setUser}) => {
                 <Row>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="skills" value="singing"/>
+                      <Field type="checkbox" name="full_name.skills" value="singing"/>
                       Singing
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="skills"
+                      <Field type="checkbox" name="full_name.skills"
                         value="piano" />
                       Piano
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="skills" value="guitar"/>
+                      <Field type="checkbox" name="full_name.skills" value="guitar"/>
                       Guitar
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="skills" value="drums" />
+                      <Field type="checkbox" name="full_name.skills" value="drums" />
                       Drums
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="skills" value="violin"/>
+                      <Field type="checkbox" name="full_name.skills" value="violin"/>
                       Violin
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="skills"
+                      <Field type="checkbox" name="full_name.skills"
                         value="hurdygurdy" />
                       Medieval hurdygurdy
                     </label>
@@ -224,13 +220,13 @@ const UserForm = ({user, setUser}) => {
               controlId="selectLocation"
               className="mx-4">
               <Form.Label>Region</Form.Label>
-              <Form.Control as="select" custom>
-                <option>Helsinki</option>
-                <option>Espoo</option>
-                <option>Joensuu</option>
-                <option>Kuusamo</option>
-                <option>Mikkeli</option>
-              </Form.Control>
+              <Field as="select" name="full_name.regions" custom>
+                <option value="Helsinki">Helsinki</option>
+                <option value="Espoo">Espoo</option>
+                <option value="Joensuu">Joensuu</option>
+                <option value="Kuusamo">Kuusamo</option>
+                <option value="Mikkeli">Mikkeli</option>
+              </Field>
             </Form.Group>
             <Form.Group className="mx-4">
               <Form.Label>Email</Form.Label>
