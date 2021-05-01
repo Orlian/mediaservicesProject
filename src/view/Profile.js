@@ -18,12 +18,12 @@ const Profile = ({location}) => {
   const [mediaType, setMediaType] = useState('all');
 
   console.log('ownFiles beginning', ownFiles);
+  console.log('user from context', user);
 
   useEffect(()=>{
     (async ()=>{
       if (user) {
         try {
-          console.log('profile user, userInfo', user, userInfo);
           if (userInfo === undefined) {
             setOwnFiles(true);
           } else if (user?.user_id === userInfo?.user_id) {
@@ -36,11 +36,11 @@ const Profile = ({location}) => {
         }
       }
     })();
-  }, [userInfo]);
+  }, [userInfo, user]);
 
   useEffect(()=>{
 
-  }, [mediaType]);
+  }, [mediaType, ownFiles]);
 
   console.log('ownFiles end', ownFiles);
   return (
@@ -138,7 +138,7 @@ const Profile = ({location}) => {
                           quis nostrud exercitation ullamco laboris nisi
                           ut aliquip ex ea commodo consequat.
                   </Card.Text>
-                  {ownFiles === false &&
+                  {!ownFiles &&
                   <Button className="w-25 font-weight-bold form-btn"
                     style={{
                       backgroundColor: '#f6aa1c',
