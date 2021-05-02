@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import {Container, Col, Row, Button, Image} from 'react-bootstrap';
 import UserTable from '../components/UserTable';
-import {useContext, useEffect} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
 import {useUsers} from '../hooks/ApiHooks';
 import {Link, withRouter} from 'react-router-dom';
@@ -10,6 +10,7 @@ const Home = () => {
   // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useContext(MediaContext);
   const {getUser} = useUsers();
+  const [sortType, setSortType] = useState('all');
 
   useEffect(() => {
     const checkUser = async () => {
@@ -85,9 +86,77 @@ const Home = () => {
                   Get to know these creators</h2>
               </Col>
             </Row>
+            <section>
+              <Row className="mt-4 d-flex justify-content-center">
+                <Col xs={'auto'}>
+                  <Button
+                    className="sortButton"
+                    style={{
+                      backgroundColor: 'inherit',
+                      border: 'none',
+                    }}
+                    onClick={
+                      ()=>{
+                        setSortType('all');
+                      }
+                    }
+                  >
+                    All matches
+                  </Button>
+                </Col>
+                <Col xs={'auto'}>
+                  <Button
+                    className="sortButton"
+                    style={{
+                      backgroundColor: 'inherit',
+                      border: 'none',
+                    }}
+                    onClick={
+                      ()=>{
+                        setSortType('skills');
+                      }
+                    }
+                  >
+                    Skill matches
+                  </Button>
+                </Col>
+                <Col xs={'auto'}>
+                  <Button
+                    className="sortButton"
+                    style={{
+                      backgroundColor: 'inherit',
+                      border: 'none',
+                    }}
+                    onClick={
+                      ()=>{
+                        setSortType('genres');
+                      }
+                    }
+                  >
+                    Genre matches
+                  </Button>
+                </Col>
+                <Col xs={'auto'}>
+                  <Button
+                    className="sortButton"
+                    style={{
+                      backgroundColor: 'inherit',
+                      border: 'none',
+                    }}
+                    onClick={
+                      ()=>{
+                        setSortType('location');
+                      }
+                    }
+                  >
+                    Location matches
+                  </Button>
+                </Col>
+              </Row>
+            </section>
             <Row className="d-flex justify-content-center mt-5">
               <Col xs={10}>
-                <UserTable/>
+                <UserTable sortType={sortType} user={user}/>
               </Col>
             </Row>
           </> : <>
