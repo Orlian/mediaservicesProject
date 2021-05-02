@@ -118,12 +118,12 @@ const useMedia = (update = false, ownFiles, currentUser) => {
   return {getMedia, postMedia, putMedia, deleteMedia, loading, mediaArray};
 };
 
-const useUsers = (update = false) => {
+const useUsers = (update = false, user, input = '') => {
   const [userArray, setUserArray] = useState([]);
   if (update) {
     useEffect(async () => {
       try {
-        const users = await getUserRecommendations(localStorage.getItem('token'));
+        const users = await getUserRecommendations(localStorage.getItem('token'), user);
         setUserArray(users);
       } catch (e) {
         console.error('useUsers error', e.message);
@@ -168,7 +168,7 @@ const useUsers = (update = false) => {
     }
   };
 
-  const getUserRecommendations = async (token) => {
+  const getUserRecommendations = async (token, user) => {
     const fetchOptions = {
       method: 'GET',
       headers: {
@@ -180,9 +180,40 @@ const useUsers = (update = false) => {
       avatars = avatars.filter((avatar)=>{
         return !!JSON.parse(avatar.description).skills;
       });
-      return await Promise.all(avatars.map(async (item) => {
+      const allUsers = await Promise.all(avatars.map(async (item) => {
         return await doFetch(baseUrl + 'users/' + item.user_id, fetchOptions);
       }));
+      return allUsers.filter((item) => {
+        return user.user_id !== item.user_id && (user.full_name.skills?.find(
+            (skill) => JSON.parse(item.full_name).skills?.includes(skill),
+        ) || user.full_name.genres?.find((genre) => JSON.parse(item.full_name).genres?.includes(genre),
+        ) || JSON.parse(item.full_name).regions === user.full_name.regions ? user.full_name.regions : false);
+      });
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const getSearchResults = async (token, input, user) => {
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    input = input.toLowerCase();
+    try {
+      let avatars = await doFetch(baseUrl + 'tags/' + appIdentifier);
+      avatars = avatars.filter((avatar)=>{
+        return !!JSON.parse(avatar.description).skills;
+      });
+      const allUsers = await Promise.all(avatars.map(async (item) => {
+        return await doFetch(baseUrl + 'users/' + item.user_id, fetchOptions);
+      }));
+      return allUsers.filter((item) => {
+        return user.user_id !== item.user_id && (JSON.parse(item.full_name).skills?.includes(input) || JSON.parse(item.full_name).genres?.toLowerCase().includes(input)||
+        JSON.parse(item.full_name).regions.toLowerCase().includes(input));
+      });
     } catch (e) {
       console.log(e.message);
     }
@@ -218,7 +249,7 @@ const useUsers = (update = false) => {
   };
 
 
-  return {register, getUserAvailable, getUser, putUser, getUserById, getUserRecommendations, userArray};
+  return {register, getUserAvailable, getUser, putUser, getUserById, getUserRecommendations, getSearchResults, userArray};
 };
 
 const useLogin = () => {
