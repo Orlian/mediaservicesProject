@@ -7,7 +7,7 @@ const MediaTable = ({update, ownFiles, currentUser, mediaType}) => {
   const {mediaArray, deleteMedia} = useMedia(update, ownFiles, currentUser);
   console.log('MediaArray', mediaArray);
   console.log('CurrentUser', currentUser);
-  const mediaArrayNoAvatar = mediaArray.filter((item) => {
+  const mediaArrayNoAvatar = mediaArray?.filter((item) => {
     return item.description.includes('description');
   });
 

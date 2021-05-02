@@ -5,7 +5,7 @@ import {useComment} from '../hooks/ApiHooks';
 import PropTypes from 'prop-types';
 
 const CommentTable = ({file}) => {
-  const {commentArray} = useComment(true, file);
+  const {commentArray, deleteComment} = useComment(true, file);
   console.log('commentArray', commentArray);
   return (
     <div style={{
@@ -16,7 +16,7 @@ const CommentTable = ({file}) => {
         {
           commentArray?.map((item) =>
             <Col xs={12} key={item.comment_id}>
-              <CommentRow comment={item} />
+              <CommentRow comment={item} deleteComment={deleteComment}/>
             </Col>)
         }
       </Row>

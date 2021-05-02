@@ -273,13 +273,14 @@ const useTag = () => {
   return {postTag, getTag};
 };
 
-const useComment = (update, file) => {
+const useComment = (update = false, file) => {
   const [commentArray, setCommentArray] = useState([]);
 
   if (update) {
     useEffect(() => {
       try {
         (async () => {
+          console.log('useComment useEffect on tässä');
           const comments = await getComment(file.file_id);
           setCommentArray(comments);
         })();
@@ -298,6 +299,7 @@ const useComment = (update, file) => {
       method: 'POST',
       headers: {
         'x-access-token': token,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     };
@@ -316,7 +318,21 @@ const useComment = (update, file) => {
     }
   };
 
-  return {postComment, getComment, commentArray};
+  const deleteComment = async (fileId, token) =>{
+    const fetchOptions = {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      return await doFetch(baseUrl + 'comments/' +fileId, fetchOptions);
+    } catch (e) {
+      throw new Error('delete failed');
+    }
+  };
+
+  return {postComment, getComment, deleteComment, commentArray};
 };
 
 export {useMedia, useUsers, useLogin, useTag, useComment};
