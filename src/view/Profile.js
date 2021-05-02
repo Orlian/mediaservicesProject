@@ -24,8 +24,8 @@ const Profile = ({location}) => {
 
 
   let parsedInfo;
-  if (user?.user_id !== userInfo?.user_id && user !== null) {
-    parsedInfo = JSON.parse(userInfo.full_name);
+  if (user?.user_id !== userInfo?.user_id && user !== null && userInfo !== undefined) {
+    parsedInfo = JSON.parse(userInfo?.full_name);
   }
 
 
