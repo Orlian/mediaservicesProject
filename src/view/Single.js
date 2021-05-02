@@ -22,7 +22,6 @@ const Single = ({location}) => {
   const file = location.state;
   const desc = JSON.parse(file?.description);
   console.log('Single file', file);
-
   let genreString = '';
 
 
@@ -46,7 +45,7 @@ const Single = ({location}) => {
   }, []);
 
   const validationSchema = yup.object({
-    comment: yup.string().min(1).required('Write something').matches(/^[a-zA-Z0-9_.-]*$/,
+    comment: yup.string().min(1).required('Write something').matches(/^[a-zA-Z 0-9'*_.-]*$/,
         'Invalid characters'),
   });
 
