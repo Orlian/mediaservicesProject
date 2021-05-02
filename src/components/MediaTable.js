@@ -27,28 +27,28 @@ const MediaTable = ({update, ownFiles, currentUser, mediaType}) => {
     <Container>
       <Row>
         { mediaType === 'all' &&
-          mediaArrayNoAvatar?.map((item) =>
+          mediaArrayNoAvatar?.slice(0).reverse().map((item) =>
             <Col xs={12} md={6} lg={6} key={item.file_id}>
               <MediaRow file={item} ownFiles={ownFiles}
                 deleteMedia={deleteMedia}/>
             </Col>)
         }
         { mediaType === 'audio' &&
-        audioArray?.map((item) =>
+        audioArray?.slice(0).reverse().map((item) =>
           <Col xs={12} md={6} lg={6} key={item.file_id}>
             <MediaRow file={item} ownFiles={ownFiles}
               deleteMedia={deleteMedia}/>
           </Col>)
         }
         { mediaType === 'video' &&
-        videoArray?.map((item) =>
+        videoArray?.slice(0).reverse().map((item) =>
           <Col xs={12} md={6} lg={6} key={item.file_id}>
             <MediaRow file={item} ownFiles={ownFiles}
               deleteMedia={deleteMedia}/>
           </Col>)
         }
         { mediaType === 'image' &&
-        imageArray?.map((item) =>
+        imageArray?.slice(0).reverse().map((item) =>
           <Col xs={12} md={6} lg={6} key={item.file_id}>
             <MediaRow file={item} ownFiles={ownFiles}
               deleteMedia={deleteMedia}/>

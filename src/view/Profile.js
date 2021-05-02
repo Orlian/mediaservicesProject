@@ -1,7 +1,11 @@
 /* eslint-disable max-len */
 import {useContext, useEffect, useState} from 'react';
 import BackButton from '../components/BackButton';
-import {MusicNoteBeamed, GeoAltFill} from 'react-bootstrap-icons';
+import {
+  MusicNoteBeamed,
+  GeoAltFill,
+  PersonLinesFill,
+} from 'react-bootstrap-icons';
 import {FaUserEdit} from 'react-icons/fa';
 import {GiGuitar} from 'react-icons/gi';
 import {Button, Card, Col, Container, Row} from 'react-bootstrap';
@@ -24,8 +28,8 @@ const Profile = ({location}) => {
 
 
   let parsedInfo;
-  if (user?.user_id !== userInfo?.user_id && user !== null) {
-    parsedInfo = JSON.parse(userInfo.full_name);
+  if (user?.user_id !== userInfo?.user_id && user !== null && userInfo !== undefined) {
+    parsedInfo = JSON.parse(userInfo?.full_name);
   }
 
 
@@ -87,6 +91,7 @@ const Profile = ({location}) => {
                     <Col xs={7}>
                       <Card.Text>{ownFiles ? user?.full_name.artist_name : parsedInfo?.artist_name}</Card.Text>
                     </Col>
+
                     {ownFiles &&
                     <Col xs={{col: 'auto', offset: 3}}>
                       <Button
@@ -101,6 +106,14 @@ const Profile = ({location}) => {
                       </Button>
                     </Col>
                     }
+                  </Row>
+                  <Row className="mt-2">
+                    <Col xs={'auto'}>
+                      <PersonLinesFill />
+                    </Col>
+                    <Col xs={'auto'} className="pl-0">
+                      <p>{ownFiles ? user?.email : userInfo?.email}</p>
+                    </Col>
                   </Row>
                   <Row>
                     <Col xs={'auto'}>

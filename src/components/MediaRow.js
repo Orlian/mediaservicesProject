@@ -49,6 +49,7 @@ const MediaRow = ({file, ownFiles, deleteMedia}) => {
         style={{
           textDecoration: 'none',
           color: '#f8f8ff',
+          marginBottom: '2em',
 
         }}>
         <Card.Text className="font-weight-bold pl-3 py-2 mb-0">
