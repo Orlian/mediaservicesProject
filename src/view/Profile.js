@@ -17,8 +17,17 @@ const Profile = ({location}) => {
   const [ownFiles, setOwnFiles] = useState(false);
   const [mediaType, setMediaType] = useState('all');
 
+
   console.log('ownFiles beginning', ownFiles);
   console.log('user from context', user);
+  console.log('mikä olet userInfo', userInfo);
+
+  let parsedInfo;
+
+  if (user?.user_id !== userInfo?.user_id) {
+    parsedInfo = JSON.parse(userInfo.full_name);
+  }
+
 
   useEffect(()=>{
     (async ()=>{
@@ -43,6 +52,8 @@ const Profile = ({location}) => {
   }, [mediaType, ownFiles]);
 
   console.log('ownFiles end', ownFiles);
+  console.log('user from context end', user);
+  console.log('mikä olet userInfo end', userInfo);
   return (
     <Container fluid
       style={{
@@ -106,7 +117,7 @@ const Profile = ({location}) => {
                       <GeoAltFill/>
                     </Col>
                     <Col xs={'auto'}>
-                      <h2 className="h5">Helsinki</h2>
+                      <h2 className="h5">{ownFiles ? user?.full_name.regions : parsedInfo?.regions}</h2>
                     </Col>
                   </Row>
                   <Row>
@@ -114,10 +125,10 @@ const Profile = ({location}) => {
                       <MusicNoteBeamed/>
                     </Col>
                     <Col xs={'auto'}>
-                      <h2 className="h5">Genres:</h2>
+                      <h2 className="h5">Genres: </h2>
                     </Col>
                     <Col xs={'auto'} className="pl-0">
-                      <p>Rock, Metal</p>
+                      <p>{ownFiles ? user?.full_name.genres?.join(',') : parsedInfo?.genres?.join(', ') }</p>
                     </Col>
                   </Row>
                   <Row>
@@ -128,16 +139,10 @@ const Profile = ({location}) => {
                       <h2 className="h5">Skills:</h2>
                     </Col>
                     <Col xs={'auto'} className="pl-0">
-                      <p>Signing, Piano</p>
+                      <p>{ownFiles ? user?.full_name.skills?.join(', ') : parsedInfo?.skills?.join(', ')}</p>
                     </Col>
                   </Row>
-                  <Card.Text>Consectetur adipiscing elit,
-                          sed do eiusmod tempor incididunt
-                          ut labore et dolore magna aliqua.
-                          Ut enim ad minim veniam,
-                          quis nostrud exercitation ullamco laboris nisi
-                          ut aliquip ex ea commodo consequat.
-                  </Card.Text>
+                  <Card.Text>{ownFiles ? user?.full_name.bio : parsedInfo?.bio}</Card.Text>
                   {!ownFiles &&
                   <Button className="w-25 font-weight-bold form-btn"
                     style={{
