@@ -95,6 +95,7 @@ const Navigation = ({history}) => {
             handleChange,
             handleBlur,
             handleSubmit,
+            setFieldValue,
             isSubmitting}) => (
             <Form onSubmit={handleSubmit} inline className="mr-0 position-absolute"
               style={{
@@ -112,23 +113,22 @@ const Navigation = ({history}) => {
                   name="search"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className={touched.comment && errors.comment ?
+                  className={touched.search && errors.search ?
                     'error' : null}
-                  value={values.comment}
+                  value={values.search}
                   style={{
                     borderRadius: '0.25rem',
                   }}
-                />{touched.comment && errors.comment ? (
-                <div className="error-message">{errors.comment}</div>
+                />{touched.search && errors.search ? (
+                <div className="error-message">{errors.search}</div>
               ): null}
                 <InputGroup.Append>
-                  <Button type="submit" className="font-weight-bold form-btn ml-2" disabled={isSubmitting}
+                  <Button type="submit" className="font-weight-bold" disabled={isSubmitting}
                     style={{
                       backgroundColor: '#f6aa1c',
-                      border: '1px solid #f6aa1c',
                       color: '#161616',
-                      borderRadius: '0.25rem',
-                    }}><Search/></Button>
+                    }}
+                  ><Search/></Button>
                 </InputGroup.Append>
               </InputGroup>
             </Form>
@@ -141,7 +141,7 @@ const Navigation = ({history}) => {
 
             <Nav.Link as={RouterLink} to="/">Home</Nav.Link>
             {user && <><Nav.Link as={RouterLink} to="/upload">Upload</Nav.Link>
-              <Nav.Link as={RouterLink} to="/favourites">Followed</Nav.Link>
+              <Nav.Link as={RouterLink} to="/followed">Followed</Nav.Link>
               <Nav.Link as={RouterLink} to={
                 {
                   pathname: '/profile',

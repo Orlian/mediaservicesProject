@@ -10,6 +10,7 @@ import Logout from './view/Logout';
 import {MediaProvider} from './contexts/MediaContext';
 import EditMedia from './view/EditMedia';
 import Search from './view/Search';
+import Followed from './view/Followed';
 
 const App = () => {
   return (
@@ -27,7 +28,7 @@ const App = () => {
             <Route path="/logout" component={Logout} />
             <Route path="/editmedia" component={EditMedia} />
             <Route path="/search" component={Search}/>
-            _
+            <Route path="/followed" component={Followed}/>
           </Switch>
         </div>
       </MediaProvider>
