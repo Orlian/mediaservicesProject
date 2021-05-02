@@ -223,10 +223,12 @@ const useUsers = (update = false, user, input = '') => {
       const allUsers = await Promise.all(avatars.map(async (item) => {
         return await doFetch(baseUrl + 'users/' + item.user_id, fetchOptions);
       }));
+      input = input.toLowerCase();
+
       return allUsers.filter((item) => {
         console.log('item', item, user.user_id, JSON.parse(item.full_name).skills ? JSON.parse(item.full_name).artist_name.includes(input): 'joo');
         return user.user_id !== item.user_id && ( (JSON.parse(item.full_name).skills ? JSON.parse(item.full_name).skills?.includes(input) : false) || (JSON.parse(item.full_name).genres ? JSON.parse(item.full_name).genres?.includes(input) : false) ||
-          (JSON.parse(item.full_name).regions ? JSON.parse(item.full_name).regions.includes(input) : false) || (JSON.parse(item.full_name).artist_name ? JSON.parse(item.full_name).artist_name?.includes(input) : false) ||
+          (JSON.parse(item.full_name).regions ? JSON.parse(item.full_name).regions.toLowerCase().includes(input) : false) || (JSON.parse(item.full_name).artist_name ? JSON.parse(item.full_name).artist_name?.toLowerCase().includes(input) : false) ||
           item.username.includes(input));
       });
     } catch (e) {
@@ -263,8 +265,84 @@ const useUsers = (update = false, user, input = '') => {
     }
   };
 
+  const postFollow = async (user, token) => {
+    let avatars = await doFetch(baseUrl + 'tags/' + appIdentifier);
+    avatars = avatars.filter((avatar)=>{
+      return user.user_id === avatar.user_id;
+    });
 
-  return {register, getUserAvailable, getUser, putUser, getUserById, getUserRecommendations, getSearchResults, userArray};
+    const data = {
+      file_id: avatars[0].file_id,
+    };
+
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      console.log('onnistuin seuraamaan', JSON.stringify(avatars[0].file_id));
+      const result = await doFetch(baseUrl + 'favourites', fetchOptions);
+      console.log('result', result);
+      return result;
+    } catch (e) {
+      throw new Error('Following failed');
+    }
+  };
+
+  const deleteFollow = async (user, token) => {
+    let avatars = await doFetch(baseUrl + 'tags/' + appIdentifier);
+    avatars = avatars.filter((avatar)=>{
+      return user.user_id === avatar.user_id;
+    });
+
+    const fetchOptions = {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      console.log('onnistuin poistamaan seuraamisen', avatars[0].file_id);
+      const result = await doFetch(baseUrl + 'favourites/file/' + avatars[0].file_id, fetchOptions);
+      console.log('result', result);
+      return result;
+    } catch (e) {
+      throw new Error('Unfollowing failed');
+    }
+  };
+
+  const getFollows = async (token) => {
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      const response = await doFetch(baseUrl + 'favourites', fetchOptions);
+      return response;
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  const getUserAvatar = async (user) => {
+    try {
+      const avatars = await doFetch(baseUrl + 'tags/' + appIdentifier);
+      const userAvatar = avatars.filter((avatar)=>{
+        return avatar.user_id === user.user_id;
+      });
+      return userAvatar[0];
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
+  return {register, getUserAvailable, getUser, putUser, getUserById, getUserRecommendations, getSearchResults, postFollow, deleteFollow, getFollows, getUserAvatar, userArray};
 };
 
 const useLogin = () => {

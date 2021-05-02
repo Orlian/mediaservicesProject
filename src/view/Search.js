@@ -16,7 +16,7 @@ const Search = ({location}) => {
       <Container fluid>
         <Row className="d-flex justify-content-center mt-5">
           <Col xs={10}>
-            <UserTable user={user} input={input}/>
+            <UserTable user={user} input={input} sortType={'all'}/>
           </Col>
         </Row>
       </Container>

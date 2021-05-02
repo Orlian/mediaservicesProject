@@ -13,12 +13,15 @@ import MediaTable from '../components/MediaTable';
 import {Link, withRouter} from 'react-router-dom';
 import {MediaContext} from '../contexts/MediaContext';
 import PropTypes from 'prop-types';
+import {useUsers} from '../hooks/ApiHooks';
 
 const Profile = ({location}) => {
   // eslint-disable-next-line no-unused-vars
   const [user] = useContext(MediaContext);
   const userInfo = location.state;
+  const {postFollow, deleteFollow, getFollows, getUserAvatar} = useUsers(true, user);
   const [ownFiles, setOwnFiles] = useState(false);
+  const [followed, setFollowed] = useState(false);
   const [mediaType, setMediaType] = useState('all');
 
 
@@ -43,6 +46,14 @@ const Profile = ({location}) => {
             setOwnFiles(true);
           } else {
             setOwnFiles(false);
+            const follows = await getFollows(localStorage.getItem('token'));
+            const avatar = await getUserAvatar(userInfo);
+            console.log('follows', follows, avatar);
+            follows.forEach((follow)=>{
+              if (follow?.file_id === avatar?.file_id) {
+                setFollowed(true);
+              }
+            });
           }
         } catch (e) {
           console.log(e.message);
@@ -53,11 +64,12 @@ const Profile = ({location}) => {
 
   useEffect(()=>{
 
-  }, [mediaType, ownFiles]);
+  }, [mediaType, ownFiles, followed]);
 
   console.log('ownFiles end', ownFiles);
   console.log('user from context end', user);
   console.log('mikä olet userInfo end', userInfo);
+  console.log('follow', followed);
   return (
     <Container fluid className="bg-dark"
       style={{
@@ -140,7 +152,7 @@ const Profile = ({location}) => {
                     </Col>
                   </Row>
                   <Card.Text>{ownFiles ? user?.full_name.bio : parsedInfo?.bio}</Card.Text>
-                  {!ownFiles &&
+                  {!ownFiles && !followed &&
                   <Button className="w-25 font-weight-bold form-btn"
                     style={{
                       backgroundColor: '#f6aa1c',
@@ -148,9 +160,44 @@ const Profile = ({location}) => {
                       color: '#161616',
                       borderRadius: '30em',
                       marginTop: '1rem',
-                    }}>
+                    }}
+                    onClick={
+                      () => {
+                        try {
+                          postFollow(userInfo,
+                              localStorage.getItem('token'));
+                          setFollowed(true);
+                        } catch (e) {
+                          console.log(e.message);
+                        }
+                      }
+                    }
+                  >
                     FOLLOW
                   </Button>
+                  }{!ownFiles && followed &&
+                <Button className="w-25 font-weight-bold form-btn"
+                  style={{
+                    backgroundColor: '#f6aa1c',
+                    border: '1px solid #f6aa1c',
+                    color: '#161616',
+                    borderRadius: '30em',
+                    marginTop: '1rem',
+                  }}
+                  onClick={
+                    () => {
+                      try {
+                        deleteFollow(userInfo,
+                            localStorage.getItem('token'));
+                        setFollowed(false);
+                      } catch (e) {
+                        console.log(e.message);
+                      }
+                    }
+                  }
+                >
+                  UNFOLLOW
+                </Button>
                   }
                 </Card.Body>
               </Col>
