@@ -24,7 +24,7 @@ const Profile = ({location}) => {
 
   let parsedInfo;
 
-  if (user?.user_id !== userInfo?.user_id) {
+  if (user?.user_id !== userInfo?.user_id && user !== null) {
     parsedInfo = JSON.parse(userInfo.full_name);
   }
 
@@ -128,7 +128,7 @@ const Profile = ({location}) => {
                       <h2 className="h5">Genres: </h2>
                     </Col>
                     <Col xs={'auto'} className="pl-0">
-                      <p>{ownFiles ? user?.full_name.genres?.join(',') : parsedInfo?.genres?.join(', ') }</p>
+                      <p>{ownFiles ? user?.full_name.genres?.join(', ') : parsedInfo?.genres.join(', ') }</p>
                     </Col>
                   </Row>
                   <Row>
@@ -139,7 +139,7 @@ const Profile = ({location}) => {
                       <h2 className="h5">Skills:</h2>
                     </Col>
                     <Col xs={'auto'} className="pl-0">
-                      <p>{ownFiles ? user?.full_name.skills?.join(', ') : parsedInfo?.skills?.join(', ')}</p>
+                      <p>{ownFiles ? user?.full_name.skills?.join(', ') : parsedInfo?.skills.join(', ')}</p>
                     </Col>
                   </Row>
                   <Card.Text>{ownFiles ? user?.full_name.bio : parsedInfo?.bio}</Card.Text>
