@@ -121,14 +121,27 @@ const useMedia = (update = false, ownFiles, currentUser) => {
 const useUsers = (update = false, user, input = '') => {
   const [userArray, setUserArray] = useState([]);
   if (update) {
-    useEffect(async () => {
-      try {
-        const users = await getUserRecommendations(localStorage.getItem('token'), user);
-        setUserArray(users);
-      } catch (e) {
-        console.error('useUsers error', e.message);
-      }
-    }, []);
+    if (input === '') {
+      useEffect(async () => {
+        try {
+          const users = await getUserRecommendations(
+              localStorage.getItem('token'), user);
+          setUserArray(users);
+        } catch (e) {
+          console.error('useUsers error', e.message);
+        }
+      }, []);
+    } else {
+      useEffect(async () => {
+        try {
+          const users = await getSearchResults(
+              localStorage.getItem('token'), input, user);
+          setUserArray(users);
+        } catch (e) {
+          console.error('useUsers error', e.message);
+        }
+      }, []);
+    }
   }
   const register = async (inputs) => {
     const fetchOptions = {
@@ -201,8 +214,8 @@ const useUsers = (update = false, user, input = '') => {
         'x-access-token': token,
       },
     };
-    input = input.toLowerCase();
     try {
+      console.log('getsearchresults', input, user);
       let avatars = await doFetch(baseUrl + 'tags/' + appIdentifier);
       avatars = avatars.filter((avatar)=>{
         return !!JSON.parse(avatar.description).skills;
@@ -211,8 +224,10 @@ const useUsers = (update = false, user, input = '') => {
         return await doFetch(baseUrl + 'users/' + item.user_id, fetchOptions);
       }));
       return allUsers.filter((item) => {
-        return user.user_id !== item.user_id && (JSON.parse(item.full_name).skills?.includes(input) || JSON.parse(item.full_name).genres?.toLowerCase().includes(input)||
-        JSON.parse(item.full_name).regions.toLowerCase().includes(input));
+        console.log('item', item, user.user_id, JSON.parse(item.full_name).skills ? JSON.parse(item.full_name).artist_name.includes(input): 'joo');
+        return user.user_id !== item.user_id && ( (JSON.parse(item.full_name).skills ? JSON.parse(item.full_name).skills?.includes(input) : false) || (JSON.parse(item.full_name).genres ? JSON.parse(item.full_name).genres?.includes(input) : false) ||
+          (JSON.parse(item.full_name).regions ? JSON.parse(item.full_name).regions.includes(input) : false) || (JSON.parse(item.full_name).artist_name ? JSON.parse(item.full_name).artist_name?.includes(input) : false) ||
+          item.username.includes(input));
       });
     } catch (e) {
       console.log(e.message);
