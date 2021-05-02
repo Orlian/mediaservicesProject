@@ -40,6 +40,12 @@ body {
   }
 }
 
+.sortButton {
+  font-family: Montserrat, sans-serif;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
 .sortButton:hover{
   color: $yellow;
 }

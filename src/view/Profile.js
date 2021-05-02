@@ -22,8 +22,8 @@ const Profile = ({location}) => {
   console.log('user from context', user);
   console.log('mikä olet userInfo', userInfo);
 
-  let parsedInfo;
 
+  let parsedInfo;
   if (user?.user_id !== userInfo?.user_id && user !== null) {
     parsedInfo = JSON.parse(userInfo.full_name);
   }
@@ -55,9 +55,8 @@ const Profile = ({location}) => {
   console.log('user from context end', user);
   console.log('mikä olet userInfo end', userInfo);
   return (
-    <Container fluid
+    <Container fluid className="bg-dark"
       style={{
-        backgroundColor: '#161616',
         minHeight: '100vh',
       }}
     >
@@ -68,18 +67,10 @@ const Profile = ({location}) => {
       </Row>
       <section>
         <Container className="py-3">
-          <Card
-            style={{
-              border: '1px solid #f8f8ff',
-              backgroundColor: '#161616',
-              color: '#f8f8ff',
-            }}
-          >
+          <Card className="p-3">
             <Row>
               <Col md={{order: 'last', col: 2}}
-                className=" d-flex justify-content-md-end justify-content-center"
-
-              >
+                className=" d-flex justify-content-md-end justify-content-center">
                 <Card.Img src="logo512.png" id="profile-card-avatar" alt="#" className="w-75"
                   style={{
                     maxHeight: '400px',
@@ -93,21 +84,20 @@ const Profile = ({location}) => {
                       <Card.Title className="h4 position-relative">
                         {ownFiles ? user?.username : userInfo?.username}</Card.Title>
                     </Col>
+                    <Col xs={7}>
+                      <Card.Text>{ownFiles ? user?.full_name.artist_name : parsedInfo?.artist_name}</Card.Text>
+                    </Col>
                     {ownFiles &&
                     <Col xs={{col: 'auto', offset: 3}}>
                       <Button
-                        style={{
-                          backgroundColor: '#f6aa1c',
-                        }}
+                        className="card-controls"
                         as={Link} to={
                           {
                             pathname: '/editprofile',
                           }
                         }
                       >
-                        <FaUserEdit style={{
-                          color: '#161616',
-                        }}/>
+                        <FaUserEdit/>
                       </Button>
                     </Col>
                     }
@@ -116,16 +106,13 @@ const Profile = ({location}) => {
                     <Col xs={'auto'}>
                       <GeoAltFill/>
                     </Col>
-                    <Col xs={'auto'}>
-                      <h2 className="h5">{ownFiles ? user?.full_name.regions : parsedInfo?.regions}</h2>
+                    <Col xs={'auto'} className="pl-0">
+                      <p>{ownFiles ? user?.full_name.regions : parsedInfo?.regions}</p>
                     </Col>
                   </Row>
                   <Row>
                     <Col xs={'auto'}>
                       <MusicNoteBeamed/>
-                    </Col>
-                    <Col xs={'auto'}>
-                      <h2 className="h5">Genres: </h2>
                     </Col>
                     <Col xs={'auto'} className="pl-0">
                       <p>{ownFiles ? user?.full_name.genres?.join(', ') : parsedInfo?.genres.join(', ') }</p>
@@ -134,9 +121,6 @@ const Profile = ({location}) => {
                   <Row>
                     <Col xs={'auto'}>
                       <GiGuitar/>
-                    </Col>
-                    <Col xs={'auto'}>
-                      <h2 className="h5">Skills:</h2>
                     </Col>
                     <Col xs={'auto'} className="pl-0">
                       <p>{ownFiles ? user?.full_name.skills?.join(', ') : parsedInfo?.skills.join(', ')}</p>
@@ -174,7 +158,7 @@ const Profile = ({location}) => {
                     }
                   }
                 >
-                  All media
+                  ALL MEDIA
                 </Button>
               </Col>
               <Col xs={'auto'}>
@@ -190,7 +174,7 @@ const Profile = ({location}) => {
                     }
                   }
                 >
-                  Audio
+                  AUDIO
                 </Button>
               </Col>
               <Col xs={'auto'}>
@@ -206,7 +190,7 @@ const Profile = ({location}) => {
                     }
                   }
                 >
-                  Videos
+                  VIDEOS
                 </Button>
               </Col>
               <Col xs={'auto'}>
@@ -222,7 +206,7 @@ const Profile = ({location}) => {
                     }
                   }
                 >
-                  Images
+                  IMAGES
                 </Button>
               </Col>
             </Row>

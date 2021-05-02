@@ -7,7 +7,6 @@ import {
 import {useEffect, useState} from 'react';
 import {uploadsUrl} from '../utils/variables';
 import {MusicNoteBeamed, PencilSquare, Trash} from 'react-bootstrap-icons';
-import {MdPageview} from 'react-icons/md';
 import {useUsers} from '../hooks/ApiHooks';
 import {Link, withRouter} from 'react-router-dom';
 
@@ -40,7 +39,18 @@ const MediaRow = ({file, ownFiles, deleteMedia}) => {
 
   return (
     <>
-      <Card className="media-card">
+      <Card className="media-card"
+        as={Link} to={
+          {
+            pathname: '/single',
+            state: file,
+          }
+        }
+        style={{
+          textDecoration: 'none',
+          color: '#f8f8ff',
+
+        }}>
         <Card.Text className="font-weight-bold pl-3 py-2 mb-0">
           {owner?.username}</Card.Text>
         <Card.Header className="d-flex justify-content-center p-0 m-0"
@@ -78,56 +88,49 @@ const MediaRow = ({file, ownFiles, deleteMedia}) => {
           </div>
           <Card.Text>{JSON.parse(file.description).description}</Card.Text>
         </Card.Body>
-        <Card.Footer className="d-flex justify-content-around">
-          <Button
-            as={Link} to={
-              {
-                pathname: '/single',
-                state: file,
-              }
-            }
-            className="card-controls">
-            <MdPageview style={{
-              fontSize: '18px',
-            }}/>
-          </Button>
-          {ownFiles &&
+
+
+        {ownFiles &&
           <>
-            <Button as={Link} to={
-              {
-                pathname: '/editmedia',
-                state: file,
-              }
-            }
-            className="card-controls">
-              <PencilSquare style={{
-                fontSize: '18px',
-              }}/>
-            </Button>
-            <Button
-              className="card-controls"
-              onClick={() => {
-                try {
-                  const conf = confirm('Do you really want to delete?');
-                  if (conf) {
-                    deleteMedia(file.file_id,
-                        localStorage.getItem('token'));
-                  }
-                } catch (e) {
-                  console.log(e.message);
+            <Card.Footer className="d-flex justify-content-end">
+              <Button as={Link} to={
+                {
+                  pathname: '/editmedia',
+                  state: file,
                 }
               }
-              }
-            >
-              <Trash/>
-            </Button>
+              className="card-controls">
+                <PencilSquare style={{
+                  fontSize: '18px',
+                }}/>
+              </Button>
+              <Button
+                className="card-controls"
+                onClick={() => {
+                  try {
+                    const conf = confirm('Do you really want to delete?');
+                    if (conf) {
+                      deleteMedia(file.file_id,
+                          localStorage.getItem('token'));
+                    }
+                  } catch (e) {
+                    console.log(e.message);
+                  }
+                }
+                }
+              >
+                <Trash/>
+              </Button>
+            </Card.Footer>
           </>
-          }
-        </Card.Footer>
+        }
+
       </Card>
     </>
   );
 };
+
+
 MediaRow.propTypes = {
   file: PropTypes.object,
   ownFiles: PropTypes.bool,
