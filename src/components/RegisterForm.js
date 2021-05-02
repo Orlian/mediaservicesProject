@@ -60,7 +60,7 @@ const RegisterForm = ({setToggle}) => {
     confirm: '',
     bio: '',
     checked: [],
-    selected: '',
+    selected: 'Helsinki',
     skills: [],
   };
 
