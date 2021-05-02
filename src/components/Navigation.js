@@ -1,5 +1,12 @@
 /* eslint-disable max-len */
-import {Navbar, Nav, Form, FormControl, Button} from 'react-bootstrap';
+import {
+  Navbar,
+  Nav,
+  Form,
+  FormControl,
+  Button,
+  InputGroup,
+} from 'react-bootstrap';
 import {Search} from 'react-bootstrap-icons';
 import {Link as RouterLink} from 'react-router-dom';
 import {withRouter} from 'react-router-dom';
@@ -7,11 +14,17 @@ import {useContext, useEffect} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
 import {useUsers} from '../hooks/ApiHooks';
 import PropTypes from 'prop-types';
-
+import {Formik} from 'formik';
+import * as yup from 'yup';
 
 const Navigation = ({history}) => {
   const [user, setUser] = useContext(MediaContext);
   const {getUser} = useUsers();
+
+  const validationSchema = yup.object({
+    search: yup.string().min(1).required('Write something').matches(/^[a-zA-Z 0-9'*_.-]*$/,
+        'Invalid characters'),
+  });
 
   useEffect(() => {
     const checkUser = async () => {
@@ -37,6 +50,18 @@ const Navigation = ({history}) => {
     checkUser();
   }, []);
 
+  const doSearch = async (input) => {
+    try {
+      const location = {
+        pathname: '/search',
+        state: input,
+      };
+      history.push(location);
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
 
   return (
     <>
@@ -56,29 +81,59 @@ const Navigation = ({history}) => {
             alt="React Bootstrap logo"
           />
         </Navbar.Brand>
-        <Form inline className="mr-0 position-absolute"
-          style={{
-            left: '50%',
-            top: '0.5rem',
-            webkitTransform: 'translateX(-50%)',
-            transform: 'translateX(-50%)',
-          }}
-        >
-          <FormControl type="text"
-            placeholder="Search users by tag"
-            className="mr-sm-5 w-100 pr-5 position-relative"
-          />
-          <Button
-            className="position-absolute"
-            style={{
-              right: '48px',
-              backgroundColor: 'inherit',
-              border: 'none',
-            }}
-          >
-            <Search color="#161616"/>
-          </Button>
-        </Form>
+        <Formik initialValues={{search: ''}} validationSchema={validationSchema} onSubmit={(values, {setSubmitting, resetForm}) => {
+          setSubmitting(true);
+          doSearch(values);
+          setTimeout(() => {
+            resetForm();
+            setSubmitting(false);
+          }, 500);
+        }}>
+          {( {values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting}) => (
+            <Form onSubmit={handleSubmit} inline className="mr-0 position-absolute"
+              style={{
+                left: '50%',
+                top: '0.5rem',
+                webkitTransform: 'translateX(-50%)',
+                transform: 'translateX(-50%)',
+              }}
+            >
+              <InputGroup className="mb-3">
+                <FormControl
+                  placeholder="Search..."
+                  aria-label="Search"
+                  type="text"
+                  name="search"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={touched.comment && errors.comment ?
+                    'error' : null}
+                  value={values.comment}
+                  style={{
+                    borderRadius: '0.25rem',
+                  }}
+                />{touched.comment && errors.comment ? (
+                <div className="error-message">{errors.comment}</div>
+              ): null}
+                <InputGroup.Append>
+                  <Button type="submit" className="font-weight-bold form-btn ml-2" disabled={isSubmitting}
+                    style={{
+                      backgroundColor: '#f6aa1c',
+                      border: '1px solid #f6aa1c',
+                      color: '#161616',
+                      borderRadius: '0.25rem',
+                    }}><Search/></Button>
+                </InputGroup.Append>
+              </InputGroup>
+            </Form>
+          )}
+        </Formik>
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="justify-content-end w-100">
@@ -96,8 +151,6 @@ const Navigation = ({history}) => {
             </>}
             {user ? <Nav.Link as={RouterLink} to="/logout">Logout</Nav.Link> :
               <Nav.Link as={RouterLink} to="/login">Login</Nav.Link> }
-
-
           </Nav>
         </Navbar.Collapse>
       </Navbar>

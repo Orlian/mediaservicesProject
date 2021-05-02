@@ -9,6 +9,7 @@ import Upload from './view/Upload';
 import Logout from './view/Logout';
 import {MediaProvider} from './contexts/MediaContext';
 import EditMedia from './view/EditMedia';
+import Search from './view/Search';
 
 const App = () => {
   return (
@@ -25,6 +26,8 @@ const App = () => {
             <Route path="/upload" component={Upload} />
             <Route path="/logout" component={Logout} />
             <Route path="/editmedia" component={EditMedia} />
+            <Route path="/search" component={Search}/>
+            _
           </Switch>
         </div>
       </MediaProvider>
