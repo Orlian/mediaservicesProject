@@ -159,7 +159,7 @@ const Single = ({location}) => {
                       handleSubmit,
                       isSubmitting}) => (
                       <Form onSubmit={handleSubmit}>
-                        <InputGroup className="mb-3">
+                        <InputGroup className="my-3">
                           <FormControl
                             as="textarea" rows={2}
                             placeholder="Please comment"
