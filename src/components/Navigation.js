@@ -53,7 +53,7 @@ const Navigation = ({history}) => {
   const doSearch = async (input) => {
     try {
       const location = {
-        pathname: '/search',
+        pathname: '/searchwait',
         state: input,
       };
       history.push(location);

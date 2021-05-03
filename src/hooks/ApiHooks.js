@@ -29,7 +29,7 @@ const useMedia = (update = false, ownFiles, currentUser) => {
       } catch (e) {
         console.error(e.message);
       }
-    }, [currentUser]);
+    }, [currentUser, update]);
   }
 
 
@@ -107,6 +107,7 @@ const useMedia = (update = false, ownFiles, currentUser) => {
       if (response) {
         const media = await getMedia();
         setMediaArray(media);
+        return true;
       }
     } catch (e) {
       throw new Error('delete failed');
@@ -207,6 +208,14 @@ const useUsers = (update = false, user, input = '') => {
     }
   };
 
+  const searchFilter = (input, array) => {
+    const regex = new RegExp(input, 'gi');
+    const result = array.filter((item) => {
+      return item.match(regex);
+    });
+    console.log('searchFilter result', result);
+    return result.length > 0;
+  };
   const getSearchResults = async (token, input, user) => {
     const fetchOptions = {
       method: 'GET',
@@ -227,8 +236,8 @@ const useUsers = (update = false, user, input = '') => {
 
       return allUsers.filter((item) => {
         // console.log('item', item, user.user_id, JSON.parse(item.full_name).skills ? JSON.parse(item.full_name).artist_name.includes(input): 'joo');
-        return user.user_id !== item.user_id && ( (JSON.parse(item.full_name).skills ? JSON.parse(item.full_name).skills?.map((item) => (item.toLowerCase())).includes(input) : false) || (JSON.parse(item.full_name).genres ? JSON.parse(item.full_name).genres?.map((item) => (item.toLowerCase())).includes(input) : false) ||
-          (JSON.parse(item.full_name).regions ? JSON.parse(item.full_name).regions.toLowerCase().includes(input) : false) || (JSON.parse(item.full_name).artist_name ? JSON.parse(item.full_name).artist_name?.toLowerCase().includes(input) : false) ||
+        return user.user_id !== item.user_id && ( (searchFilter(input, JSON.parse(item.full_name).skills)) || searchFilter(input, JSON.parse(item.full_name).genres) ||
+          (JSON.parse(item.full_name).regions.toLowerCase().includes(input)) || JSON.parse(item.full_name).artist_name?.toLowerCase().includes(input) ||
           item.username.includes(input));
       });
     } catch (e) {
@@ -399,12 +408,11 @@ const useTag = () => {
 
 const useComment = (update = false, file) => {
   const [commentArray, setCommentArray] = useState([]);
-
+  console.log('useComments update', update);
   if (update) {
     useEffect(() => {
       try {
         (async () => {
-          console.log('useComment useEffect on tässä update', update);
           const comments = await getComment(file.file_id);
           setCommentArray(comments);
         })();

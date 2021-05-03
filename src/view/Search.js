@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 const Search = ({location}) => {
   const [user] = useContext(MediaContext);
-  const input = location.state.search;
+  const input = location.state;
 
   console.log(input);
 

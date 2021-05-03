@@ -7,15 +7,15 @@ import {
 import {useEffect, useState} from 'react';
 import {uploadsUrl} from '../utils/variables';
 import {MusicNoteBeamed, PencilSquare, Trash} from 'react-bootstrap-icons';
-import {useUsers} from '../hooks/ApiHooks';
+import {useComment, useUsers} from '../hooks/ApiHooks';
 import {Link, withRouter} from 'react-router-dom';
 
-const MediaRow = ({file, ownFiles, deleteMedia}) => {
+const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
   const {getUserById} = useUsers();
+  const {commentArray} = useComment(true, file);
   const [owner, setOwner] = useState(null);
   let genreString = '';
-
-
+  console.log('MediaRow update', update);
   {
     JSON.parse(file.description).genres?.forEach(
         (genre) => {
@@ -36,16 +36,10 @@ const MediaRow = ({file, ownFiles, deleteMedia}) => {
       }
     })();
   }, []);
-
+  console.log('CommentCount', commentArray.length);
   return (
     <>
       <Card className="media-card"
-        as={Link} to={
-          {
-            pathname: '/single',
-            state: file,
-          }
-        }
         style={{
           textDecoration: 'none',
           color: '#f8f8ff',
@@ -55,6 +49,12 @@ const MediaRow = ({file, ownFiles, deleteMedia}) => {
         <Card.Text className="font-weight-bold pl-3 py-2 mb-0">
           {owner?.username}</Card.Text>
         <Card.Header className="d-flex justify-content-center p-0 m-0"
+          as={Link} to={
+            {
+              pathname: '/single',
+              state: file,
+            }
+          }
           style={{
             width: '100%',
             height: '260px',
@@ -88,6 +88,7 @@ const MediaRow = ({file, ownFiles, deleteMedia}) => {
             <Card.Text className="ml-2 mb-3">{genreString}</Card.Text>
           </div>
           <Card.Text>{JSON.parse(file.description).description}</Card.Text>
+          <Card.Text>{commentArray.length}</Card.Text>
         </Card.Body>
 
 
@@ -107,12 +108,17 @@ const MediaRow = ({file, ownFiles, deleteMedia}) => {
               </Button>
               <Button
                 className="card-controls"
-                onClick={() => {
+                onClick={async () => {
                   try {
                     const conf = confirm('Do you really want to delete?');
                     if (conf) {
-                      deleteMedia(file.file_id,
+                      const response = await deleteMedia(file.file_id,
                           localStorage.getItem('token'));
+                      if (response) {
+                        const newUpdate = update + 1;
+                        console.log('newUpdate mediaRow', newUpdate);
+                        setUpdate(newUpdate);
+                      }
                     }
                   } catch (e) {
                     console.log(e.message);
@@ -136,5 +142,7 @@ MediaRow.propTypes = {
   file: PropTypes.object,
   ownFiles: PropTypes.bool,
   deleteMedia: PropTypes.func,
+  update: PropTypes.number,
+  setUpdate: PropTypes.func,
 };
 export default withRouter(MediaRow);
