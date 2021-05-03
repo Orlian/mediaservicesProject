@@ -364,7 +364,7 @@ const useUsers = (update = false, user, input = '', follows = false) => {
       });
       return userAvatar[0];
     } catch (e) {
-      alert(e.message);
+      console.error(e.message);
     }
   };
 
@@ -489,6 +489,58 @@ const useComment = (update = false, file) => {
   return {postComment, getComment, deleteComment, commentArray, commentAuthor};
 };
 
-export {useMedia, useUsers, useLogin, useTag, useComment};
+const useRating = (fileId, user) => {
+  const [ratingArray, setRatingArray] = useState([]);
+
+  useEffect(() => {
+    try {
+
+    } catch (e) {
+      console.error(e.message);
+    }
+  }, []);
+  const postRating = async (token, fileId, rating) => {
+    const data = {
+      file_id: fileId,
+      rating: rating,
+    };
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      return await doFetch(baseUrl + 'ratings', fetchOptions);
+    } catch (e) {
+      throw new Error('rating failed');
+    }
+  };
+  const deleteRating = async (fileId, token) =>{
+    const fetchOptions = {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    try {
+      return await doFetch(baseUrl + 'ratings/file/' +fileId, fetchOptions);
+    } catch (e) {
+      throw new Error('delete failed');
+    }
+  };
+  const getRating = async (fileId) => {
+    try {
+      return await doFetch(baseUrl + 'ratings/file/' + fileId);
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+  return {getRating, postRating, deleteRating};
+};
+
+export {useMedia, useUsers, useLogin, useTag, useComment, useRating};
 
 
