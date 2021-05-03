@@ -12,7 +12,7 @@ const Followed = () => {
       <Container fluid>
         <Row className="d-flex justify-content-center mt-5">
           <Col xs={10}>
-            <UserTable user={user}/>
+            <UserTable user={user} follows={true} sortType={'all'}/>
           </Col>
         </Row>
       </Container>
