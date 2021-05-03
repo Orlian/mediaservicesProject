@@ -78,7 +78,8 @@ const Single = ({location}) => {
       </Row>
       <section>
         <Container className="py-3">
-          <Card>
+          <Card className="h-auto" xs={12}
+          >
             <Card.Text
               className="font-weight-bold pl-4 py-2 mb-0">
               {owner?.username}</Card.Text>
@@ -113,7 +114,7 @@ const Single = ({location}) => {
                 }}/>
               }
             </Card.Header>
-            <Card.Body className="px-4">
+            <Card.Body>
               <Card.Title className="mb-1">{file.title}</Card.Title>
               <div className="d-flex text-muted">
                 <MusicNoteBeamed/>
