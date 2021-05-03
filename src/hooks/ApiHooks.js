@@ -484,14 +484,22 @@ const useComment = (update = false, file) => {
   return {postComment, getComment, deleteComment, commentArray};
 };
 
-const useRating = (user, update = false, fileId) => {
+const useRating = (user, fileId, update = false) => {
   const [ratingArray, setRatingArray] = useState([]);
   const [rating, setRating] = useState(0);
+  const [avgRating, setAvgRating] = useState(0);
 
   if (update) {
     useEffect(async () => {
       try {
         const ratings = await getRating(fileId);
+        console.log('fileIDDDDDDD', fileId);
+        let sum = 0;
+        ratings?.forEach((item) => {
+          return sum = sum + item.rating;
+        });
+        console.log('useRating average, sum', sum);
+        setAvgRating((sum / ratings.length));
         setRatingArray(ratings);
         const ratingMatch = ratings?.filter((item) => {
           return item.user_id === user?.user_id;
@@ -502,7 +510,7 @@ const useRating = (user, update = false, fileId) => {
       } catch (e) {
         console.error(e.message);
       }
-    }, []);
+    }, [update]);
   }
 
   const postRating = async (token, fileId, rating) => {
@@ -544,7 +552,7 @@ const useRating = (user, update = false, fileId) => {
       alert(e.message);
     }
   };
-  return {getRating, postRating, deleteRating, ratingArray, rating, setRating};
+  return {getRating, postRating, deleteRating, ratingArray, rating, setRating, avgRating};
 };
 
 export {useMedia, useUsers, useLogin, useTag, useComment, useRating};

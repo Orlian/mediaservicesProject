@@ -22,11 +22,11 @@ const Single = ({location}) => {
   const {postComment} = useComment();
   const [user] = useContext(MediaContext);
   const file = location.state;
-  const {rating, setRating} = useRating(user, true, file.file_id);
+  const {rating, setRating, avgRating} = useRating(user, file?.file_id, update);
   const desc = JSON.parse(file?.description);
   console.log('Single file', file);
   let genreString = '';
-
+  console.log('avgRating', avgRating);
 
   {JSON.parse(file.description).genres?.forEach(
       (genre) =>{
@@ -133,7 +133,7 @@ const Single = ({location}) => {
                     Small Modal
                   </Modal.Title>
                 </Modal.Header>
-                <Modal.Body><RatingForm rating={rating} setRating={setRating} user={user} update={update} fileId={file.file_id}/></Modal.Body>
+                <Modal.Body><RatingForm rating={rating} setRating={setRating} user={user} update={update} setUpdate={setUpdate} fileId={file.file_id}/></Modal.Body>
               </Modal>
               <Row className="d-flex justify-content-end">
                 <Col xs={'auto'} >
@@ -142,7 +142,7 @@ const Single = ({location}) => {
                       fontSize: '18px',
                     }}/>
                   </Button>
-                  <Card.Text variant="small" className=" text-muted my-2 mx-0"></Card.Text>
+                  <Card.Text variant="small" className=" text-muted my-2 mx-0">{avgRating === 0 ? 'No ratings yet' : avgRating}</Card.Text>
 
                 </Col>
                 {user?.user_id === file.user_id &&
