@@ -43,8 +43,7 @@ const Navigation = ({history}) => {
         console.log('oletko objekti?', newUser);
         setUser(newUser);
       } catch (e) {
-        // send to login
-        history.push('/login');
+        console.log(e.message);
       }
     };
     checkUser();
