@@ -2,7 +2,7 @@
 import BackButton from '../components/BackButton';
 import PropTypes from 'prop-types';
 import {Button, Card, Col, Container, Row, InputGroup, FormControl, Form} from 'react-bootstrap';
-import {MusicNoteBeamed, CardText, PencilSquare} from 'react-bootstrap-icons';
+import {MusicNoteBeamed, PencilSquare} from 'react-bootstrap-icons';
 import {FaStar} from 'react-icons/fa';
 import {useContext, useEffect, useState} from 'react';
 import {uploadsUrl} from '../utils/variables';
@@ -66,12 +66,11 @@ const Single = ({location}) => {
   console.log('owner', owner);
 
   return (
-    <Container fluid
+    <Container
+      fluid className="bg-dark"
       style={{
-        backgroundColor: '#161616',
         minHeight: '100vh',
-      }}
-    >
+      }}>
       <Row>
         <Col xs={'auto'} className="d-flex justify-content-center mt-2 ml-2">
           <BackButton />
@@ -79,179 +78,128 @@ const Single = ({location}) => {
       </Row>
       <section>
         <Container className="py-3">
-          <Card
-            style={{
-              border: '1px solid #f8f8ff',
-              backgroundColor: '#161616',
-              color: '#f8f8ff',
-            }}
-          >
-            <Row>
-              <Col md={{order: 'last', col: 2}}
-                className=" d-flex justify-content-md-end justify-content-center"
-              >
-                <Card.Img src="logo512.png" id="single-card-avatar" alt="#" className="w-75"
-                  style={{
-                    position: 'relative',
-                    maxHeight: '400px',
-                  }}
-                />
-                <Card.ImgOverlay>
-                  <Card.Text
-                    style={{
-                      width: 'fit-content',
-                      backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                    }}
-                  >{owner?.username} {/* JSON.parse(owner?.full_name).artist_name */}</Card.Text>
-                </Card.ImgOverlay>
-              </Col>
+          <Card>
+            <Card.Text
+              className="font-weight-bold pl-4 py-2 mb-0">
+              {owner?.username}</Card.Text>
+            <Card.Header
+              className="d-flex justify-content-center p-0 m-0"
+              style={{
+                width: '100%',
+                height: '100%',
+              }}>
+              {file.media_type === 'image' &&
+              <img src={uploadsUrl + file.filename} alt={file.title}
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  objectFit: 'cover',
+                }}
+              />
+              }
+              { file.media_type === 'video' &&
+              <video src={uploadsUrl + file.filename} controls
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  objectFit: 'cover',
+                }}/>
+              }
+              {file.media_type === 'audio' &&
+              <audio src={uploadsUrl + file.filename} controls
+                className="mb-4"
+                style={{
+                  width: '80%',
+                }}/>
+              }
+            </Card.Header>
+            <Card.Body className="px-4">
+              <Card.Title className="mb-1">{file.title}</Card.Title>
+              <div className="d-flex text-muted">
+                <MusicNoteBeamed/>
+                <Card.Text className="ml-2 mb-3">{genreString}</Card.Text>
+              </div>
+              <Card.Text>{desc.description}</Card.Text>
+              <Row className="d-flex justify-content-end">
+                <Col xs={'auto'} >
+                  <Button className="card-actions">
+                    <FaStar style={{
+                      fontSize: '18px',
+                    }}/>
+                  </Button>
+                  <Card.Text variant="small" className=" text-muted my-2 mx-0">3,7 stars</Card.Text>
 
-              <Col md={{order: 'first', col: 5}} className="px-3">
-                <Card.Body className="px-3">
-                  <Row className="d-flex justify-content-center">
+                </Col>
+                {user?.user_id === file.user_id &&
                     <Col xs={'auto'}>
-                      {file.media_type === 'image' &&
-                      <img src={uploadsUrl + file.filename} alt={file.title}
-                        style={{
-                          maxWidth: '300px',
-                          height: 'auto',
-                        }}
-                      />
-                      }
-                      { file.media_type === 'video' &&
-                        <video src={uploadsUrl + file.filename} controls/>
-                      }
-                      {file.media_type === 'audio' &&
-                        <audio src={uploadsUrl + file.filename} controls/>
-                      }
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col xs={'auto'}>
-                      <CardText/>
-                    </Col>
-                    <Col xs={'auto'}>
-                      <h2 className="h5">Title:</h2>
-                    </Col>
-                    <Col xs={10} className="ml-5">
-                      <p>{file.title}</p>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col xs={'auto'}>
-                      <CardText/>
-                    </Col>
-                    <Col xs={'auto'}>
-                      <h2 className="h5">Description:</h2>
-                    </Col>
-                    <Col xs={10} className="ml-5">
-                      <p>{desc.description}</p>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col xs={'auto'}>
-                      <MusicNoteBeamed/>
-                    </Col>
-                    <Col xs={'auto'}>
-                      <h5>Genres:</h5>
-                    </Col>
-                    <Col xs={'auto'} className="pl-0">
-                      <p>{genreString}</p>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col xs={'auto'}>
-                      <Button
-                        style={{
-                          backgroundColor: '#f6aa1c',
-                        }}
-                      >
-                        <FaStar
+                      <Button className="card-controls">
+                        <PencilSquare
                           style={{
-                            color: '#161616',
+                            fontSize: '18px',
                           }}/>
                       </Button>
                     </Col>
-                    <Col xs={'auto'} className="p-0">
-                      <p
-                        style={{
-                          padding: '0.5rem 0',
-                        }}
-                      >3,7 stars</p>
-                    </Col>
-                    {user?.user_id === file.user_id &&
-                    <Col xs={'auto'}>
-                      <Button
-                        style={{
-                          backgroundColor: '#f6aa1c',
-                        }}
-                      >
-                        <PencilSquare style={{
-                          color: '#161616',
-                        }}/>
-                      </Button>
-                    </Col>
-                    }
-                  </Row>
-                  <Row>
-                    <Col xs={'auto'}>
-                      <h2>Comments</h2>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col xs={12}>
-                      <Formik initialValues={{comment: ''}} validationSchema={validationSchema} onSubmit={(values, {setSubmitting, resetForm}) => {
-                        setSubmitting(true);
-                        doComment(values);
-                        setTimeout(() => {
-                          resetForm();
-                          setSubmitting(false);
-                        }, 500);
-                      }}>
-                        {( {values,
-                          errors,
-                          touched,
-                          handleChange,
-                          handleBlur,
-                          handleSubmit,
-                          isSubmitting}) => (
-                          <Form onSubmit={handleSubmit}>
-                            <InputGroup className="mb-3">
-                              <FormControl
-                                placeholder="Please comment"
-                                aria-label="Comment"
-                                type="text"
-                                name="comment"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                className={touched.comment && errors.comment ?
+                }
+              </Row>
+              <Row>
+                <Col xs={12}>
+                  <Formik initialValues={{comment: ''}} validationSchema={validationSchema} onSubmit={(values, {setSubmitting, resetForm}) => {
+                    setSubmitting(true);
+                    doComment(values);
+                    setTimeout(() => {
+                      resetForm();
+                      setSubmitting(false);
+                    }, 500);
+                  }}>
+                    {( {values,
+                      errors,
+                      touched,
+                      handleChange,
+                      handleBlur,
+                      handleSubmit,
+                      isSubmitting}) => (
+                      <Form onSubmit={handleSubmit}>
+                        <InputGroup className="mb-3">
+                          <FormControl
+                            as="textarea" rows={2}
+                            placeholder="Please comment"
+                            aria-label="Comment"
+                            type="text"
+                            name="comment"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className={touched.comment && errors.comment ?
                                   'error' : null}
-                                value={values.comment}
-                                style={{
-                                  borderRadius: '0.25rem',
-                                }}
-                              />{touched.comment && errors.comment ? (
-                              <div className="error-message">{errors.comment}</div>
+                            value={values.comment}
+                            style={{
+                              borderRadius: '0.25rem',
+                            }}
+                          />{touched.comment && errors.comment ? (
+                              <div className="error-message comment-error">{errors.comment}</div>
                             ): null}
-                              <InputGroup.Append>
-                                <Button type="submit" className="font-weight-bold form-btn ml-2" disabled={isSubmitting}
-                                  style={{
-                                    backgroundColor: '#f6aa1c',
-                                    border: '1px solid #f6aa1c',
-                                    color: '#161616',
-                                    borderRadius: '0.25rem',
-                                  }}>Comment</Button>
-                              </InputGroup.Append>
-                            </InputGroup>
-                          </Form>
-                        )}
-                      </Formik>
-                    </Col>
-                  </Row>
-                  <CommentTable file={file} update={update} setUpdate={setUpdate}/>
-                </Card.Body>
-              </Col>
-            </Row>
+                          <InputGroup.Append className="d-flex align-items-center">
+                            <Button type="submit" className="font-weight-bold form-btn ml-2 comment-btn" disabled={isSubmitting}
+                              style={{
+                                backgroundColor: '#f6aa1c',
+                                border: '1px solid #f6aa1c',
+                                color: '#161616',
+                                borderRadius: '3em',
+                                height: '2.5em',
+                              }}>Comment</Button>
+                          </InputGroup.Append>
+                        </InputGroup>
+                      </Form>
+                    )}
+                  </Formik>
+                </Col>
+              </Row>
+              <Row>
+                <Card.Title className="ml-3 mt-3">Comments</Card.Title>
+              </Row>
+              <CommentTable file={file} update={update} setUpdate={setUpdate}/>
+            </Card.Body>
+
+
           </Card>
         </Container>
       </section>
