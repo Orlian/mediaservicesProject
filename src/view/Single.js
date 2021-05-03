@@ -16,6 +16,7 @@ import * as yup from 'yup';
 const Single = ({location}) => {
   const [owner, setOwner] = useState(null);
   const {getUserById, getUser} = useUsers();
+  const [update, setUpdate] = useState(1);
   const {postComment} = useComment();
   const [user] = useContext(MediaContext);
 
@@ -45,15 +46,17 @@ const Single = ({location}) => {
   }, []);
 
   const validationSchema = yup.object({
-    comment: yup.string().min(1).required('Write something').matches(/^[a-zA-Z 0-9'*_.-]*$/,
+    comment: yup.string().min(1).required('Write something').matches(/^[a-zA-Z 0-9'*:;_.-]*$/,
         'Invalid characters'),
   });
-
-  // TODO: Tästä tulee bad request oikeilla tiedoilla, selvitä
   const doComment = async (input) => {
     try {
       const result = await postComment(localStorage.getItem('token'), file.file_id, input.comment);
       console.log('doComment response', result);
+      if (result) {
+        const newUpdate = update + 1;
+        setUpdate(newUpdate);
+      }
     } catch (e) {
       console.error(e.message);
     }
@@ -245,7 +248,7 @@ const Single = ({location}) => {
                       </Formik>
                     </Col>
                   </Row>
-                  <CommentTable file={file}/>
+                  <CommentTable file={file} update={update} setUpdate={setUpdate}/>
                 </Card.Body>
               </Col>
             </Row>

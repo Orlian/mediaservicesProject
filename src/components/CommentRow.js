@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import {Row, Col, Button} from 'react-bootstrap';
 import {Trash} from 'react-bootstrap-icons';
 
-const CommentRow = ({comment, deleteComment}) => {
+const CommentRow = ({comment, deleteComment, setUpdate, update}) => {
   return (
     <>
       <Row>
@@ -12,12 +12,16 @@ const CommentRow = ({comment, deleteComment}) => {
         <Col xs={'auto'}>
           <Button
             className="card-controls"
-            onClick={() => {
+            onClick={ async () => {
               try {
                 const conf = confirm('Do you really want to delete?');
                 if (conf) {
-                  deleteComment(comment.comment_id,
+                  const response = await deleteComment(comment.comment_id,
                       localStorage.getItem('token'));
+                  if (response) {
+                    const newUpdate = update + 1;
+                    setUpdate(newUpdate);
+                  }
                 }
               } catch (e) {
                 console.log(e.message);
@@ -36,6 +40,8 @@ const CommentRow = ({comment, deleteComment}) => {
 CommentRow.propTypes = {
   comment: PropTypes.object,
   deleteComment: PropTypes.func,
+  setUpdate: PropTypes.func,
+  update: PropTypes.number,
 };
 
 export default CommentRow;

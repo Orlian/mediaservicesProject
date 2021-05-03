@@ -4,9 +4,9 @@ import CommentRow from './CommentRow';
 import {useComment} from '../hooks/ApiHooks';
 import PropTypes from 'prop-types';
 
-const CommentTable = ({file}) => {
-  const {commentArray, deleteComment} = useComment(true, file);
-  console.log('commentArray', commentArray);
+const CommentTable = ({file, update, setUpdate}) => {
+  const {commentArray, deleteComment} = useComment(update, file);
+  console.log('commentArray ja update', commentArray, update);
   return (
     <div style={{
       width: '100%',
@@ -16,7 +16,7 @@ const CommentTable = ({file}) => {
         {
           commentArray?.map((item) =>
             <Col xs={12} key={item.comment_id}>
-              <CommentRow comment={item} deleteComment={deleteComment}/>
+              <CommentRow comment={item} deleteComment={deleteComment} setUpdate={setUpdate} update={update}/>
             </Col>)
         }
       </Row>
@@ -26,6 +26,8 @@ const CommentTable = ({file}) => {
 
 CommentTable.propTypes = {
   file: PropTypes.object,
+  update: PropTypes.number,
+  setUpdate: PropTypes.func,
 };
 
 

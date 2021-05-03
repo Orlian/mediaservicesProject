@@ -226,8 +226,8 @@ const useUsers = (update = false, user, input = '') => {
       input = input.toLowerCase();
 
       return allUsers.filter((item) => {
-        console.log('item', item, user.user_id, JSON.parse(item.full_name).skills ? JSON.parse(item.full_name).artist_name.includes(input): 'joo');
-        return user.user_id !== item.user_id && ( (JSON.parse(item.full_name).skills ? JSON.parse(item.full_name).skills?.includes(input) : false) || (JSON.parse(item.full_name).genres ? JSON.parse(item.full_name).genres?.includes(input) : false) ||
+        // console.log('item', item, user.user_id, JSON.parse(item.full_name).skills ? JSON.parse(item.full_name).artist_name.includes(input): 'joo');
+        return user.user_id !== item.user_id && ( (JSON.parse(item.full_name).skills ? JSON.parse(item.full_name).skills?.map((item) => (item.toLowerCase())).includes(input) : false) || (JSON.parse(item.full_name).genres ? JSON.parse(item.full_name).genres?.map((item) => (item.toLowerCase())).includes(input) : false) ||
           (JSON.parse(item.full_name).regions ? JSON.parse(item.full_name).regions.toLowerCase().includes(input) : false) || (JSON.parse(item.full_name).artist_name ? JSON.parse(item.full_name).artist_name?.toLowerCase().includes(input) : false) ||
           item.username.includes(input));
       });
@@ -404,14 +404,14 @@ const useComment = (update = false, file) => {
     useEffect(() => {
       try {
         (async () => {
-          console.log('useComment useEffect on tässä');
+          console.log('useComment useEffect on tässä update', update);
           const comments = await getComment(file.file_id);
           setCommentArray(comments);
         })();
       } catch (e) {
         console.error(e.message);
       }
-    }, []);
+    }, [update]);
   }
 
   const postComment = async (token, fileId, comment) => {
