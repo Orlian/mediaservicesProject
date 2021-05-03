@@ -1,13 +1,33 @@
 import PropTypes from 'prop-types';
 import {Row, Col, Button} from 'react-bootstrap';
 import {Trash} from 'react-bootstrap-icons';
+import {useUsers} from '../hooks/ApiHooks';
 
 const CommentRow = ({comment, deleteComment, setUpdate, update}) => {
+  const {getUserById} = useUsers();
+  console.log('comment mikä olet', comment);
+
+  const getCommentAuthor = async () => {
+    try {
+      // eslint-disable-next-line max-len
+      const result = await getUserById(localStorage.getItem('token'), comment.user_id);
+      console.log('comment author', result.username);
+      return result.username;
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
   return (
     <>
-      <Row>
-        <Col xs={'auto'} className='bg-dark text-white'>
-          <h1>{comment.comment}</h1>
+      <Row
+        className='bg-dark text-white'
+        style={{
+          borderBottom: '1px solid #707070',
+        }}>
+        <Col xs={'auto'} >
+          <p>{getCommentAuthor}</p>
+          <p>{comment.comment}</p>
         </Col>
         <Col xs={'auto'}>
           <Button
