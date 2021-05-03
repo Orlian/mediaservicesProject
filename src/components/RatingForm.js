@@ -3,8 +3,8 @@ import Ratings from 'react-ratings-declarative';
 import PropTypes from 'prop-types';
 import {useRating} from '../hooks/ApiHooks';
 
-const RatingForm = ({rating, setRating, user, fileId}) => {
-  const {postRating, deleteRating} = useRating(user, fileId);
+const RatingForm = ({rating, setRating, user, fileId, update, setUpdate}) => {
+  const {postRating, deleteRating} = useRating(user, fileId, update);
   console.log('current rating', rating);
   const changeRating = async (newRating) => {
     try {
@@ -16,6 +16,7 @@ const RatingForm = ({rating, setRating, user, fileId}) => {
       console.log('newRating response', response);
       if (response) {
         setRating(newRating);
+        setUpdate(update+1);
       }
     } catch (e) {
 
@@ -40,6 +41,8 @@ RatingForm.propTypes = {
   setRating: PropTypes.func,
   user: PropTypes.object,
   fileId: PropTypes.number,
+  update: PropTypes.number,
+  setUpdate: PropTypes.func,
 };
 
 export default RatingForm;

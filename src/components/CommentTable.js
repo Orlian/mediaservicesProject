@@ -10,7 +10,7 @@ const CommentTable = ({file, update, setUpdate}) => {
   return (
     <div style={{
       width: '100%',
-      height: '400px',
+      height: '100%',
     }}>
       <Row>
         {
