@@ -4,8 +4,8 @@ import UserRow from './UserRow';
 import {useUsers} from '../hooks/ApiHooks';
 import PropTypes from 'prop-types';
 
-const UserTable = ({sortType, user, input}) => {
-  const {userArray} = useUsers(true, user, input);
+const UserTable = ({sortType, user, input, follows}) => {
+  const {userArray} = useUsers(true, user, input, follows);
 
   console.log('UserTable userArray', userArray);
   const skillsArray = userArray?.filter((item)=> {
@@ -59,6 +59,7 @@ UserTable.propTypes = {
   sortType: PropTypes.string,
   user: PropTypes.object,
   input: PropTypes.string,
+  follows: PropTypes.bool,
 };
 
 export default UserTable;

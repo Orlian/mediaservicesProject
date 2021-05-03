@@ -119,10 +119,25 @@ const useMedia = (update = false, ownFiles, currentUser) => {
   return {getMedia, postMedia, putMedia, deleteMedia, loading, mediaArray};
 };
 
-const useUsers = (update = false, user, input = '') => {
+const useUsers = (update = false, user, input = '', follows = false) => {
   const [userArray, setUserArray] = useState([]);
   if (update) {
-    if (input === '') {
+    if (follows) {
+      useEffect(async () => {
+        const users = await getUserAvatar(user, true);
+        const userFollows = await getFollows(localStorage.getItem('token'));
+        let followList = users.filter((item) => {
+          const isMegaMatch = userFollows?.filter((follow) => {
+            return follow.file_id === item.file_id;
+          });
+          return isMegaMatch.length > 0;
+        });
+        followList = await Promise.all(followList.map(async (item) => {
+          return await getUserById(localStorage.getItem('token'), item.user_id);
+        }));
+        setUserArray(followList);
+      }, []);
+    } else if (input === '') {
       useEffect(async () => {
         try {
           const users = await getUserRecommendations(
@@ -213,7 +228,6 @@ const useUsers = (update = false, user, input = '') => {
     const result = array.filter((item) => {
       return item.match(regex);
     });
-    console.log('searchFilter result', result);
     return result.length > 0;
   };
   const getSearchResults = async (token, input, user) => {
@@ -339,9 +353,12 @@ const useUsers = (update = false, user, input = '') => {
     }
   };
 
-  const getUserAvatar = async (user) => {
+  const getUserAvatar = async (user, getAll = false) => {
     try {
       const avatars = await doFetch(baseUrl + 'tags/' + appIdentifier);
+      if (getAll) {
+        return avatars;
+      }
       const userAvatar = avatars.filter((avatar)=>{
         return avatar.user_id === user.user_id;
       });
