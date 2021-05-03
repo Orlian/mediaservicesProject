@@ -1,26 +1,28 @@
 /* eslint-disable max-len */
 import BackButton from '../components/BackButton';
 import PropTypes from 'prop-types';
-import {Button, Card, Col, Container, Row, InputGroup, FormControl, Form} from 'react-bootstrap';
+import {Button, Card, Col, Container, Row, InputGroup, FormControl, Form, Modal} from 'react-bootstrap';
 import {MusicNoteBeamed, PencilSquare} from 'react-bootstrap-icons';
 import {FaStar} from 'react-icons/fa';
 import {useContext, useEffect, useState} from 'react';
 import {uploadsUrl} from '../utils/variables';
-import {useComment, useUsers} from '../hooks/ApiHooks';
+import {useComment, useRating, useUsers} from '../hooks/ApiHooks';
 import {MediaContext} from '../contexts/MediaContext';
 import CommentTable from '../components/CommentTable';
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import RatingForm from '../components/RatingForm';
 
 
 const Single = ({location}) => {
+  const [smShow, setSmShow] = useState(false);
   const [owner, setOwner] = useState(null);
   const {getUserById, getUser} = useUsers();
   const [update, setUpdate] = useState(1);
   const {postComment} = useComment();
   const [user] = useContext(MediaContext);
-
   const file = location.state;
+  const {rating, setRating} = useRating(user, true, file.file_id);
   const desc = JSON.parse(file?.description);
   console.log('Single file', file);
   let genreString = '';
@@ -120,14 +122,27 @@ const Single = ({location}) => {
                 <Card.Text className="ml-2 mb-3">{genreString}</Card.Text>
               </div>
               <Card.Text>{desc.description}</Card.Text>
+              <Modal
+                size="sm"
+                show={smShow}
+                onHide={() => setSmShow(false)}
+                aria-labelledby="example-modal-sizes-title-sm"
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title id="example-modal-sizes-title-sm">
+                    Small Modal
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body><RatingForm rating={rating} setRating={setRating} user={user} update={update} fileId={file.file_id}/></Modal.Body>
+              </Modal>
               <Row className="d-flex justify-content-end">
                 <Col xs={'auto'} >
-                  <Button className="card-actions">
+                  <Button className="card-actions" onClick={() => setSmShow(true)}>
                     <FaStar style={{
                       fontSize: '18px',
                     }}/>
                   </Button>
-                  <Card.Text variant="small" className=" text-muted my-2 mx-0">3,7 stars</Card.Text>
+                  <Card.Text variant="small" className=" text-muted my-2 mx-0"></Card.Text>
 
                 </Col>
                 {user?.user_id === file.user_id &&

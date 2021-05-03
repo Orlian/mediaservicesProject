@@ -484,16 +484,27 @@ const useComment = (update = false, file) => {
   return {postComment, getComment, deleteComment, commentArray};
 };
 
-const useRating = (fileId, user) => {
+const useRating = (user, update = false, fileId) => {
   const [ratingArray, setRatingArray] = useState([]);
+  const [rating, setRating] = useState(0);
 
-  useEffect(() => {
-    try {
+  if (update) {
+    useEffect(async () => {
+      try {
+        const ratings = await getRating(fileId);
+        setRatingArray(ratings);
+        const ratingMatch = ratings?.filter((item) => {
+          return item.user_id === user?.user_id;
+        });
+        if (ratingMatch.length > 0) {
+          setRating(ratingMatch[0].rating);
+        }
+      } catch (e) {
+        console.error(e.message);
+      }
+    }, []);
+  }
 
-    } catch (e) {
-      console.error(e.message);
-    }
-  }, []);
   const postRating = async (token, fileId, rating) => {
     const data = {
       file_id: fileId,
@@ -533,7 +544,7 @@ const useRating = (fileId, user) => {
       alert(e.message);
     }
   };
-  return {getRating, postRating, deleteRating};
+  return {getRating, postRating, deleteRating, ratingArray, rating, setRating};
 };
 
 export {useMedia, useUsers, useLogin, useTag, useComment, useRating};
