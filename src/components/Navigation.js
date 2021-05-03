@@ -81,23 +81,28 @@ const Navigation = ({history}) => {
             alt="React Bootstrap logo"
           />
         </Navbar.Brand>
-        <Formik initialValues={{search: ''}} validationSchema={validationSchema} onSubmit={(values, {setSubmitting, resetForm}) => {
-          setSubmitting(true);
-          doSearch(values);
-          setTimeout(() => {
-            resetForm();
-            setSubmitting(false);
-          }, 500);
-        }}>
-          {( {values,
+        {user &&
+        <Formik initialValues={{search: ''}} validationSchema={validationSchema}
+          onSubmit={(values, {setSubmitting, resetForm}) => {
+            setSubmitting(true);
+            doSearch(values);
+            setTimeout(() => {
+              resetForm();
+              setSubmitting(false);
+            }, 500);
+          }}>
+          {({
+            values,
             errors,
             touched,
             handleChange,
             handleBlur,
             handleSubmit,
             setFieldValue,
-            isSubmitting}) => (
-            <Form onSubmit={handleSubmit} inline className="mr-0 position-absolute"
+            isSubmitting,
+          }) => (
+            <Form onSubmit={handleSubmit} inline
+              className="mr-0 position-absolute"
               style={{
                 left: '50%',
                 top: '0.5rem',
@@ -121,9 +126,10 @@ const Navigation = ({history}) => {
                   }}
                 />{touched.search && errors.search ? (
                 <div className="error-message">{errors.search}</div>
-              ): null}
+              ) : null}
                 <InputGroup.Append>
-                  <Button type="submit" className="font-weight-bold" disabled={isSubmitting}
+                  <Button type="submit" className="font-weight-bold"
+                    disabled={isSubmitting}
                     style={{
                       backgroundColor: '#f6aa1c',
                       color: '#161616',
@@ -134,6 +140,7 @@ const Navigation = ({history}) => {
             </Form>
           )}
         </Formik>
+        }
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="justify-content-end w-100">
