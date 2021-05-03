@@ -3,20 +3,11 @@ import {Row, Col, Button} from 'react-bootstrap';
 import {Trash} from 'react-bootstrap-icons';
 import {useUsers} from '../hooks/ApiHooks';
 
-const CommentRow = ({comment, deleteComment, setUpdate, update}) => {
-  const {getUserById} = useUsers();
-  console.log('comment mikä olet', comment);
 
-  const getCommentAuthor = async () => {
-    try {
-      // eslint-disable-next-line max-len
-      const result = await getUserById(localStorage.getItem('token'), comment.user_id);
-      console.log('comment author', result.username);
-      return result.username;
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
+const CommentRow = ({comment, deleteComment, setUpdate, update}) => {
+  console.log('comment mikä olet', comment);
+  const {commentAuthor} = useUsers(comment.user_id);
+
 
   return (
     <>
@@ -26,7 +17,7 @@ const CommentRow = ({comment, deleteComment, setUpdate, update}) => {
           borderBottom: '1px solid #707070',
         }}>
         <Col xs={'auto'} >
-          <p>{getCommentAuthor}</p>
+          <p>{commentAuthor.username}</p>
           <p>{comment.comment}</p>
         </Col>
         <Col xs={'auto'}>
