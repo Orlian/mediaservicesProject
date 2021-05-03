@@ -13,8 +13,8 @@ const UserForm = ({user, setUser}) => {
   const {putUser, getUser, getUserAvatar} = useUsers();
   const history = useHistory();
   // const {postMedia, deleteMedia} = useMedia();
-  const [file, setFile] = useState({file: null, dataUrl: ''});
   const [currentAvatar, setCurrentAvatar] = useState({});
+  const [file, setFile] = useState({file: null, dataUrl: ''});
 
   // eslint-disable-next-line no-unused-vars
 
@@ -64,7 +64,7 @@ const UserForm = ({user, setUser}) => {
   ];
 
   const onChange = (evt) => {
-    console.log('jotain', evt.currentTarget.files[0].type);
+    console.log('evt.currentTarget.files.type', evt.currentTarget.files[0].type);
     if (supportedFormats.includes(evt.currentTarget.files[0].type)) {
       setFile({file: evt.currentTarget.files[0]});
     } else {
@@ -74,7 +74,7 @@ const UserForm = ({user, setUser}) => {
 
   console.log('UserForm user, avatarFile', user, currentAvatar);
   const initialValues = {
-    file: currentAvatar,
+    file: {name: currentAvatar?.filename, size: currentAvatar?.filesize, type: currentAvatar?.mime_type},
     artist_name: user?.full_name?.artist_name,
     bio: user?.full_name?.bio,
     genres: user?.full_name?.genres,
