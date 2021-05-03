@@ -1,12 +1,25 @@
 import PropTypes from 'prop-types';
 import {Row, Col, Button} from 'react-bootstrap';
 import {Trash} from 'react-bootstrap-icons';
+import {useEffect, useState} from 'react';
 import {useUsers} from '../hooks/ApiHooks';
 
 
 const CommentRow = ({comment, deleteComment, setUpdate, update}) => {
+  const [author, setAuthor] = useState(null);
+  const {getUserById} = useUsers();
   console.log('comment mikä olet', comment);
-  const {commentAuthor} = useUsers(comment.user_id);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setAuthor(await getUserById(localStorage.getItem('token'),
+            comment.user_id));
+      } catch (e) {
+        console.log(e.message);
+      }
+    })();
+  }, []);
 
 
   return (
@@ -17,8 +30,9 @@ const CommentRow = ({comment, deleteComment, setUpdate, update}) => {
           borderBottom: '1px solid #707070',
         }}>
         <Col xs={'auto'} >
-          <p>{commentAuthor.username}</p>
+          <p>{author?.username}</p>
           <p>{comment.comment}</p>
+          <p>{comment.time_added}</p>
         </Col>
         <Col xs={'auto'}>
           <Button
