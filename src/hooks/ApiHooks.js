@@ -425,13 +425,18 @@ const useTag = () => {
 
 const useComment = (update = false, file) => {
   const [commentArray, setCommentArray] = useState([]);
+  const [commentAuthor, setCommentAuthor] = useState({});
   console.log('useComments update', update);
   if (update) {
     useEffect(() => {
       try {
         (async () => {
           const comments = await getComment(file.file_id);
+          const commentAuthors = Promise.all(comments.map(async (item) => {
+            return await doFetch(baseUrl + 'users/' + item.user_id);
+          }));
           setCommentArray(comments);
+          setCommentAuthor(commentAuthors);
         })();
       } catch (e) {
         console.error(e.message);
@@ -481,7 +486,7 @@ const useComment = (update = false, file) => {
     }
   };
 
-  return {postComment, getComment, deleteComment, commentArray};
+  return {postComment, getComment, deleteComment, commentArray, commentAuthor};
 };
 
 export {useMedia, useUsers, useLogin, useTag, useComment};

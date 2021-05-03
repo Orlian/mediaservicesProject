@@ -1,27 +1,100 @@
 /* eslint-disable max-len */
-import
-{Form, Button, Image, FormGroup, Row, Col} from 'react-bootstrap';
-// import useForm from '../hooks/FormHooks';
+import {Form, Button, Image, FormGroup, Row, Col} from 'react-bootstrap';
 import {useUsers} from '../hooks/ApiHooks';
 import {Field, Formik} from 'formik';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
 import CancelButton from './CancelButton';
 import {useHistory} from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import * as Yup from 'yup';
 
 const UserForm = ({user, setUser}) => {
-  const {putUser, getUser} = useUsers();
+  const {putUser, getUser, getUserAvatar} = useUsers();
   const history = useHistory();
+  // const {postMedia, deleteMedia} = useMedia();
+  const [file, setFile] = useState({file: null, dataUrl: ''});
+  const [currentAvatar, setCurrentAvatar] = useState({});
 
   // eslint-disable-next-line no-unused-vars
+
+  useEffect(() => {
+    const reader = new FileReader();
+
+    const setImage = () => {
+      console.log('reader result', reader.result);
+      setFile((file) => ({
+        ...file,
+        dataUrl: reader.result,
+      }));
+    };
+
+    reader.addEventListener('load', setImage);
+
+    if (file.file !== null) {
+      if (file.file.type.includes('image')) {
+        reader.readAsDataURL(file.file);
+      } else {
+        setFile((file) => ({
+          ...file,
+          dataUrl: 'avatar-default.png',
+        }));
+      }
+      console.log('changed file', file.file);
+    }
+  }, [file.file]);
+
+  useEffect(() => {
+    ( async () => {
+      try {
+        const avatar = await getUserAvatar(user);
+        setCurrentAvatar(avatar);
+      } catch (e) {
+        console.error(e.message);
+      }
+    })();
+  }, []);
+  const supportedFormats = [
+    'image/jpg',
+    'image/jpeg',
+    'image/gif',
+    'image/png',
+    'image/heic',
+    'image/heif',
+  ];
+
+  const onChange = (evt) => {
+    console.log('jotain', evt.currentTarget.files[0].type);
+    if (supportedFormats.includes(evt.currentTarget.files[0].type)) {
+      setFile({file: evt.currentTarget.files[0]});
+    } else {
+      setFile({file: null, dataUrl: ''});
+    }
+  };
+
+  console.log('UserForm user, avatarFile', user, currentAvatar);
   const initialValues = {
-    skills: [],
-    genres: '',
-    regions: [],
+    file: currentAvatar,
+    artist_name: user?.full_name?.artist_name,
+    bio: user?.full_name?.bio,
+    genres: user?.full_name?.genres,
+    regions: user?.full_name?.regions,
+    skills: user?.full_name?.skills,
+    email: user?.email,
+    password: '',
+    confirm: '',
   };
 
 
   const validationSchema = yup.object({
+    file: Yup.mixed()
+        .required('Meep').test(
+            'fileFormat',
+            'Unsupported Format',
+            (value) =>{
+              return !!file.file;
+            },
+        ),
     email: yup.string()
         .email('*Must be a valid email address'),
     password: yup.string()
@@ -35,13 +108,32 @@ const UserForm = ({user, setUser}) => {
     try {
       console.log('user muokkaus lomake lähtee');
       delete inputs.confirm;
-      inputs.full_name = JSON.stringify(inputs.full_name);
+      if (initialValues.file !== file.file) {
+        const fd = new FormData();
+        fd.append('title', currentAvatar?.title);
+        fd.append('description', currentAvatar?.description);
+        fd.append('file', file.file);
+        console.log('formData', fd);
+      }
+      const fullName = {
+        artist_name: inputs.artist_name,
+        bio: inputs.bio,
+        genres: inputs.genres,
+        regions: inputs.regions,
+        skills: inputs.skills,
+      };
+      inputs.full_name = JSON.stringify(fullName);
+      delete inputs.file;
+      delete inputs.artist_name;
+      delete inputs.bio;
+      delete inputs.genres;
+      delete inputs.regions;
+      delete inputs.skills;
       const result = await putUser(inputs, localStorage.getItem('token'));
       console.log('doUpdate', result);
       if (result) {
         alert(result.message);
         const userData = await getUser(localStorage.getItem('token'));
-        console.log('mikä olet', userData);
 
         const newUser = {
           email: userData.email,
@@ -51,7 +143,6 @@ const UserForm = ({user, setUser}) => {
         };
 
         setUser(newUser);
-        console.log('mikä olet new user update oletko objekti', newUser);
         history.push('/profile');
       }
     } catch (e) {
@@ -63,7 +154,7 @@ const UserForm = ({user, setUser}) => {
     <>
       { user &&
       <Formik
-        initialValues={{...user}}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={(values, {setSubmitting, resetForm}) => {
           setSubmitting(true);
@@ -83,6 +174,7 @@ const UserForm = ({user, setUser}) => {
           handleChange,
           handleBlur,
           handleSubmit,
+          setFieldValue,
           isSubmitting}) => (
           <Form
             onSubmit={handleSubmit}
@@ -95,14 +187,43 @@ const UserForm = ({user, setUser}) => {
               <Image src="logo192.png"
                 style={{width: '50px'}}/>
             </div>
+            <Row className="d-flex justify-content-center">
+              <Col xs={'auto'}>
+                <img src={file.dataUrl}
+                  style={{
+                    maxWidth: '200px',
+                    height: 'auto',
+                  }}
+                />
+              </Col>
+            </Row>
+            <Form.Group>
+              <Form.Label>File</Form.Label>
+              <Form.Control
+                id="form-file"
+                name="file"
+                type="file"
+                onChange={(evt)=>{
+                  handleChange(evt);
+                  onChange(evt);
+                }}
+                onBlur={handleBlur}
+                setFieldValue={setFieldValue}
+                className={touched.file && errors.file ?
+                  'error' : null}
+              />
+              {touched.file && errors.file ? (
+                <div className="error-message">{errors.file}</div>
+              ): null}
+            </Form.Group>
             <Form.Group className="mx-4">
               <Form.Label>Artist name</Form.Label>
               <Form.Control type="text"
-                name="full_name.artist_name"
+                name="artist_name"
                 placeholder="Full name"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values?.full_name.artist_name}
+                value={values?.artist_name}
 
               />
               {touched.full_name && errors.full_name ? (
@@ -115,11 +236,11 @@ const UserForm = ({user, setUser}) => {
                 as="textarea"
                 rows={3}
                 type="txt"
-                name="full_name.bio"
+                name="bio"
                 placeholder="Tell something about yourself..."
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values?.full_name.bio}
+                value={values?.bio}
               />
               {touched.full_name && errors.full_name ? (
                 <div className="error-message">{errors.full_name}</div>
@@ -132,38 +253,38 @@ const UserForm = ({user, setUser}) => {
                   <Col xs={'auto'}>
                     <label>
                       {/* eslint-disable-next-line max-len */}
-                      <Field type="checkbox" name="full_name.genres" value="EDM"/>
+                      <Field type="checkbox" name="genres" value="EDM"/>
                       EDM
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="full_name.genres"
+                      <Field type="checkbox" name="genres"
                         value="Hip-hop/ Rap" />
                       Hip-hop/ Rap
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="full_name.genres" value="Rock"/>
+                      <Field type="checkbox" name="genres" value="Rock"/>
                       Rock
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="full_name.genres" value="Pop" />
+                      <Field type="checkbox" name="genres" value="Pop" />
                       Pop
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="full_name.genres" value="Metal"/>
+                      <Field type="checkbox" name="genres" value="Metal"/>
                       Metal
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="full_name.genres"
+                      <Field type="checkbox" name="genres"
                         value="Alternative" />
                       Alternative
                     </label>
@@ -177,38 +298,38 @@ const UserForm = ({user, setUser}) => {
                 <Row>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="full_name.skills" value="singing"/>
+                      <Field type="checkbox" name="skills" value="singing"/>
                       Singing
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="full_name.skills"
+                      <Field type="checkbox" name="skills"
                         value="piano" />
                       Piano
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="full_name.skills" value="guitar"/>
+                      <Field type="checkbox" name="skills" value="guitar"/>
                       Guitar
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="full_name.skills" value="drums" />
+                      <Field type="checkbox" name="skills" value="drums" />
                       Drums
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="full_name.skills" value="violin"/>
+                      <Field type="checkbox" name="skills" value="violin"/>
                       Violin
                     </label>
                   </Col>
                   <Col xs={'auto'}>
                     <label>
-                      <Field type="checkbox" name="full_name.skills"
+                      <Field type="checkbox" name="skills"
                         value="hurdygurdy" />
                       Medieval hurdygurdy
                     </label>
@@ -220,7 +341,7 @@ const UserForm = ({user, setUser}) => {
               controlId="selectLocation"
               className="mx-4">
               <Form.Label>Region</Form.Label>
-              <Field as="select" name="full_name.regions" custom>
+              <Field as="select" name="regions" custom>
                 <option value="Helsinki">Helsinki</option>
                 <option value="Espoo">Espoo</option>
                 <option value="Joensuu">Joensuu</option>

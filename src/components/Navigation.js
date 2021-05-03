@@ -22,7 +22,7 @@ const Navigation = ({history}) => {
   const {getUser} = useUsers();
 
   const validationSchema = yup.object({
-    search: yup.string().min(1).required('Write something').matches(/^[a-zA-Z 0-9'*_.-]*$/,
+    search: yup.string().min(1).required('').matches(/^[a-zA-Z 0-9'*_.-]*$/,
         'Invalid characters'),
   });
 
