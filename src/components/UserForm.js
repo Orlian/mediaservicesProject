@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import {Form, Button, Image, FormGroup, Row, Col} from 'react-bootstrap';
+import {Form, Button, Image, FormGroup, Row, Col, Tabs, Tab} from 'react-bootstrap';
 import {useUsers} from '../hooks/ApiHooks';
 import {Field, Formik} from 'formik';
 import * as yup from 'yup';
@@ -17,7 +17,6 @@ const UserForm = ({user, setUser}) => {
   const [file, setFile] = useState({file: null, dataUrl: ''});
 
   // eslint-disable-next-line no-unused-vars
-
   useEffect(() => {
     const reader = new FileReader();
 
@@ -98,9 +97,11 @@ const UserForm = ({user, setUser}) => {
     email: yup.string()
         .email('*Must be a valid email address'),
     password: yup.string()
-        .min(8, '*Password must have at least 8 characters'),
+        .min(8, '*Password must have at least 8 characters')
+        .required('*Password is required'),
     confirm: yup.string()
         .min(8, '*Password must have at least 8 characters')
+        .required('*Password confirmation is required')
         .oneOf([yup.ref('password'), null], '*Passwords must match'),
   });
 
@@ -197,7 +198,7 @@ const UserForm = ({user, setUser}) => {
                 />
               </Col>
             </Row>
-            <Form.Group>
+            <Form.Group className="mx-4">
               <Form.Label>File</Form.Label>
               <Form.Control
                 id="form-file"
@@ -216,181 +217,195 @@ const UserForm = ({user, setUser}) => {
                 <div className="error-message">{errors.file}</div>
               ): null}
             </Form.Group>
-            <Form.Group className="mx-4">
-              <Form.Label>Artist name</Form.Label>
-              <Form.Control type="text"
-                name="artist_name"
-                placeholder="Full name"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values?.artist_name}
+            <Tabs className="m-4">
+              <Tab eventKey="account-info"
+                title="Account information"
+                tabClassName="font-weight-bold">
+                <Form.Group className="mx-4">
+                  <Form.Label>Artist name</Form.Label>
+                  <Form.Control type="text"
+                    name="artist_name"
+                    placeholder="Full name"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values?.artist_name}
 
-              />
-              {touched.full_name && errors.full_name ? (
+                  />
+                  {touched.full_name && errors.full_name ? (
+                    <div className="error-message">{errors.full_name}</div>
+                  ): null}
+                </Form.Group>
+                <Form.Group className="mx-4">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control type="email"
+                    name="email"
+                    placeholder="Email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values?.email}
+                  />
+                  {touched.email && errors.email ? (
+                    <div className="error-message">{errors.email}</div>
+                  ): null}
+                </Form.Group>
+                <Form.Group className="mx-4">
+                  <Form.Label>Change password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values?.password}
+                    className={touched.password && errors.password ?
+                      'error' : null}/>
+                  {touched.password && errors.password ? (
+                    <div className="error-message">{errors.password}</div>
+                  ): null}
+                </Form.Group>
+                <Form.Group className="mx-4">
+                  <Form.Label>Repeat password</Form.Label>
+                  <Form.Control type="password"
+                    name="confirm"
+                    placeholder="Repeat password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values?.confirm}
+                    className={touched.confirm && errors.confirm ?
+                                  'error' : null}/>
+                  {touched.confirm && errors.confirm? (
+                    <div className="error-message">{errors.confirm}</div>
+                  ): null}
+                </Form.Group>
+
+
+              </Tab>
+              <Tab eventKey="preferences"
+                title="Preferences"
+                tabClassName="font-weight-bold">
+
+                <Form.Group className="mx-4">
+                  <Form.Label>Bio</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    type="txt"
+                    name="bio"
+                    placeholder="Tell something about yourself..."
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values?.bio}
+                  />
+                  {touched.full_name && errors.full_name ? (
                 <div className="error-message">{errors.full_name}</div>
               ): null}
-            </Form.Group>
-            <Form.Group className="mx-4">
-              <Form.Label>Bio</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                type="txt"
-                name="bio"
-                placeholder="Tell something about yourself..."
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values?.bio}
-              />
-              {touched.full_name && errors.full_name ? (
-                <div className="error-message">{errors.full_name}</div>
-              ): null}
-            </Form.Group>
-            <Form.Group className="mx-4">
-              <Form.Label>Choose genres</Form.Label>
-              <div role="group" aria-labelledby="checkbox-group">
-                <Row>
-                  <Col xs={'auto'}>
-                    <label>
-                      {/* eslint-disable-next-line max-len */}
-                      <Field type="checkbox" name="genres" value="EDM"/>
-                      EDM
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="genres"
-                        value="Hip-hop/ Rap" />
-                      Hip-hop/ Rap
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="genres" value="Rock"/>
-                      Rock
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="genres" value="Pop" />
-                      Pop
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="genres" value="Metal"/>
-                      Metal
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="genres"
-                        value="Alternative" />
-                      Alternative
-                    </label>
-                  </Col>
-                </Row>
-              </div>
-            </Form.Group>
-            <Form.Group className="mx-4">
-              <Form.Label>Choose skills</Form.Label>
-              <div role="group" aria-labelledby="checkbox-group">
-                <Row>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="skills" value="singing"/>
-                      Singing
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="skills"
-                        value="piano" />
-                      Piano
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="skills" value="guitar"/>
-                      Guitar
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="skills" value="drums" />
-                      Drums
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="skills" value="violin"/>
-                      Violin
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="skills"
-                        value="hurdygurdy" />
-                      Medieval hurdygurdy
-                    </label>
-                  </Col>
-                </Row>
-              </div>
-            </Form.Group>
-            <Form.Group
-              controlId="selectLocation"
-              className="mx-4">
-              <Form.Label>Region</Form.Label>
-              <Field as="select" name="regions" custom>
-                <option value="Helsinki">Helsinki</option>
-                <option value="Espoo">Espoo</option>
-                <option value="Joensuu">Joensuu</option>
-                <option value="Kuusamo">Kuusamo</option>
-                <option value="Mikkeli">Mikkeli</option>
-              </Field>
-            </Form.Group>
-            <Form.Group className="mx-4">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email"
-                name="email"
-                placeholder="Email"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values?.email}
-              />
-              {touched.email && errors.email ? (
-                <div className="error-message">{errors.email}</div>
-              ): null}
-            </Form.Group>
-            <Form.Group className="mx-4">
-              <Form.Label>Change password</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                placeholder="Password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values?.password}
-                className={touched.password && errors.password ?
-                              'error' : null}/>
-              {touched.password && errors.password ? (
-                <div className="error-message">{errors.password}</div>
-              ): null}
-            </Form.Group>
-            <Form.Group className="mx-4">
-              <Form.Label>Repeat password</Form.Label>
-              <Form.Control type="password"
-                name="confirm"
-                placeholder="Repeat password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values?.confirm}
-                className={touched.confirm && errors.confirm ?
-                              'error' : null}/>
-              {touched.confirm && errors.confirm? (
-                <div className="error-message">{errors.confirm}</div>
-              ): null}
-            </Form.Group>
+                </Form.Group>
+                <Form.Group className="mx-4">
+                  <Form.Label>Choose genres</Form.Label>
+                  <div role="group" aria-labelledby="checkbox-group">
+                    <Row>
+                      <Col xs={'auto'}>
+                        <label>
+                          {/* eslint-disable-next-line max-len */}
+                          <Field type="checkbox" name="genres" value="EDM"/>
+                      &nbsp;EDM
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="genres"
+                            value="Hip-hop/ Rap" />
+                          &nbsp;Hip-hop/ Rap
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="genres" value="Rock"/>
+                          &nbsp;Rock
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="genres" value="Pop" />
+                          &nbsp;Pop
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="genres" value="Metal"/>
+                          &nbsp;Metal
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="genres"
+                            value="Alternative" />
+                          &nbsp;Alternative
+                        </label>
+                      </Col>
+                    </Row>
+                  </div>
+                </Form.Group>
+                <Form.Group className="mx-4">
+                  <Form.Label>Choose skills</Form.Label>
+                  <div role="group" aria-labelledby="checkbox-group">
+                    <Row>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills" value="singing"/>
+                          &nbsp;Singing
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills"
+                            value="piano" />
+                          &nbsp;Piano
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills" value="guitar"/>
+                          &nbsp;Guitar
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills" value="drums" />
+                          &nbsp;Drums
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills" value="violin"/>
+                          &nbsp;Violin
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills"
+                            value="hurdygurdy" />
+                          &nbsp;Hurdygurdy
+                        </label>
+                      </Col>
+                    </Row>
+                  </div>
+                </Form.Group>
+                <Form.Group
+                  controlId="selectLocation"
+                  className="mx-4">
+                  <Form.Label>Region&nbsp;</Form.Label>
+                  <Field as="select" name="regions" custom>
+                    <option value="Helsinki">Helsinki</option>
+                    <option value="Espoo">Espoo</option>
+                    <option value="Joensuu">Joensuu</option>
+                    <option value="Kuusamo">Kuusamo</option>
+                    <option value="Mikkeli">Mikkeli</option>
+                  </Field>
+                </Form.Group>
+              </Tab>
+
+            </Tabs>
             <Form.Group className="d-flex justify-content-center">
               <Button type="submit"
                 disabled={isSubmitting}
