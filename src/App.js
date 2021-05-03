@@ -11,6 +11,7 @@ import {MediaProvider} from './contexts/MediaContext';
 import EditMedia from './view/EditMedia';
 import Search from './view/Search';
 import Followed from './view/Followed';
+import SearchWait from './view/SearchWait';
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
             <Route path="/editmedia" component={EditMedia} />
             <Route path="/search" component={Search}/>
             <Route path="/followed" component={Followed}/>
+            <Route path="/searchwait" component={SearchWait} />
           </Switch>
         </div>
       </MediaProvider>

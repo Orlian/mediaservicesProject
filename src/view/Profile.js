@@ -22,6 +22,7 @@ const Profile = ({location}) => {
   const {postFollow, deleteFollow, getFollows, getUserAvatar} = useUsers(true, user);
   const [ownFiles, setOwnFiles] = useState(false);
   const [followed, setFollowed] = useState(false);
+  const [update, setUpdate] = useState(1);
   const [mediaType, setMediaType] = useState('all');
 
 
@@ -273,8 +274,8 @@ const Profile = ({location}) => {
           </section>
         </Container>
       </section>
-      <MediaTable update={true} ownFiles={ownFiles} currentUser={ownFiles ? user : userInfo}
-        mediaType={mediaType}
+      <MediaTable update={update} ownFiles={ownFiles} currentUser={ownFiles ? user : userInfo}
+        mediaType={mediaType} setUpdate={setUpdate}
       />
     </Container>
   );
