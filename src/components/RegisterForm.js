@@ -1,5 +1,5 @@
 import
-{Form, Button, Image, Row, Col} from 'react-bootstrap';
+{Form, Button, Image, Row, Col, Tabs, Tab} from 'react-bootstrap';
 // import useForm from '../hooks/FormHooks';
 import {useLogin, useMedia, useUsers, useTag} from '../hooks/ApiHooks';
 import {Field, Formik} from 'formik';
@@ -39,6 +39,13 @@ const RegisterForm = ({setToggle}) => {
             // eslint-disable-next-line max-len
             'Username may contain letters, numbers, dots, hyphens and underscores ')
         .test('usernameTaken', '*Username is already taken', checkUsername),
+    full_name: yup.string()
+        .min(3, '*Please write at least 3 characters')
+        .max(100, 'Maximum 30 characters')
+        .required('*Required field')
+        .matches(/^[a-zA-Z0-9_.-]*$/,
+            // eslint-disable-next-line max-len
+            'Field may contain letters, numbers, dots, hyphens and underscores '),
     email: yup.string()
         .email('*Must be a valid email address')
         .required('*Email is required'),
@@ -154,6 +161,7 @@ const RegisterForm = ({setToggle}) => {
           handleBlur,
           handleSubmit,
           isSubmitting}) => (
+
           <Form
             onSubmit={handleSubmit}
             className="pt-4 pb-0"
@@ -165,212 +173,216 @@ const RegisterForm = ({setToggle}) => {
               <Image src="logo192.png"
                 style={{width: '50px'}}/>
             </div>
-            <Form.Group className="mx-4">
-              <Form.Label className="font-we">Username</Form.Label>
-              <Form.Control type="text"
-                name="username"
-                placeholder="Username"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.username}
-                className={touched.username && errors.username ?
+            <Tabs className="m-4">
+              <Tab
+                eventKey="account-info"
+                title="Account information"
+                tabClassName="font-weight-bold">
+                <Form.Group className="mx-4">
+                  <Form.Label className="font-we">Username</Form.Label>
+                  <Form.Control type="text"
+                    name="username"
+                    placeholder="Username"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.username}
+                    className={touched.username && errors.username ?
                   'error' : null}/>
-              {touched.username && errors.username ? (
+                  {touched.username && errors.username ? (
                 <div className="error-message">{errors.username}</div>
               ): null}
-            </Form.Group>
-            <Form.Group className="mx-4">
-              <Form.Label className="font-we">Artist name</Form.Label>
-              <Form.Control type="text"
-                name="full_name"
-                placeholder="Artist name"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values?.artist_name}
-                className={touched.full_name && errors.full_name ?
+                </Form.Group>
+                <Form.Group className="mx-4">
+                  <Form.Label className="font-we">Artist name</Form.Label>
+                  <Form.Control type="text"
+                    name="full_name"
+                    placeholder="Artist name"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values?.artist_name}
+                    className={touched.full_name && errors.full_name ?
                               'error' : null}/>
-              {touched.full_name && errors.full_name ? (
+                  {touched.full_name && errors.full_name ? (
                 <div className="error-message">{errors.full_name}</div>
               ): null}
-            </Form.Group>
-            <Form.Group className="mx-4">
-              <Form.Label>Bio</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                type="txt"
-                name="bio"
-                placeholder="Tell something about yourself..."
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values?.bio}
-              />
-              {touched.full_name && errors.full_name ? (
-                <div className="error-message">{errors.full_name}</div>
-              ): null}
-            </Form.Group>
-            <Form.Group className="mx-4">
-              <Form.Label>Choose genres</Form.Label>
-              <div role="group" aria-labelledby="checkbox-group">
-                <Row>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="checked" value="EDM"/>
-                      EDM
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="checked"
-                        value="Hip-hop/ Rap" />
-                      Hip-hop/ Rap
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="checked" value="Rock"/>
-                      Rock
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="checked" value="Pop" />
-                      Pop
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="checked" value="Metal"/>
-                      Metal
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="checked"
-                        value="Alternative" />
-                      Alternative
-                    </label>
-                  </Col>
-                </Row>
-              </div>
-            </Form.Group>
-            <Form.Group className="mx-4">
-              <Form.Label>Choose skills</Form.Label>
-              <div role="group" aria-labelledby="checkbox-group">
-                <Row>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="skills" value="singing"/>
-                      Singing
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="skills"
-                        value="piano" />
-                      Piano
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="skills" value="guitar"/>
-                      Guitar
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="skills" value="drums" />
-                      Drums
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="skills" value="violin"/>
-                      Violin
-                    </label>
-                  </Col>
-                  <Col xs={'auto'}>
-                    <label>
-                      <Field type="checkbox" name="skills"
-                        value="hurdygurdy" />
-                      Medieval hurdygurdy
-                    </label>
-                  </Col>
-                </Row>
-              </div>
-            </Form.Group>
-            <Form.Group
-              controlId="selectLocation"
-              className="mx-4">
-              <Form.Label>Region</Form.Label>
-              <Field as="select" name="selected" custom>
-                <option value="Helsinki">Helsinki</option>
-                <option value="Espoo">Espoo</option>
-                <option value="Joensuu">Joensuu</option>
-                <option value="Kuusamo">Kuusamo</option>
-                <option value="Mikkeli">Mikkeli</option>
-              </Field>
-            </Form.Group>
-            <Form.Group className="mx-4">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email"
-                name="email"
-                placeholder="Email"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.email}
-                className={touched.email && errors.email ? 'error' : null}/>
-              {touched.email && errors.email ? (
-                <div className="error-message">{errors.email}</div>
-              ): null}
-            </Form.Group>
-            <Form.Group className="mx-4">
-              <Form.Label>Create password</Form.Label>
-              <Form.Control type="password"
-                name="password"
-                placeholder="Password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.password}
-                className={touched.password && errors.password ?
-                  'error' : null}/>
-              {touched.password && errors.password ? (
-                <div className="error-message">{errors.password}</div>
-              ): null}
-            </Form.Group>
-            <Form.Group className="mx-4">
-              <Form.Label>Repeat password</Form.Label>
-              <Form.Control type="password"
-                name="confirm"
-                placeholder="Repeat password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.confirm}
-                className={touched.confirm && errors.confirm ?
-                    'error' : null}/>
-              {touched.confirm && errors.confirm? (
-                <div className="error-message">{errors.confirm}</div>
-              ): null}
-            </Form.Group>
+                </Form.Group>
+                <Form.Group className="mx-4">
+                  <Form.Label>Artist email</Form.Label>
+                  <Form.Control type="email"
+                    name="email"
+                    placeholder="Email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                    className={touched.email && errors.email ? 'error' : null}/>
+                  {touched.email && errors.email ? (
+                    <div className="error-message">{errors.email}</div>
+                  ): null}
+                  {/* eslint-disable-next-line max-len */}
+                </Form.Group>
+                <Form.Group className="mx-4">
+                  <Form.Label>Create password</Form.Label>
+                  <Form.Control type="password"
+                    name="password"
+                    placeholder="Password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                    className={touched.password && errors.password ?
+                                  'error' : null}/>
+                  {touched.password && errors.password ? (
+                    <div className="error-message">{errors.password}</div>
+                  ): null}
+                </Form.Group>
+                <Form.Group className="mx-4">
+                  <Form.Label>Repeat password</Form.Label>
+                  <Form.Control type="password"
+                    name="confirm"
+                    placeholder="Repeat password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.confirm}
+                    className={touched.confirm && errors.confirm ?
+                                  'error' : null}/>
+                  {touched.confirm && errors.confirm? (
+                    <div className="error-message">{errors.confirm}</div>
+                  ): null}
+                </Form.Group>
+              </Tab>
+              <Tab
+                eventKey="preferences"
+                title="Preferences"
+                tabClassName="font-weight-bold">
+                <Form.Group className="mx-4">
+                  <Form.Label>Bio</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    type="txt"
+                    name="bio"
+                    placeholder="Tell something about yourself..."
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values?.bio}
+                  />
+                  {touched.full_name && errors.full_name ? (
+                    <div className="error-message">{errors.full_name}</div>
+                  ): null}
+                </Form.Group>
+                <Form.Group className="mx-4">
+                  <Form.Label>Choose genres</Form.Label>
+                  <div role="group" aria-labelledby="checkbox-group">
+                    <Row>
+                      <Col xs={'auto'} >
+                        <label>
+                          <Field type="checkbox" name="checked" value="EDM"/>
+                          &nbsp;EDM
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked"
+                            value="Hip-hop/ Rap" />
+                          &nbsp;Hip-hop/ Rap
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked" value="Rock"/>
+                          &nbsp;Rock
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked" value="Pop" />
+                          &nbsp;Pop
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked" value="Metal"/>
+                          &nbsp;Metal
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked"
+                            value="Alternative" />
+                          &nbsp;Alternative
+                        </label>
+                      </Col>
+                    </Row>
+                  </div>
+                </Form.Group>
+                <Form.Group className="mx-4">
+                  <Form.Label>Choose skills</Form.Label>
+                  <div role="group" aria-labelledby="checkbox-group">
+                    <Row>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills" value="singing"/>
+                          &nbsp;Singing
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills"
+                            value="piano" />
+                          &nbsp;Piano
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills" value="guitar"/>
+                          &nbsp;Guitar
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills" value="drums" />
+                          &nbsp;Drums
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills" value="violin"/>
+                          &nbsp;Violin
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills"
+                            value="hurdygurdy" />
+                          &nbsp;Hurdygurdy
+                        </label>
+                      </Col>
+                    </Row>
+                  </div>
+                </Form.Group>
+                <Form.Group
+                  controlId="selectLocation"
+                  className="mx-4">
+                  <Form.Label>Region&nbsp;</Form.Label>
+                  <Field as="select" name="selected" custom>
+                    <option value="Helsinki">Helsinki</option>
+                    <option value="Espoo">Espoo</option>
+                    <option value="Joensuu">Joensuu</option>
+                    <option value="Kuusamo">Kuusamo</option>
+                    <option value="Mikkeli">Mikkeli</option>
+                  </Field>
+                </Form.Group>
+
+
+              </Tab>
+            </Tabs>
             <Form.Group className="d-flex justify-content-center">
               <Button type="submit"
                 disabled={isSubmitting}
                 className="w-50 mt-3 form-btn"
-              >
-                REGISTER
+              >REGISTER
               </Button>
             </Form.Group>
-            {/*
-            <Form.Group className="d-flex justify-content-center ">
-              <Button type="submit" className="w-50 font-weight-bold form-btn"
-                style={{backgroundColor: '#f8f8ff',
-                  color: '#161616',
-                  border: '1px solid #161616',
-                  borderRadius: '30em'}}>
-                LOGIN
-              </Button>
-            </Form.Group>
-            */}
+
           </Form>
         )}
       </Formik>

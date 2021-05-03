@@ -29,9 +29,17 @@ const Login = () => {
               style={{backgroundColor: '#f8f8ff'}}>
               { toggle ? <LoginForm/> : <RegisterForm setToggle={setToggle}/> }
               <div className="d-flex justify-content-center">
-                <Button onClick={showHide}
-                  className="w-50 outline-button"
-                >{toggle ? 'REGISTER' : 'LOGIN'}
+                <Button
+                  variant="link"
+                  onClick={showHide}
+                  className="w-50"
+                  style={{
+                    fontWeight: '600',
+                    textDecoration: 'underline',
+                    color: '#065A82',
+                    outline: 'none',
+                  }}
+                >{toggle ? 'or register' : 'or login'}
                 </Button>
               </div>
             </Col>
