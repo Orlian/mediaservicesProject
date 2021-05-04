@@ -6,7 +6,8 @@ import {
 } from 'react-bootstrap';
 import {useEffect, useState} from 'react';
 import {uploadsUrl} from '../utils/variables';
-import {MusicNoteBeamed, PencilSquare, Trash} from 'react-bootstrap-icons';
+import {SRLWrapper} from 'simple-react-lightbox';
+import {MusicNoteBeamed, PencilSquare, Trash, Binoculars} from 'react-bootstrap-icons';
 import {useComment, useUsers} from '../hooks/ApiHooks';
 import {Link, withRouter} from 'react-router-dom';
 
@@ -49,24 +50,20 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
         <Card.Text className="font-weight-bold pl-3 py-2 mb-0">
           {owner?.username}</Card.Text>
         <Card.Header className="d-flex justify-content-center p-0 m-0"
-          as={Link} to={
-            {
-              pathname: '/single',
-              state: file,
-            }
-          }
           style={{
             width: '100%',
             height: '260px',
           }}>
           {file.media_type === 'image' &&
-          <img src={uploadsUrl + file.thumbnails?.w320} alt={file.title}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-            }}
-          />
+            <SRLWrapper>
+              <img src={uploadsUrl + file.thumbnails?.w320} alt={file.title}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }}
+              />
+            </SRLWrapper>
           }
           {file.media_type === 'video' &&
           <video src={uploadsUrl + file.filename} controls
@@ -92,22 +89,34 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
         </Card.Body>
 
 
-        {ownFiles &&
-          <>
-            <Card.Footer className="d-flex justify-content-end">
+        <Card.Footer className="d-flex justify-content-end">
+          <Button
+            as={Link} to={
+              {
+                pathname: '/single',
+                state: file,
+              }
+            }
+            className="card-actions">
+            <Binoculars style={{
+              fontSize: '18px',
+            }}/>
+          </Button>
+          {ownFiles &&
+            <>
               <Button as={Link} to={
                 {
                   pathname: '/editmedia',
                   state: file,
                 }
               }
-              className="card-controls">
+              className="card-actions">
                 <PencilSquare style={{
                   fontSize: '18px',
                 }}/>
               </Button>
               <Button
-                className="card-controls"
+                className="card-actions"
                 onClick={async () => {
                   try {
                     const conf = confirm('Do you really want to delete?');
@@ -128,9 +137,9 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
               >
                 <Trash/>
               </Button>
-            </Card.Footer>
-          </>
-        }
+            </>
+          }
+        </Card.Footer>
 
       </Card>
     </>

@@ -13,7 +13,7 @@ const CancelButton = ({history}) => {
         border: '1px solid #161616',
         borderRadius: '30em'}}
       onClick={() => {
-        history.goBack();
+        history.push('/');
       }}
     >
       CANCEL
