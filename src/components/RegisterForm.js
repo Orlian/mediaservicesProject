@@ -1,5 +1,5 @@
 import
-{Form, Button, Image, Row, Col, Tabs, Tab} from 'react-bootstrap';
+{Form, Button, Row, Col, Tabs, Tab} from 'react-bootstrap';
 // import useForm from '../hooks/FormHooks';
 import {useLogin, useMedia, useUsers, useTag} from '../hooks/ApiHooks';
 import {Field, Formik} from 'formik';
@@ -67,7 +67,7 @@ const RegisterForm = ({setToggle}) => {
     confirm: '',
     bio: '',
     checked: [],
-    selected: 'Helsinki',
+    selected: 'Southern Finland',
     skills: [],
   };
 
@@ -169,14 +169,10 @@ const RegisterForm = ({setToggle}) => {
             <div className="d-flex justify-content-center">
               <h1>Register</h1>
             </div>
-            <div className="d-flex justify-content-center my-3">
-              <Image src="logo192.png"
-                style={{width: '50px'}}/>
-            </div>
             <Tabs className="m-4">
               <Tab
                 eventKey="account-info"
-                title="Account information"
+                title="User information"
                 tabClassName="font-weight-bold">
                 <Form.Group className="mx-4">
                   <Form.Label className="font-we">Username</Form.Label>
@@ -205,6 +201,22 @@ const RegisterForm = ({setToggle}) => {
                   {touched.full_name && errors.full_name ? (
                 <div className="error-message">{errors.full_name}</div>
               ): null}
+                </Form.Group>
+                <Form.Group className="mx-4">
+                  <Form.Label>Bio</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    type="txt"
+                    name="bio"
+                    placeholder="Tell something about yourself..."
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values?.bio}
+                  />
+                  {touched.full_name && errors.full_name ? (
+                    <div className="error-message">{errors.full_name}</div>
+                  ): null}
                 </Form.Group>
                 <Form.Group className="mx-4">
                   <Form.Label>Artist email</Form.Label>
@@ -254,23 +266,9 @@ const RegisterForm = ({setToggle}) => {
                 title="Preferences"
                 tabClassName="font-weight-bold">
                 <Form.Group className="mx-4">
-                  <Form.Label>Bio</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    type="txt"
-                    name="bio"
-                    placeholder="Tell something about yourself..."
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values?.bio}
-                  />
-                  {touched.full_name && errors.full_name ? (
-                    <div className="error-message">{errors.full_name}</div>
-                  ): null}
-                </Form.Group>
-                <Form.Group className="mx-4">
-                  <Form.Label>Choose genres</Form.Label>
+                  <Form.Label className="mb-0">Choose genres</Form.Label>
+                  {/* eslint-disable-next-line max-len */}
+                  <Form.Text className="text-muted mb-2">Choose genres that characterize your music style</Form.Text>
                   <div role="group" aria-labelledby="checkbox-group">
                     <Row>
                       <Col xs={'auto'} >
@@ -364,11 +362,13 @@ const RegisterForm = ({setToggle}) => {
                   className="mx-4">
                   <Form.Label>Region&nbsp;</Form.Label>
                   <Field as="select" name="selected" custom>
-                    <option value="Helsinki">Helsinki</option>
-                    <option value="Espoo">Espoo</option>
-                    <option value="Joensuu">Joensuu</option>
-                    <option value="Kuusamo">Kuusamo</option>
-                    <option value="Mikkeli">Mikkeli</option>
+                    <option value="Southern Finland">Southern Finland</option>
+                    <option value="Western Finland">Western Finland</option>
+                    <option value="Eastern Finland">Eastern Finland</option>
+                    <option value="Oulu">Oulu</option>
+                    <option value="Lapland">Lapland</option>
+                    <option value="Åland">Åland</option>
+
                   </Field>
                 </Form.Group>
 
