@@ -44,7 +44,7 @@ form {
   border-radius: 30em;
   font-weight: 600;
   letter-spacing: 0.1em;
-  &:hover, &:active, &:focus {
+  &:hover{
     background-color: $dark;
     border: 1px solid $dark;
     color: $white;

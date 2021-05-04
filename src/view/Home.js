@@ -186,7 +186,7 @@ const Home = () => {
           </> : <>
             <Row>
               <Col xs={12}>
-                <h2 className="text-center p-5">About Musikantti</h2>
+                <h2 className="text-center p-5" id="about">About Musikantti</h2>
               </Col>
             </Row>
             <Container style={{
@@ -199,7 +199,7 @@ const Home = () => {
                 <Col xs={6} className="p-0">
                   <div>
                     <h3 className="text-center p-3">What is Musikantti</h3>
-                    <p className="ml-5">Musikantti is all about bringing music
+                    <p className="mx-5">Musikantti is all about bringing music
                     creators together. If you enjoy creating music-related
                       content, such as  playing, composing or producing music,
                       Musikantti will help you find like-minded people to
@@ -210,8 +210,11 @@ const Home = () => {
               <Row>
                 <Col xs={6} className="p-0">
                   <div>
-                    <h3 className="text-center p-3">Title</h3>
-                    <p className="ml-5"></p>
+                    <h3 className="text-center p-3">What you can do in Musikantti</h3>
+                    <ul className="mx-5">
+                      <li>Create a portfolio, where you can display your music, videos and photography or illustrations</li>
+                      <li>Find like-minded creators recommended to you based on your region, musical skills and genre preferences </li>
+                    </ul>
                   </div>
                 </Col>
                 <Col xs={6} className="p-0">
