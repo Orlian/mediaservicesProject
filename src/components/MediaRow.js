@@ -48,7 +48,7 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
         }}>
         <Card.Text className="font-weight-bold pl-3 py-2 mb-0">
           {owner?.username}</Card.Text>
-        <Card.Header className="d-flex justify-content-center p-0 m-0"
+        <Card.Header className="d-flex justify-content-center align-items-center p-0 m-0"
           style={{
             width: '100%',
             height: '260px',
