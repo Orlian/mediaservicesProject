@@ -27,9 +27,7 @@ const Single = ({location, history}) => {
   const file = location.state;
   const {rating, setRating, avgRating} = useRating(user, file?.file_id, update);
   const desc = JSON.parse(file?.description);
-  console.log('Single file', file);
   let genreString = '';
-  console.log('avgRating', avgRating);
 
   genreString = JSON.parse(file.description).genres?.join(', ');
 

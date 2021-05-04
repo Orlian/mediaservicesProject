@@ -4,16 +4,19 @@ import {
   Button,
   Card, Row, Col,
 } from 'react-bootstrap';
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {uploadsUrl} from '../utils/variables';
 import {SRLWrapper} from 'simple-react-lightbox';
 import {MusicNoteBeamed, PencilSquare, Trash, Binoculars} from 'react-bootstrap-icons';
 import {FaComment, FaStar} from 'react-icons/fa';
-import {useComment, useUsers} from '../hooks/ApiHooks';
+import {useComment, useRating, useUsers} from '../hooks/ApiHooks';
 import {Link, withRouter} from 'react-router-dom';
+import {MediaContext} from '../contexts/MediaContext';
 
 const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
   const {getUserById} = useUsers();
+  const [user] = useContext(MediaContext);
+  const {avgRating} = useRating(user, file?.file_id, update);
   const {commentArray} = useComment(true, file);
   const [owner, setOwner] = useState(null);
   console.log('MediaRow update', update);
@@ -91,6 +94,7 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
                 <FaComment/>
                 <p className="ml-2">{commentArray.length}</p>
                 <FaStar className="ml-4"/>
+                <p className="ml-2">{avgRating}</p>
               </div>
             </Col>
             <Col xs={'auto'}>
