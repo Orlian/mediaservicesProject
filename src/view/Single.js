@@ -2,20 +2,23 @@
 import BackButton from '../components/BackButton';
 import PropTypes from 'prop-types';
 import {Button, Card, Col, Container, Row, InputGroup, FormControl, Form, Modal} from 'react-bootstrap';
-import {MusicNoteBeamed, PencilSquare} from 'react-bootstrap-icons';
+import {MusicNoteBeamed, PencilSquare, Trash} from 'react-bootstrap-icons';
 import {SRLWrapper} from 'simple-react-lightbox';
-import {FaStar} from 'react-icons/fa';
+import {FaStar, FaRegStar} from 'react-icons/fa';
 import {useContext, useEffect, useState} from 'react';
 import {uploadsUrl} from '../utils/variables';
-import {useComment, useRating, useUsers} from '../hooks/ApiHooks';
+import {useComment, useMedia, useRating, useUsers} from '../hooks/ApiHooks';
 import {MediaContext} from '../contexts/MediaContext';
 import CommentTable from '../components/CommentTable';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import RatingForm from '../components/RatingForm';
+import {Link} from 'react-router-dom';
+import moment from 'moment';
 
 
-const Single = ({location}) => {
+const Single = ({location, history}) => {
+  const {deleteMedia} = useMedia();
   const [smShow, setSmShow] = useState(false);
   const [owner, setOwner] = useState(null);
   const {getUserById, getUser} = useUsers();
@@ -25,15 +28,9 @@ const Single = ({location}) => {
   const file = location.state;
   const {rating, setRating, avgRating} = useRating(user, file?.file_id, update);
   const desc = JSON.parse(file?.description);
-  console.log('Single file', file);
   let genreString = '';
-  console.log('avgRating', avgRating);
 
-  {JSON.parse(file.description).genres?.forEach(
-      (genre) =>{
-        genreString += genre + ' ';
-      },
-  );}
+  genreString = JSON.parse(file.description).genres?.join(', ');
 
   useEffect(()=>{
     (async ()=>{
@@ -126,6 +123,7 @@ const Single = ({location}) => {
                 <Card.Text className="ml-2 mb-3">{genreString}</Card.Text>
               </div>
               <Card.Text>{desc.description}</Card.Text>
+              <Card.Text className="text-muted">{moment(file.time_added).format('HH:mm DD-MM-YYYY')}</Card.Text>
               <Modal
                 size="sm"
                 show={smShow}
@@ -134,31 +132,61 @@ const Single = ({location}) => {
               >
                 <Modal.Header closeButton>
                   <Modal.Title id="example-modal-sizes-title-sm">
-                    Small Modal
+                    Rate {file.title}
                   </Modal.Title>
                 </Modal.Header>
                 <Modal.Body><RatingForm rating={rating} setRating={setRating} user={user} update={update} setUpdate={setUpdate} fileId={file.file_id}/></Modal.Body>
               </Modal>
               <Row className="d-flex justify-content-end">
-                <Col xs={'auto'} >
-                  <Button className="card-actions" onClick={() => setSmShow(true)}>
-                    <FaStar style={{
-                      fontSize: '18px',
-                    }}/>
+                <Col xs={'auto'} className="d-flex">
+                  <Card.Text variant="small" className=" text-muted my-2 mx-0">{isNaN(avgRating) ? 'No ratings yet' : avgRating}</Card.Text>
+                  <Button className="card-actions ml-2" onClick={() => setSmShow(true)}>
+                    {rating === 0 ?
+                      <FaRegStar style={{
+                        fontSize: '18px',
+                      }}/>:
+                    <FaStar
+                      style={{
+                        fontSize: '18px',
+                      }}/>
+                    }
                   </Button>
-                  <Card.Text variant="small" className=" text-muted my-2 mx-0">{avgRating === 0 ? 'No ratings yet' : avgRating}</Card.Text>
-
+                  {user?.user_id === file.user_id &&
+                  <>
+                    <Button as={Link} to={
+                      {
+                        pathname: '/editmedia',
+                        state: file,
+                      }
+                    }
+                    className="card-actions">
+                      <PencilSquare
+                        style={{
+                          fontSize: '18px',
+                        }}/>
+                    </Button>
+                    <Button
+                      className="card-actions"
+                      onClick={async () => {
+                        try {
+                          const conf = confirm('Do you really want to delete?');
+                          if (conf) {
+                            const response = await deleteMedia(file.file_id,
+                                localStorage.getItem('token'));
+                            console.log(response);
+                          }
+                          history.push('/profile');
+                        } catch (e) {
+                          console.log(e.message);
+                        }
+                      }
+                      }
+                    >
+                      <Trash/>
+                    </Button>
+                  </>
+                  }
                 </Col>
-                {user?.user_id === file.user_id &&
-                    <Col xs={'auto'}>
-                      <Button className="card-controls">
-                        <PencilSquare
-                          style={{
-                            fontSize: '18px',
-                          }}/>
-                      </Button>
-                    </Col>
-                }
               </Row>
               <Row>
                 <Col xs={12}>
@@ -192,6 +220,7 @@ const Single = ({location}) => {
                             value={values.comment}
                             style={{
                               borderRadius: '0.25rem',
+                              resize: 'none',
                             }}
                           />{touched.comment && errors.comment ? (
                               <div className="error-message comment-error">{errors.comment}</div>
@@ -217,8 +246,6 @@ const Single = ({location}) => {
               </Row>
               <CommentTable file={file} update={update} setUpdate={setUpdate}/>
             </Card.Body>
-
-
           </Card>
         </Container>
       </section>
@@ -228,6 +255,7 @@ const Single = ({location}) => {
 
 Single.propTypes = {
   location: PropTypes.object,
+  history: PropTypes.object,
 };
 
 export default Single;

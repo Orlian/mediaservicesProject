@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import {Container, Col, Row, Button, Image} from 'react-bootstrap';
+import {Container, Col, Row, Button, Image, Spinner} from 'react-bootstrap';
 import UserTable from '../components/UserTable';
 import {useContext, useEffect, useState} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
@@ -9,7 +9,7 @@ import {Link, withRouter} from 'react-router-dom';
 const Home = () => {
   // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useContext(MediaContext);
-  const {getUser} = useUsers();
+  const {getUser, loading} = useUsers();
   const [sortType, setSortType] = useState('all');
   const [activeLink, setActiveLink] = useState('all');
 
@@ -178,11 +178,16 @@ const Home = () => {
                 </Col>
               </Row>
             </section>
-            <Row className="d-flex justify-content-center mt-5">
-              <Col xs={10}>
-                <UserTable sortType={sortType} user={user}/>
-              </Col>
-            </Row>
+            {!loading ?
+              <Row className="d-flex justify-content-center mt-5">
+                <Col xs={10}>
+                  <UserTable sortType={sortType} user={user}/>
+                </Col>
+              </Row> :
+              <Row className="d-flex justify-content-center">
+                <Spinner animation={'border'} />
+              </Row>
+            }
           </> : <>
             <Row>
               <Col xs={12}>

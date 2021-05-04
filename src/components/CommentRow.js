@@ -1,13 +1,15 @@
 import PropTypes from 'prop-types';
 import {Row, Col, Button, Container} from 'react-bootstrap';
 import {Trash} from 'react-bootstrap-icons';
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {useUsers} from '../hooks/ApiHooks';
 import moment from 'moment';
+import {MediaContext} from '../contexts/MediaContext';
 
 
 const CommentRow = ({comment, deleteComment, setUpdate, update}) => {
   const [author, setAuthor] = useState(null);
+  const [user] = useContext(MediaContext);
   const {getUserById} = useUsers();
   console.log('comment mikä olet', comment);
 
@@ -46,6 +48,7 @@ const CommentRow = ({comment, deleteComment, setUpdate, update}) => {
               className="small text-muted mb-0">
               {moment(comment.time_added).format('HH:mm DD-MM-YYYY')}</p>
           </Col>
+          {user?.user_id === author?.user_id &&
           <Col xs={'auto'}>
             <Button
               className="card-controls mb-2"
@@ -69,6 +72,7 @@ const CommentRow = ({comment, deleteComment, setUpdate, update}) => {
               <Trash/>
             </Button>
           </Col>
+          }
         </Row>
       </Container>
 

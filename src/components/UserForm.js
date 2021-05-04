@@ -93,7 +93,7 @@ const UserForm = ({user, setUser}) => {
   };
 
 
-  const validationSchema = yup.object({
+  const validationSchema = Yup.object({
     file: Yup.mixed()
         .required('Meep').test(
             'fileFormat',
@@ -401,7 +401,7 @@ const UserForm = ({user, setUser}) => {
                   className="mx-4">
                   <Form.Label>Region&nbsp;</Form.Label>
                   <Field as="select" name="regions" custom>
-                    <option value="Ahvenanmaa">Avenanmaa</option>
+                    <option value="Ahvenanmaa">Ahvenanmaa</option>
                     <option value="Etelä-Karjala">Etelä-Karjala</option>
                     <option value="Etelä-Pohjanmaa">Etelä-Pohjanmaa</option>
                     <option value="Etelä-Savo">Etelä-Savo</option>

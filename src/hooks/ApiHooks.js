@@ -121,6 +121,7 @@ const useMedia = (update = false, ownFiles, currentUser) => {
 
 const useUsers = (update = false, user, input = '', follows = false) => {
   const [userArray, setUserArray] = useState([]);
+  const [loading, setLoading] = useState(false);
   if (update) {
     if (follows) {
       useEffect(async () => {
@@ -168,9 +169,12 @@ const useUsers = (update = false, user, input = '', follows = false) => {
       body: JSON.stringify(inputs),
     };
     try {
+      setLoading(true);
       return await doFetch(baseUrl + 'users', fetchOptions);
     } catch (e) {
       alert(e.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -205,6 +209,7 @@ const useUsers = (update = false, user, input = '', follows = false) => {
       },
     };
     try {
+      setLoading(true);
       let avatars = await doFetch(baseUrl + 'tags/' + appIdentifier);
       avatars = avatars.filter((avatar)=>{
         return !!JSON.parse(avatar.description).skills;
@@ -220,6 +225,8 @@ const useUsers = (update = false, user, input = '', follows = false) => {
       });
     } catch (e) {
       console.log(e.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -238,7 +245,8 @@ const useUsers = (update = false, user, input = '', follows = false) => {
       },
     };
     try {
-      console.log('getsearchresults', input, user);
+      setLoading(true);
+      console.log('getsearchresults', input);
       let avatars = await doFetch(baseUrl + 'tags/' + appIdentifier);
       avatars = avatars.filter((avatar)=>{
         return !!JSON.parse(avatar.description).skills;
@@ -250,12 +258,14 @@ const useUsers = (update = false, user, input = '', follows = false) => {
 
       return allUsers.filter((item) => {
         // console.log('item', item, user.user_id, JSON.parse(item.full_name).skills ? JSON.parse(item.full_name).artist_name.includes(input): 'joo');
-        return user.user_id !== item.user_id && ( (searchFilter(input, JSON.parse(item.full_name).skills)) || searchFilter(input, JSON.parse(item.full_name).genres) ||
+        return user?.user_id !== item.user_id && ( (searchFilter(input, JSON.parse(item.full_name).skills)) || searchFilter(input, JSON.parse(item.full_name).genres) ||
           (JSON.parse(item.full_name).regions.toLowerCase().includes(input)) || JSON.parse(item.full_name).artist_name?.toLowerCase().includes(input) ||
           item.username.includes(input));
       });
     } catch (e) {
       console.log(e.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -269,9 +279,12 @@ const useUsers = (update = false, user, input = '', follows = false) => {
       body: JSON.stringify(inputs),
     };
     try {
+      setLoading(true);
       return await doFetch(baseUrl + 'users', fetchOptions);
     } catch (e) {
       alert(e.message);
+    } finally {
+      setLoading(false);
     }
   };
   const getUserById = async (token, id) => {
@@ -346,15 +359,19 @@ const useUsers = (update = false, user, input = '', follows = false) => {
       },
     };
     try {
+      setLoading(true);
       const response = await doFetch(baseUrl + 'favourites', fetchOptions);
       return response;
     } catch (e) {
       alert(e.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const getUserAvatar = async (user, getAll = false) => {
     try {
+      setLoading(true);
       const avatars = await doFetch(baseUrl + 'tags/' + appIdentifier);
       if (getAll) {
         return avatars;
@@ -365,13 +382,16 @@ const useUsers = (update = false, user, input = '', follows = false) => {
       return userAvatar[0];
     } catch (e) {
       console.error(e.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  return {register, getUserAvailable, getUser, putUser, getUserById, getUserRecommendations, getSearchResults, postFollow, deleteFollow, getFollows, getUserAvatar, userArray};
+  return {register, getUserAvailable, getUser, putUser, getUserById, getUserRecommendations, getSearchResults, postFollow, deleteFollow, getFollows, getUserAvatar, userArray, loading};
 };
 
 const useLogin = () => {
+  const [loading, setLoading] = useState(false);
   const postLogin = async (inputs) => {
     const fetchOptions = {
       method: 'POST',
@@ -381,13 +401,16 @@ const useLogin = () => {
       body: JSON.stringify(inputs),
     };
     try {
+      setLoading(true);
       const response = await doFetch(baseUrl + 'login', fetchOptions);
       return response;
     } catch (e) {
       alert(e.message);
+    } finally {
+      setLoading(false);
     }
   };
-  return {postLogin};
+  return {postLogin, loading};
 };
 
 const useTag = () => {
@@ -499,7 +522,7 @@ const useRating = (user, fileId, update = false) => {
           return sum = sum + item.rating;
         });
         console.log('useRating average, sum', sum);
-        setAvgRating((sum / ratings.length));
+        setAvgRating((sum / ratings.length).toFixed(1));
         setRatingArray(ratings);
         const ratingMatch = ratings?.filter((item) => {
           return item.user_id === user?.user_id;
