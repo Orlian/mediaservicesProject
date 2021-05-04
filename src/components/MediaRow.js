@@ -2,12 +2,13 @@
 import PropTypes from 'prop-types';
 import {
   Button,
-  Card,
+  Card, Row, Col,
 } from 'react-bootstrap';
 import {useEffect, useState} from 'react';
 import {uploadsUrl} from '../utils/variables';
 import {SRLWrapper} from 'simple-react-lightbox';
 import {MusicNoteBeamed, PencilSquare, Trash, Binoculars} from 'react-bootstrap-icons';
+import {FaComment, FaStar} from 'react-icons/fa';
 import {useComment, useUsers} from '../hooks/ApiHooks';
 import {Link, withRouter} from 'react-router-dom';
 
@@ -15,15 +16,10 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
   const {getUserById} = useUsers();
   const {commentArray} = useComment(true, file);
   const [owner, setOwner] = useState(null);
-  let genreString = '';
   console.log('MediaRow update', update);
-  {
-    JSON.parse(file.description).genres?.forEach(
-        (genre) => {
-          genreString += genre + ' ';
-        },
-    );
-  }
+
+  const genreString = JSON.parse(file.description).genres?.join(', ');
+
 
   // console.log('file.thumbnail', file);
 
@@ -85,60 +81,74 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
             <Card.Text className="ml-2 mb-3">{genreString}</Card.Text>
           </div>
           <Card.Text>{JSON.parse(file.description).description}</Card.Text>
-          <Card.Text>{commentArray.length}</Card.Text>
         </Card.Body>
 
 
-        <Card.Footer className="d-flex justify-content-end">
-          <Button
-            as={Link} to={
-              {
-                pathname: '/single',
-                state: file,
-              }
-            }
-            className="card-actions">
-            <Binoculars style={{
-              fontSize: '18px',
-            }}/>
-          </Button>
-          {ownFiles &&
-            <>
-              <Button as={Link} to={
-                {
-                  pathname: '/editmedia',
-                  state: file,
-                }
-              }
-              className="card-actions">
-                <PencilSquare style={{
-                  fontSize: '18px',
-                }}/>
-              </Button>
-              <Button
-                className="card-actions"
-                onClick={async () => {
-                  try {
-                    const conf = confirm('Do you really want to delete?');
-                    if (conf) {
-                      const response = await deleteMedia(file.file_id,
-                          localStorage.getItem('token'));
-                      if (response) {
-                        const newUpdate = update + 1;
-                        console.log('newUpdate mediaRow', newUpdate);
-                        setUpdate(newUpdate);
+        <Card.Footer >
+          <Row className="justify-content-between">
+            <Col xs={'auto'}>
+              <div className="card-footer-end d-flex ">
+                <FaComment/>
+                <p className="ml-2">{commentArray.length}</p>
+                <FaStar className="ml-4"/>
+              </div>
+            </Col>
+            <Col xs={'auto'}>
+              <div className="card-footer-end">
+                <Button
+                  as={Link} to={
+                    {
+                      pathname: '/single',
+                      state: file,
+                    }
+                  }
+                  className="card-actions">
+                  <Binoculars style={{
+                    fontSize: '18px',
+                  }}/>
+                </Button>
+                {ownFiles &&
+                <>
+                  <Button as={Link} to={
+                    {
+                      pathname: '/editmedia',
+                      state: file,
+                    }
+                  }
+                  className="card-actions">
+                    <PencilSquare style={{
+                      fontSize: '18px',
+                    }}/>
+                  </Button>
+                  <Button
+                    className="card-actions"
+                    onClick={async () => {
+                      try {
+                        const conf = confirm('Do you really want to delete?');
+                        if (conf) {
+                          const response = await deleteMedia(file.file_id,
+                              localStorage.getItem('token'));
+                          if (response) {
+                            const newUpdate = update + 1;
+                            console.log('newUpdate mediaRow', newUpdate);
+                            setUpdate(newUpdate);
+                          }
+                        }
+                      } catch (e) {
+                        console.log(e.message);
                       }
                     }
-                  } catch (e) {
-                    console.log(e.message);
-                  }
+                    }
+                  >
+                    <Trash/>
+                  </Button>
+                </>
                 }
-                }
-              >
-                <Trash/>
-              </Button>
-            </>
-          }
+              </div>
+            </Col>
+          </Row>
+
+
         </Card.Footer>
 
       </Card>

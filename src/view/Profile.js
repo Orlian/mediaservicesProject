@@ -46,14 +46,17 @@ const Profile = ({location}) => {
         try {
           if (userInfo === undefined) {
             setOwnFiles(true);
+            const avatar = await getUserAvatar(user);
+            setUserAvatar(avatar);
           } else if (user?.user_id === userInfo?.user_id) {
             setOwnFiles(true);
+            const avatar = await getUserAvatar(user);
+            setUserAvatar(avatar);
           } else {
             setOwnFiles(false);
             const follows = await getFollows(localStorage.getItem('token'));
             const avatar = await getUserAvatar(userInfo);
             setUserAvatar(avatar);
-            console.log('follows', follows, avatar);
             follows.forEach((follow)=>{
               if (follow?.file_id === avatar?.file_id) {
                 setFollowed(true);
@@ -65,16 +68,12 @@ const Profile = ({location}) => {
         }
       }
     })();
-  }, [userInfo, user, userAvatar]);
+  }, [userInfo, user]);
 
-  useEffect(()=>{
+  useEffect(async ()=>{
 
   }, [mediaType, ownFiles, followed, activeLink]);
 
-  console.log('ownFiles end', ownFiles);
-  console.log('user from context end', user);
-  console.log('mikä olet userInfo end', userInfo);
-  console.log('follow', followed);
   return (
     <Container fluid className="bg-dark"
       style={{
@@ -92,7 +91,7 @@ const Profile = ({location}) => {
             <Row>
               <Col md={{order: 'last', col: 2}}
                 className=" d-flex justify-content-md-end justify-content-center">
-                <Card.Img src={uploadsUrl + userAvatar.filename} id="profile-card-avatar" alt={userAvatar.title} className="w-75"
+                <Card.Img src={uploadsUrl + userAvatar?.filename} id="profile-card-avatar" alt={userAvatar?.title} className="w-75"
                   style={{
                     maxHeight: '400px',
                   }}
