@@ -499,7 +499,7 @@ const useRating = (user, fileId, update = false) => {
           return sum = sum + item.rating;
         });
         console.log('useRating average, sum', sum);
-        setAvgRating((sum / ratings.length));
+        setAvgRating((sum / ratings.length).toFixed(1));
         setRatingArray(ratings);
         const ratingMatch = ratings?.filter((item) => {
           return item.user_id === user?.user_id;
