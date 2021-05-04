@@ -1,5 +1,13 @@
 /* eslint-disable max-len */
-import {Form, Button, Image, FormGroup, Row, Col, Tabs, Tab} from 'react-bootstrap';
+import {
+  Form,
+  Button,
+  FormGroup,
+  Row,
+  Col,
+  Tabs,
+  Tab,
+} from 'react-bootstrap';
 import {useUsers} from '../hooks/ApiHooks';
 import {Field, Formik} from 'formik';
 import * as yup from 'yup';
@@ -182,45 +190,41 @@ const UserForm = ({user, setUser}) => {
             className="pt-4 pb-0"
           >
             <div className="d-flex justify-content-center">
-              <h1>Update User</h1>
+              <h1>Edit Profile</h1>
             </div>
-            <div className="d-flex justify-content-center my-3">
-              <Image src="logo192.png"
-                style={{width: '50px'}}/>
-            </div>
-            <Row className="d-flex justify-content-center">
-              <Col xs={'auto'}>
-                <img src={file.dataUrl}
-                  style={{
-                    maxWidth: '200px',
-                    height: 'auto',
-                  }}
-                />
-              </Col>
-            </Row>
-            <Form.Group className="mx-4">
-              <Form.Label>File</Form.Label>
-              <Form.Control
-                id="form-file"
-                name="file"
-                type="file"
-                onChange={(evt)=>{
-                  handleChange(evt);
-                  onChange(evt);
-                }}
-                onBlur={handleBlur}
-                setFieldValue={setFieldValue}
-                className={touched.file && errors.file ?
-                  'error' : null}
-              />
-              {touched.file && errors.file ? (
-                <div className="error-message">{errors.file}</div>
-              ): null}
-            </Form.Group>
             <Tabs className="m-4">
               <Tab eventKey="account-info"
-                title="Account information"
+                title="User information"
                 tabClassName="font-weight-bold">
+                <Row className="d-flex justify-content-center">
+                  <Col xs={'auto'}>
+                    <img src={file.dataUrl}
+                      style={{
+                        maxWidth: '200px',
+                        height: 'auto',
+                      }}
+                    />
+                  </Col>
+                </Row>
+                <Form.Group className="mx-4">
+                  <Form.Label>File</Form.Label>
+                  <Form.Control
+                    id="form-file"
+                    name="file"
+                    type="file"
+                    onChange={(evt)=>{
+                      handleChange(evt);
+                      onChange(evt);
+                    }}
+                    onBlur={handleBlur}
+                    setFieldValue={setFieldValue}
+                    className={touched.file && errors.file ?
+                      'error' : null}
+                  />
+                  {touched.file && errors.file ? (
+                    <div className="error-message">{errors.file}</div>
+                  ): null}
+                </Form.Group>
                 <Form.Group className="mx-4">
                   <Form.Label>Artist name</Form.Label>
                   <Form.Control type="text"
@@ -229,7 +233,23 @@ const UserForm = ({user, setUser}) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values?.artist_name}
-
+                  />
+                  {touched.full_name && errors.full_name ? (
+                    <div className="error-message">{errors.full_name}</div>
+                  ): null}
+                </Form.Group>
+                <Form.Group className="mx-4">
+                  <Form.Label>Bio</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    type="txt"
+                    name="bio"
+                    placeholder="Tell something about yourself..."
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values?.bio}
+                    style={{resize: 'none'}}
                   />
                   {touched.full_name && errors.full_name ? (
                     <div className="error-message">{errors.full_name}</div>
@@ -249,7 +269,8 @@ const UserForm = ({user, setUser}) => {
                   ): null}
                 </Form.Group>
                 <Form.Group className="mx-4">
-                  <Form.Label>Change password</Form.Label>
+                  <Form.Label className="mb-0">Change password</Form.Label>
+                  <Form.Text className="text-muted mb-2">Or provide your current password</Form.Text>
                   <Form.Control
                     type="password"
                     name="password"
@@ -277,31 +298,13 @@ const UserForm = ({user, setUser}) => {
                     <div className="error-message">{errors.confirm}</div>
                   ): null}
                 </Form.Group>
-
-
               </Tab>
               <Tab eventKey="preferences"
                 title="Preferences"
                 tabClassName="font-weight-bold">
-
                 <Form.Group className="mx-4">
-                  <Form.Label>Bio</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    type="txt"
-                    name="bio"
-                    placeholder="Tell something about yourself..."
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values?.bio}
-                  />
-                  {touched.full_name && errors.full_name ? (
-                <div className="error-message">{errors.full_name}</div>
-              ): null}
-                </Form.Group>
-                <Form.Group className="mx-4">
-                  <Form.Label>Choose genres</Form.Label>
+                  <Form.Label className="mb-0">Choose genres</Form.Label>
+                  <Form.Text className="text-muted mb-2">Choose genres that characterize your music style</Form.Text>
                   <div role="group" aria-labelledby="checkbox-group">
                     <Row>
                       <Col xs={'auto'}>
@@ -396,11 +399,12 @@ const UserForm = ({user, setUser}) => {
                   className="mx-4">
                   <Form.Label>Region&nbsp;</Form.Label>
                   <Field as="select" name="regions" custom>
-                    <option value="Helsinki">Helsinki</option>
-                    <option value="Espoo">Espoo</option>
-                    <option value="Joensuu">Joensuu</option>
-                    <option value="Kuusamo">Kuusamo</option>
-                    <option value="Mikkeli">Mikkeli</option>
+                    <option value="Southern Finland">Southern Finland</option>
+                    <option value="Western Finland">Western Finland</option>
+                    <option value="Eastern Finland">Eastern Finland</option>
+                    <option value="Oulu">Oulu</option>
+                    <option value="Lapland">Lapland</option>
+                    <option value="Åland">Åland</option>
                   </Field>
                 </Form.Group>
               </Tab>
