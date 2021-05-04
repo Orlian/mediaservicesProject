@@ -3,6 +3,7 @@ import BackButton from '../components/BackButton';
 import PropTypes from 'prop-types';
 import {Button, Card, Col, Container, Row, InputGroup, FormControl, Form, Modal} from 'react-bootstrap';
 import {MusicNoteBeamed, PencilSquare} from 'react-bootstrap-icons';
+import {SRLWrapper} from 'simple-react-lightbox';
 import {FaStar} from 'react-icons/fa';
 import {useContext, useEffect, useState} from 'react';
 import {uploadsUrl} from '../utils/variables';
@@ -92,13 +93,15 @@ const Single = ({location}) => {
                 height: '100%',
               }}>
               {file.media_type === 'image' &&
-              <img src={uploadsUrl + file.filename} alt={file.title}
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  objectFit: 'cover',
-                }}
-              />
+                <SRLWrapper>
+                  <img src={uploadsUrl + file.filename} alt={file.title}
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                      objectFit: 'cover',
+                    }}
+                  />
+                </SRLWrapper>
               }
               { file.media_type === 'video' &&
               <video src={uploadsUrl + file.filename} controls

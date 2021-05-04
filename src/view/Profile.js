@@ -109,7 +109,7 @@ const Profile = ({location}) => {
                     {ownFiles &&
                     <Col xs={{col: 'auto', offset: 3}}>
                       <Button
-                        className="card-controls"
+                        className="card-actions"
                         as={Link} to={
                           {
                             pathname: '/editprofile',
