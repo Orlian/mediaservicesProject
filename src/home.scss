@@ -9,8 +9,9 @@
 .banner {
   font-family: Montserrat, sans-serif;
   h1, h2 {
-    font-family: 'BOOTLE__', serif;
+    font-family: 'Playfair Display', serif;
     text-align: center;
+    letter-spacing: 0.05em;
   }
 
   .banner-btn {
@@ -30,10 +31,25 @@
   }
 
   .about-button {
-    background-color: #065A82;
+    background: transparent;
+    border: 1px solid $white;
     color: $white;
+    border-radius: 30em;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    &:hover {
+      background-color: $white;
+      border: 1px solid $white;
+      color: $black;
+    }
   }
 }
+}
+
+#about-container p, li {
+  font-size: 20px;
+  line-height: 1.6;
+
 }
 
 
