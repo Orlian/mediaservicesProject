@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import PropTypes from 'prop-types';
 import {Card, Row} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
@@ -8,6 +9,8 @@ import {uploadsUrl} from '../utils/variables';
 const UserRow = ({user}) => {
   const {getUserAvatar} = useUsers();
   const [userAvatar, setUserAvatar] = useState({});
+  const userInfo = JSON.parse(user?.full_name);
+
   useEffect(() => {
     (async () => {
       try {
@@ -29,6 +32,7 @@ const UserRow = ({user}) => {
         }
         style={{
           backgroundColor: '#f6aa1c',
+          textDecoration: 'none',
         }}
       >
         <Card.ImgOverlay className="pt-0">
@@ -41,10 +45,13 @@ const UserRow = ({user}) => {
         <Card.Img src={uploadsUrl + userAvatar.filename}/>
         <Card.Body className="d-flex flex-column align-items-center">
           <Card.Text className="text-light">
-            Skills
+           Location: {userInfo?.regions ? userInfo?.regions : 'No location'}
           </Card.Text>
           <Card.Text className="text-light">
-            Location
+           Skills: {userInfo?.skills ? userInfo?.skills.join(', ') : 'Still learning'}
+          </Card.Text>
+          <Card.Text className="text-light">
+            Genres: {userInfo?.genres ? userInfo?.genres.join(', ') : 'No genres'}
           </Card.Text>
         </Card.Body>
       </Card>
