@@ -14,6 +14,7 @@ import {Link, withRouter} from 'react-router-dom';
 import {MediaContext} from '../contexts/MediaContext';
 import PropTypes from 'prop-types';
 import {useUsers} from '../hooks/ApiHooks';
+import {uploadsUrl} from '../utils/variables';
 
 const Profile = ({location}) => {
   // eslint-disable-next-line no-unused-vars
@@ -25,6 +26,7 @@ const Profile = ({location}) => {
   const [update, setUpdate] = useState(1);
   const [mediaType, setMediaType] = useState('all');
   const [activeLink, setActiveLink] = useState('all');
+  const [userAvatar, setUserAvatar] = useState({});
 
 
   console.log('ownFiles beginning', ownFiles);
@@ -50,6 +52,7 @@ const Profile = ({location}) => {
             setOwnFiles(false);
             const follows = await getFollows(localStorage.getItem('token'));
             const avatar = await getUserAvatar(userInfo);
+            setUserAvatar(avatar);
             console.log('follows', follows, avatar);
             follows.forEach((follow)=>{
               if (follow?.file_id === avatar?.file_id) {
@@ -62,7 +65,7 @@ const Profile = ({location}) => {
         }
       }
     })();
-  }, [userInfo, user]);
+  }, [userInfo, user, userAvatar]);
 
   useEffect(()=>{
 
@@ -89,7 +92,7 @@ const Profile = ({location}) => {
             <Row>
               <Col md={{order: 'last', col: 2}}
                 className=" d-flex justify-content-md-end justify-content-center">
-                <Card.Img src="logo512.png" id="profile-card-avatar" alt="#" className="w-75"
+                <Card.Img src={uploadsUrl + userAvatar.filename} id="profile-card-avatar" alt={userAvatar.title} className="w-75"
                   style={{
                     maxHeight: '400px',
                   }}

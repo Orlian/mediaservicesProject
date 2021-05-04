@@ -9,7 +9,18 @@ const Followed = () => {
 
   return (
     <>
-      <Container fluid>
+      <Container fluid className="bg-dark"
+        style={{
+          minHeight: '100vh',
+        }}
+      >
+        <Row className="d-flex justify-content-center pt-5">
+          <Col xs={'auto'}>
+            <h1 style={{
+              color: '#f8f8ff',
+            }}>Creators you have followed</h1>
+          </Col>
+        </Row>
         <Row className="d-flex justify-content-center mt-5">
           <Col xs={10}>
             <UserTable user={user} follows={true} sortType={'all'}/>

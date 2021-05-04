@@ -1,9 +1,23 @@
 import PropTypes from 'prop-types';
 import {Card, Row} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-// import {uploadsUrl} from '../utils/variables';
+import {useEffect, useState} from 'react';
+import {useUsers} from '../hooks/ApiHooks';
+import {uploadsUrl} from '../utils/variables';
 
 const UserRow = ({user}) => {
+  const {getUserAvatar} = useUsers();
+  const [userAvatar, setUserAvatar] = useState({});
+  useEffect(() => {
+    (async () => {
+      try {
+        setUserAvatar(await getUserAvatar(user));
+      } catch (e) {
+        console.log(e.message);
+      }
+    })();
+  }, []);
+
   return (
     <>
       <Card bg={'dark'} className="mb-3"
@@ -24,7 +38,7 @@ const UserRow = ({user}) => {
           </Row>
         </Card.ImgOverlay>
         {/* TODO: User avatar here */}
-        <Card.Img/>
+        <Card.Img src={uploadsUrl + userAvatar.filename}/>
         <Card.Body className="d-flex flex-column align-items-center">
           <Card.Text className="text-light">
             Skills

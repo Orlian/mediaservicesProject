@@ -56,7 +56,7 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
           }}>
           {file.media_type === 'image' &&
             <SRLWrapper>
-              <img src={uploadsUrl + file.thumbnails?.w320} alt={file.title}
+              <img src={uploadsUrl + file.filename} alt={file.title}
                 style={{
                   width: '100%',
                   height: '100%',
