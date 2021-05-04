@@ -94,7 +94,7 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
                 <FaComment/>
                 <p className="ml-2">{commentArray.length}</p>
                 <FaStar className="ml-4"/>
-                <p className="ml-2">{avgRating}</p>
+                <p className="ml-2">{isNaN(avgRating) ? 'No ratings yet' : avgRating}</p>
               </div>
             </Col>
             <Col xs={'auto'}>

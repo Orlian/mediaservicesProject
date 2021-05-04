@@ -137,7 +137,7 @@ const Single = ({location, history}) => {
               </Modal>
               <Row className="d-flex justify-content-end">
                 <Col xs={'auto'} className="d-flex">
-                  <Card.Text variant="small" className=" text-muted my-2 mx-0">{!avgRating ? 'No ratings yet' : avgRating}</Card.Text>
+                  <Card.Text variant="small" className=" text-muted my-2 mx-0">{isNaN(avgRating) ? 'No ratings yet' : avgRating}</Card.Text>
                   <Button className="card-actions ml-2" onClick={() => setSmShow(true)}>
                     {rating === 0 ?
                       <FaRegStar style={{
