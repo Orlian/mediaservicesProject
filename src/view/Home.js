@@ -194,12 +194,16 @@ const Home = () => {
             }}>
               <Row>
                 <Col xs={6} className="d-flex justify-content-end p-0">
-                  <Image src="bg-image.jpg" className="w-100"/>
+                  <Image src="placeholder.jpg" className="w-100"/>
                 </Col>
                 <Col xs={6} className="p-0">
                   <div>
-                    <h3 className="text-center p-3">About Musikantti</h3>
-                    <p className="ml-5"></p>
+                    <h3 className="text-center p-3">What is Musikantti</h3>
+                    <p className="ml-5">Musikantti is all about bringing music
+                    creators together. If you enjoy creating music-related
+                      content, such as  playing, composing or producing music,
+                      Musikantti will help you find like-minded people to
+                      collaborate with.  </p>
                   </div>
                 </Col>
               </Row>
@@ -211,7 +215,7 @@ const Home = () => {
                   </div>
                 </Col>
                 <Col xs={6} className="p-0">
-                  <Image src="bg-image.jpg" className="w-100"/>
+                  <Image src="placeholder-2.jpg" className="w-100"/>
                 </Col>
               </Row>
             </Container>
