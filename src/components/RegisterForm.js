@@ -67,7 +67,7 @@ const RegisterForm = ({setToggle}) => {
     confirm: '',
     bio: '',
     checked: [],
-    selected: 'Southern Finland',
+    selected: 'Uusimaa',
     skills: [],
   };
 
@@ -268,7 +268,7 @@ const RegisterForm = ({setToggle}) => {
                 <Form.Group className="mx-4">
                   <Form.Label className="mb-0">Choose genres</Form.Label>
                   {/* eslint-disable-next-line max-len */}
-                  <Form.Text className="text-muted mb-2">Choose genres that characterize your music style</Form.Text>
+                  <Form.Text className="text-muted mb-2">Choose genres that characterise your music style</Form.Text>
                   <div role="group" aria-labelledby="checkbox-group">
                     <Row>
                       <Col xs={'auto'} >
@@ -362,13 +362,25 @@ const RegisterForm = ({setToggle}) => {
                   className="mx-4">
                   <Form.Label>Region&nbsp;</Form.Label>
                   <Field as="select" name="selected" custom>
-                    <option value="Southern Finland">Southern Finland</option>
-                    <option value="Western Finland">Western Finland</option>
-                    <option value="Eastern Finland">Eastern Finland</option>
-                    <option value="Oulu">Oulu</option>
-                    <option value="Lapland">Lapland</option>
-                    <option value="Åland">Åland</option>
-
+                    <option value="Ahvenanmaa">Avenanmaa</option>
+                    <option value="Etelä-Karjala">Etelä-Karjala</option>
+                    <option value="Etelä-Pohjanmaa">Etelä-Pohjanmaa</option>
+                    <option value="Etelä-Savo">Etelä-Savo</option>
+                    <option value="Kainuu">Kainuu</option>
+                    <option value="Kanta-Häme">Kanta-Häme</option>
+                    <option value="Keski-Pohjanmaa">Keski-Pohjanmaa</option>
+                    <option value="Keski-Suomi">Keski-Suomi</option>
+                    <option value="Kymmenlaakso">Kymmenlaakso</option>
+                    <option value="Lappi">Lappi</option>
+                    <option value="Pirkanmaa">Pirkanmaa</option>
+                    <option value="Pojanmaa">Pohjanmaa</option>
+                    <option value="Pohjois-Karjala">Pohjois-Karjala</option>
+                    <option value="Pohjois-Pohjanmaa">Pohjois-Pohjanmaa</option>
+                    <option value="Pohjois-Savo">Pohjois-Savo</option>
+                    <option value="Päijät-Häme">Päijät-Häme</option>
+                    <option value="Satakunta">Satakunta</option>
+                    <option value="Uusimaa">Uusimaa</option>
+                    <option value="Varsinais-Suomi">Varsinais-Suomi</option>
                   </Field>
                 </Form.Group>
 

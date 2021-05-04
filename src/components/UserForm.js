@@ -105,11 +105,9 @@ const UserForm = ({user, setUser}) => {
     email: yup.string()
         .email('*Must be a valid email address'),
     password: yup.string()
-        .min(8, '*Password must have at least 8 characters')
-        .required('*Password is required'),
+        .min(8, '*Password must have at least 8 characters'),
     confirm: yup.string()
         .min(8, '*Password must have at least 8 characters')
-        .required('*Password confirmation is required')
         .oneOf([yup.ref('password'), null], '*Passwords must match'),
   });
 
@@ -132,6 +130,10 @@ const UserForm = ({user, setUser}) => {
         skills: inputs.skills,
       };
       inputs.full_name = JSON.stringify(fullName);
+
+      if (inputs.password === '') {
+        delete inputs.password;
+      }
       delete inputs.file;
       delete inputs.artist_name;
       delete inputs.bio;
@@ -304,7 +306,7 @@ const UserForm = ({user, setUser}) => {
                 tabClassName="font-weight-bold">
                 <Form.Group className="mx-4">
                   <Form.Label className="mb-0">Choose genres</Form.Label>
-                  <Form.Text className="text-muted mb-2">Choose genres that characterize your music style</Form.Text>
+                  <Form.Text className="text-muted mb-2">Choose genres that characterise your music style</Form.Text>
                   <div role="group" aria-labelledby="checkbox-group">
                     <Row>
                       <Col xs={'auto'}>
@@ -399,12 +401,25 @@ const UserForm = ({user, setUser}) => {
                   className="mx-4">
                   <Form.Label>Region&nbsp;</Form.Label>
                   <Field as="select" name="regions" custom>
-                    <option value="Southern Finland">Southern Finland</option>
-                    <option value="Western Finland">Western Finland</option>
-                    <option value="Eastern Finland">Eastern Finland</option>
-                    <option value="Oulu">Oulu</option>
-                    <option value="Lapland">Lapland</option>
-                    <option value="Åland">Åland</option>
+                    <option value="Ahvenanmaa">Avenanmaa</option>
+                    <option value="Etelä-Karjala">Etelä-Karjala</option>
+                    <option value="Etelä-Pohjanmaa">Etelä-Pohjanmaa</option>
+                    <option value="Etelä-Savo">Etelä-Savo</option>
+                    <option value="Kainuu">Kainuu</option>
+                    <option value="Kanta-Häme">Kanta-Häme</option>
+                    <option value="Keski-Pohjanmaa">Keski-Pohjanmaa</option>
+                    <option value="Keski-Suomi">Keski-Suomi</option>
+                    <option value="Kymmenlaakso">Kymmenlaakso</option>
+                    <option value="Lappi">Lappi</option>
+                    <option value="Pirkanmaa">Pirkanmaa</option>
+                    <option value="Pojanmaa">Pohjanmaa</option>
+                    <option value="Pohjois-Karjala">Pohjois-Karjala</option>
+                    <option value="Pohjois-Pohjanmaa">Pohjois-Pohjanmaa</option>
+                    <option value="Pohjois-Savo">Pohjois-Savo</option>
+                    <option value="Päijät-Häme">Päijät-Häme</option>
+                    <option value="Satakunta">Satakunta</option>
+                    <option value="Uusimaa">Uusimaa</option>
+                    <option value="Varsinais-Suomi">Varsinais-Suomi</option>
                   </Field>
                 </Form.Group>
               </Tab>
