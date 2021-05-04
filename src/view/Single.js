@@ -14,6 +14,7 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 import RatingForm from '../components/RatingForm';
 import {Link} from 'react-router-dom';
+import moment from 'moment';
 
 
 const Single = ({location, history}) => {
@@ -122,6 +123,7 @@ const Single = ({location, history}) => {
                 <Card.Text className="ml-2 mb-3">{genreString}</Card.Text>
               </div>
               <Card.Text>{desc.description}</Card.Text>
+              <Card.Text className="text-muted">{moment(file.time_added).format('HH:mm DD-MM-YYYY')}</Card.Text>
               <Modal
                 size="sm"
                 show={smShow}
@@ -218,6 +220,7 @@ const Single = ({location, history}) => {
                             value={values.comment}
                             style={{
                               borderRadius: '0.25rem',
+                              resize: 'none',
                             }}
                           />{touched.comment && errors.comment ? (
                               <div className="error-message comment-error">{errors.comment}</div>

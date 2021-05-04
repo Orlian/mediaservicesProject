@@ -12,6 +12,7 @@ import {FaComment, FaStar} from 'react-icons/fa';
 import {useComment, useRating, useUsers} from '../hooks/ApiHooks';
 import {Link, withRouter} from 'react-router-dom';
 import {MediaContext} from '../contexts/MediaContext';
+import moment from 'moment';
 
 const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
   const {getUserById} = useUsers();
@@ -84,6 +85,7 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
             <Card.Text className="ml-2 mb-3">{genreString}</Card.Text>
           </div>
           <Card.Text>{JSON.parse(file.description).description}</Card.Text>
+          <Card.Text className="text-muted">{moment(file.time_added).format('HH:mm DD-MM-YYYY')}</Card.Text>
         </Card.Body>
 
 
