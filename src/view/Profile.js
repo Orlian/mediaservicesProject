@@ -24,6 +24,7 @@ const Profile = ({location}) => {
   const [followed, setFollowed] = useState(false);
   const [update, setUpdate] = useState(1);
   const [mediaType, setMediaType] = useState('all');
+  const [activeLink, setActiveLink] = useState('all');
 
 
   console.log('ownFiles beginning', ownFiles);
@@ -65,7 +66,7 @@ const Profile = ({location}) => {
 
   useEffect(()=>{
 
-  }, [mediaType, ownFiles, followed]);
+  }, [mediaType, ownFiles, followed, activeLink]);
 
   console.log('ownFiles end', ownFiles);
   console.log('user from context end', user);
@@ -208,14 +209,19 @@ const Profile = ({location}) => {
             <Row className="mt-4 d-flex justify-content-center">
               <Col xs={'auto'}>
                 <Button
-                  className="sortButton"
-                  style={{
+                  className={activeLink}
+                  style={activeLink === 'all' ? {
+                    backgroundColor: 'inherit',
+                    border: 'none',
+                    color: '#f6aa1c',
+                  } : {
                     backgroundColor: 'inherit',
                     border: 'none',
                   }}
                   onClick={
                     ()=>{
                       setMediaType('all');
+                      setActiveLink('all');
                     }
                   }
                 >
@@ -225,13 +231,18 @@ const Profile = ({location}) => {
               <Col xs={'auto'}>
                 <Button
                   className="sortButton"
-                  style={{
+                  style={activeLink === 'audio'? {
+                    backgroundColor: 'inherit',
+                    border: 'none',
+                    color: '#f6aa1c',
+                  } : {
                     backgroundColor: 'inherit',
                     border: 'none',
                   }}
                   onClick={
                     ()=>{
                       setMediaType('audio');
+                      setActiveLink('audio');
                     }
                   }
                 >
@@ -241,13 +252,18 @@ const Profile = ({location}) => {
               <Col xs={'auto'}>
                 <Button
                   className="sortButton"
-                  style={{
+                  style={activeLink === 'video'? {
+                    backgroundColor: 'inherit',
+                    border: 'none',
+                    color: '#f6aa1c',
+                  } : {
                     backgroundColor: 'inherit',
                     border: 'none',
                   }}
                   onClick={
                     ()=>{
                       setMediaType('video');
+                      setActiveLink('video');
                     }
                   }
                 >
@@ -257,13 +273,18 @@ const Profile = ({location}) => {
               <Col xs={'auto'}>
                 <Button
                   className="sortButton"
-                  style={{
+                  style={activeLink === 'image'? {
+                    backgroundColor: 'inherit',
+                    border: 'none',
+                    color: '#f6aa1c',
+                  } : {
                     backgroundColor: 'inherit',
                     border: 'none',
                   }}
                   onClick={
                     ()=>{
                       setMediaType('image');
+                      setActiveLink('image');
                     }
                   }
                 >

@@ -64,7 +64,7 @@ const Navigation = ({history}) => {
 
   return (
     <>
-      <Navbar expand="lg" className="navbar-dark">
+      <Navbar expand={false} className="navbar-dark">
         <Navbar.Brand
           as={RouterLink}
           to="/"
@@ -145,18 +145,18 @@ const Navigation = ({history}) => {
           <Nav className="justify-content-end w-100">
 
 
-            <Nav.Link as={RouterLink} to="/">Home</Nav.Link>
-            {user && <><Nav.Link as={RouterLink} to="/upload">Upload</Nav.Link>
-              <Nav.Link as={RouterLink} to="/followed">Followed</Nav.Link>
+            <Nav.Link as={RouterLink} to="/">HOME</Nav.Link>
+            {user && <><Nav.Link as={RouterLink} to="/upload">UPLOAD</Nav.Link>
+              <Nav.Link as={RouterLink} to="/followed">FOLLOWED</Nav.Link>
               <Nav.Link as={RouterLink} to={
                 {
                   pathname: '/profile',
                   state: user,
                 }
-              } >My Profile</Nav.Link>
+              } >MY PROFILE</Nav.Link>
             </>}
-            {user ? <Nav.Link as={RouterLink} to="/logout">Logout</Nav.Link> :
-              <Nav.Link as={RouterLink} to="/login">Login</Nav.Link> }
+            {user ? <Nav.Link as={RouterLink} to="/logout">LOGOUT</Nav.Link> :
+              <Nav.Link as={RouterLink} to="/login">LOGIN</Nav.Link> }
           </Nav>
         </Navbar.Collapse>
       </Navbar>

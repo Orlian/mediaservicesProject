@@ -11,6 +11,7 @@ const Home = () => {
   const [user, setUser] = useContext(MediaContext);
   const {getUser} = useUsers();
   const [sortType, setSortType] = useState('all');
+  const [activeLink, setActiveLink] = useState('all');
 
   useEffect(() => {
     const checkUser = async () => {
@@ -31,6 +32,9 @@ const Home = () => {
     checkUser();
   }, []);
 
+  useEffect(()=>{
+
+  }, [activeLink]);
 
   return (
     <>
@@ -91,13 +95,18 @@ const Home = () => {
                 <Col xs={'auto'}>
                   <Button
                     className="sortButton"
-                    style={{
+                    style={activeLink === 'all' ? {
+                      backgroundColor: 'inherit',
+                      border: 'none',
+                      color: '#f6aa1c',
+                    } : {
                       backgroundColor: 'inherit',
                       border: 'none',
                     }}
                     onClick={
                       ()=>{
                         setSortType('all');
+                        setActiveLink('all');
                       }
                     }
                   >
@@ -107,13 +116,18 @@ const Home = () => {
                 <Col xs={'auto'}>
                   <Button
                     className="sortButton"
-                    style={{
+                    style={activeLink === 'skills' ? {
+                      backgroundColor: 'inherit',
+                      border: 'none',
+                      color: '#f6aa1c',
+                    } : {
                       backgroundColor: 'inherit',
                       border: 'none',
                     }}
                     onClick={
                       ()=>{
                         setSortType('skills');
+                        setActiveLink('skills');
                       }
                     }
                   >
@@ -123,13 +137,18 @@ const Home = () => {
                 <Col xs={'auto'}>
                   <Button
                     className="sortButton"
-                    style={{
+                    style={activeLink === 'genres' ? {
+                      backgroundColor: 'inherit',
+                      border: 'none',
+                      color: '#f6aa1c',
+                    } : {
                       backgroundColor: 'inherit',
                       border: 'none',
                     }}
                     onClick={
                       ()=>{
                         setSortType('genres');
+                        setActiveLink('genres');
                       }
                     }
                   >
@@ -139,13 +158,18 @@ const Home = () => {
                 <Col xs={'auto'}>
                   <Button
                     className="sortButton"
-                    style={{
+                    style={activeLink === 'location' ? {
+                      backgroundColor: 'inherit',
+                      border: 'none',
+                      color: '#f6aa1c',
+                    } : {
                       backgroundColor: 'inherit',
                       border: 'none',
                     }}
                     onClick={
                       ()=>{
                         setSortType('location');
+                        setActiveLink('location');
                       }
                     }
                   >
