@@ -1,4 +1,4 @@
-import {Form, Button, Image} from 'react-bootstrap';
+import {Form, Button} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import {useContext} from 'react';
 import {MediaContext} from '../contexts/MediaContext';
@@ -75,10 +75,6 @@ const LoginForm = ({history}) => {
           >
             <div className="d-flex justify-content-center">
               <h1>Login</h1>
-            </div>
-            <div className="d-flex justify-content-center my-3">
-              <Image src="logo192.png"
-                style={{width: '50px'}}/>
             </div>
             <Form.Group className="mx-4">
               <Form.Label>Username</Form.Label>

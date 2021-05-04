@@ -4,6 +4,10 @@
 @import "forms";
 @import "cards";
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Montserrat', sans-serif;
 }
