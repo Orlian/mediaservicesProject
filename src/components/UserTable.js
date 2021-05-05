@@ -26,29 +26,57 @@ const UserTable = ({sortType, user, input, follows}) => {
   return (
     <Container>
       <Row>
-        { sortType === 'all' &&
+        { sortType === 'all' && userArray?.length>0 &&
           userArray?.map((item) =>
             <Col xs={12} md={6} lg={4} key={item.user_id}>
               <UserRow user={item} />
             </Col>)
         }
-        { sortType === 'skills' &&
+        { sortType === 'all' && userArray?.length === 0 &&
+        <Row className="m-auto">
+          <Col xs={'auto'}>
+            <h2 className="h-5">No user matches found</h2>
+          </Col>
+        </Row>
+        }
+        { sortType === 'skills' && skillsArray?.length > 0 &&
         skillsArray?.map((item) =>
           <Col xs={12} md={6} lg={4} key={item.user_id}>
             <UserRow user={item} />
           </Col>)
         }
-        { sortType === 'genres' &&
+        { sortType === 'skills' && skillsArray?.length === 0 &&
+        <Row className="m-auto">
+          <Col xs={'auto'}>
+            <h2 className="h-5">No skills matches found</h2>
+          </Col>
+        </Row>
+        }
+        { sortType === 'genres' && genresArray?.length > 0 &&
         genresArray?.map((item) =>
           <Col xs={12} md={6} lg={4} key={item.user_id}>
             <UserRow user={item} />
           </Col>)
         }
-        { sortType === 'location' &&
+        { sortType === 'genres' && genresArray?.length === 0 &&
+        <Row className="m-auto">
+          <Col xs={'auto'}>
+            <h2 className="h-5">No genre matches found</h2>
+          </Col>
+        </Row>
+        }
+        { sortType === 'location' && locationArray?.length > 0 &&
         locationArray?.map((item) =>
           <Col xs={12} md={6} lg={4} key={item.user_id}>
             <UserRow user={item} />
           </Col>)
+        }
+        { sortType === 'location' && locationArray?.length === 0 &&
+        <Row className="m-auto">
+          <Col xs={'auto'}>
+            <h2 className="h-5">No location matches found</h2>
+          </Col>
+        </Row>
         }
       </Row>
     </Container>
