@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ArrowLeft} from 'react-bootstrap-icons';
 import {Button} from 'react-bootstrap';
 import {withRouter} from 'react-router-dom';
 
@@ -11,8 +10,8 @@ const BackButton = ({history}) => {
       onClick={() => {
         history.goBack();
       }}
+      className="back-button mt-2 ml-2"
     >
-      <ArrowLeft/>
       Back
     </Button>
   );

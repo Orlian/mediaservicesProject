@@ -27,7 +27,7 @@ const UserTable = ({sortType, user, input, follows}) => {
     <Container>
       <Row>
         { sortType === 'all' && userArray?.length>0 &&
-          userArray?.map((item) =>
+          userArray?.slice(0).reverse().map((item) =>
             <Col xs={12} md={6} lg={4} key={item.user_id}>
               <UserRow user={item} />
             </Col>)
@@ -40,7 +40,7 @@ const UserTable = ({sortType, user, input, follows}) => {
         </Row>
         }
         { sortType === 'skills' && skillsArray?.length > 0 &&
-        skillsArray?.map((item) =>
+        skillsArray?.slice(0).reverse().map((item) =>
           <Col xs={12} md={6} lg={4} key={item.user_id}>
             <UserRow user={item} />
           </Col>)
@@ -53,7 +53,7 @@ const UserTable = ({sortType, user, input, follows}) => {
         </Row>
         }
         { sortType === 'genres' && genresArray?.length > 0 &&
-        genresArray?.map((item) =>
+        genresArray?.slice(0).reverse().map((item) =>
           <Col xs={12} md={6} lg={4} key={item.user_id}>
             <UserRow user={item} />
           </Col>)
@@ -66,7 +66,7 @@ const UserTable = ({sortType, user, input, follows}) => {
         </Row>
         }
         { sortType === 'location' && locationArray?.length > 0 &&
-        locationArray?.map((item) =>
+        locationArray?.slice(0).reverse().map((item) =>
           <Col xs={12} md={6} lg={4} key={item.user_id}>
             <UserRow user={item} />
           </Col>)

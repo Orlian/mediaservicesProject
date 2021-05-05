@@ -91,3 +91,26 @@ body {
   height: auto;
   object-fit: cover;
 }
+
+.back-button{
+  background-color: $yellow;
+  border: 1px solid $yellow;
+  color: $black;
+  border-radius: 30em;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+
+  &:hover {
+    background-color: $white;
+    border: 1px solid $white;
+    color: $black;
+  }
+  &:active{
+    background-color: $yellow;
+    color: $black;
+  }
+  &:focus{
+    background-color: $yellow;
+    color: $black;
+  }
+}
