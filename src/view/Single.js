@@ -138,10 +138,11 @@ const Single = ({location, history}) => {
                 <Modal.Body><RatingForm rating={rating} setRating={setRating} user={user} update={update} setUpdate={setUpdate} fileId={file.file_id}/></Modal.Body>
               </Modal>
               <Row className="d-flex justify-content-end">
-                <Col xs={'auto'} className="d-flex">
-                  <Card.Text variant="small" className=" text-muted my-2 mx-0">{isNaN(avgRating) ? 'No ratings yet' : avgRating}</Card.Text>
-                  <Button className="card-actions ml-2" onClick={() => setSmShow(true)}>
-                    {rating === 0 ?
+                <Col xs={'auto'} className="d-flex single-controls">
+                  <Card.Text variant="small" className=" text-muted my-2 mx-0 no-ratings">{isNaN(avgRating) ? 'No ratings yet' : avgRating}</Card.Text>
+                  <div className="actions-btn-container">
+                    <Button className="card-actions ml-2" onClick={() => setSmShow(true)}>
+                      {rating === 0 ?
                       <FaRegStar style={{
                         fontSize: '18px',
                       }}/>:
@@ -149,9 +150,9 @@ const Single = ({location, history}) => {
                       style={{
                         fontSize: '18px',
                       }}/>
-                    }
-                  </Button>
-                  {user?.user_id === file.user_id &&
+                      }
+                    </Button>
+                    {user?.user_id === file.user_id &&
                   <>
                     <Button as={Link} to={
                       {
@@ -185,7 +186,8 @@ const Single = ({location, history}) => {
                       <Trash/>
                     </Button>
                   </>
-                  }
+                    }
+                  </div>
                 </Col>
               </Row>
               <Row>
@@ -206,8 +208,9 @@ const Single = ({location, history}) => {
                       handleSubmit,
                       isSubmitting}) => (
                       <Form onSubmit={handleSubmit}>
-                        <InputGroup className="my-3">
+                        <InputGroup className="my-3 comments" >
                           <FormControl
+                            id="comments-field"
                             as="textarea" rows={1}
                             placeholder="Please comment"
                             aria-label="Comment"
@@ -225,7 +228,7 @@ const Single = ({location, history}) => {
                           />{touched.comment && errors.comment ? (
                               <div className="error-message comment-error" style={{paddingTop: '4em'}}>{errors.comment}</div>
                             ): null}
-                          <InputGroup.Append className="d-flex align-items-center">
+                          <InputGroup.Append className="d-flex align-items-center comments-button justify-content-end">
                             <Button type="submit" className="font-weight-bold form-btn ml-2 comment-btn" disabled={isSubmitting}
                               style={{
                                 backgroundColor: '#f6aa1c',

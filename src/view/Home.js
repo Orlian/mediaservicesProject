@@ -201,7 +201,7 @@ const Home = () => {
               backgroundColor: 'rgba(0, 0, 0, 0.2)',
             }}>
               <Row>
-                <Col sm={{span: 12, order: 1}} md={{span: 6, order: 1}} className="p-0">
+                <Col xs={{span: 12, order: 1}} md={{span: 6, order: 1}} className="p-0">
                   <div>
                     <h3 className="text-center p-3">What is Musikantti</h3>
                     <p className="mx-5">Musikantti is all about bringing music
@@ -211,15 +211,15 @@ const Home = () => {
                       collaborate with.  </p>
                   </div>
                 </Col>
-                <Col sm={{span: 12, order: 2}} md={{span: 6, order: 2}} className="d-flex justify-content-end p-0">
+                <Col xs={{span: 12, order: 2}} md={{span: 6, order: 2}} className="d-flex justify-content-end p-0">
                   <Image src="placeholder.jpg" className="w-100"/>
                 </Col>
               </Row>
               <Row>
-                <Col sm={{span: 12, order: 4}} md={{span: 6, order: 3}} className="p-0">
+                <Col xs={{span: 12, order: 4}} md={{span: 6, order: 3}} className="p-0">
                   <Image src="placeholder-2.jpg" className="w-100"/>
                 </Col>
-                <Col sm={{span: 12, order: 3}} md={{span: 6, order: 4}} className="p-0">
+                <Col xs={{span: 12, order: 3}} md={{span: 6, order: 4}} className="p-0">
                   <div>
                     <h3 className="text-center p-3">What you can do in Musikantti</h3>
                     <ul className="mx-5 list-unstyled">
