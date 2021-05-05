@@ -190,7 +190,7 @@ const RegisterForm = ({setToggle}) => {
             >
               <Tab
                 eventKey="account-info"
-                title="User information"
+                title="Account information"
                 tabClassName="font-weight-bold">
                 <Form.Group className="mx-4">
                   <Form.Label className="font-we">Username</Form.Label>
@@ -207,43 +207,10 @@ const RegisterForm = ({setToggle}) => {
               ): null}
                 </Form.Group>
                 <Form.Group className="mx-4">
-                  <Form.Label className="font-we">Artist name</Form.Label>
-                  <Form.Control type="text"
-                    name="full_name"
-                    placeholder="Artist name"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values?.artist_name}
-                    className={touched.full_name && errors.full_name ?
-                              'error' : null}/>
-                  {touched.full_name && errors.full_name ? (
-                <div className="error-message">{errors.full_name}</div>
-              ): null}
-                </Form.Group>
-                <Form.Group className="mx-4">
-                  <Form.Label>Bio</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    type="txt"
-                    name="bio"
-                    placeholder="Tell something about yourself..."
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values?.bio}
-                    style={{
-                      resize: 'none',
-                    }}
-                  />
-                  {touched.bio && errors.bio ? (
-                    <div className="error-message">{errors.bio}</div>
-                  ): null}
-                </Form.Group>
-                <Form.Group className="mx-4">
-                  <Form.Label>Artist email</Form.Label>
+                  <Form.Label>Email</Form.Label>
                   <Form.Control type="email"
                     name="email"
-                    placeholder="Email"
+                    placeholder="Email will be visible"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.email}
@@ -254,7 +221,7 @@ const RegisterForm = ({setToggle}) => {
                   {/* eslint-disable-next-line max-len */}
                 </Form.Group>
                 <Form.Group className="mx-4">
-                  <Form.Label>Create password</Form.Label>
+                  <Form.Label>Password</Form.Label>
                   <Form.Control type="password"
                     name="password"
                     placeholder="Password"
@@ -284,99 +251,21 @@ const RegisterForm = ({setToggle}) => {
               </Tab>
               <Tab
                 eventKey="preferences"
-                title="Preferences"
+                title="User information"
                 tabClassName="font-weight-bold">
                 <Form.Group className="mx-4">
-                  <Form.Label className="mb-0">Choose genres</Form.Label>
-                  {/* eslint-disable-next-line max-len */}
-                  <Form.Text className="text-muted mb-2">Choose genres that characterise your music style</Form.Text>
-                  <div role="group" aria-labelledby="checkbox-group">
-                    <Row>
-                      <Col xs={'auto'} >
-                        <label>
-                          <Field type="checkbox" name="checked" value="EDM"/>
-                          &nbsp;EDM
-                        </label>
-                      </Col>
-                      <Col xs={'auto'}>
-                        <label>
-                          <Field type="checkbox" name="checked"
-                            value="Hip-hop/ Rap" />
-                          &nbsp;Hip-hop/ Rap
-                        </label>
-                      </Col>
-                      <Col xs={'auto'}>
-                        <label>
-                          <Field type="checkbox" name="checked" value="Rock"/>
-                          &nbsp;Rock
-                        </label>
-                      </Col>
-                      <Col xs={'auto'}>
-                        <label>
-                          <Field type="checkbox" name="checked" value="Pop" />
-                          &nbsp;Pop
-                        </label>
-                      </Col>
-                      <Col xs={'auto'}>
-                        <label>
-                          <Field type="checkbox" name="checked" value="Metal"/>
-                          &nbsp;Metal
-                        </label>
-                      </Col>
-                      <Col xs={'auto'}>
-                        <label>
-                          <Field type="checkbox" name="checked"
-                            value="Alternative" />
-                          &nbsp;Alternative
-                        </label>
-                      </Col>
-                    </Row>
-                  </div>
-                </Form.Group>
-                <Form.Group className="mx-4">
-                  <Form.Label>Choose skills</Form.Label>
-                  <div role="group" aria-labelledby="checkbox-group">
-                    <Row>
-                      <Col xs={'auto'}>
-                        <label>
-                          <Field type="checkbox" name="skills" value="singing"/>
-                          &nbsp;Singing
-                        </label>
-                      </Col>
-                      <Col xs={'auto'}>
-                        <label>
-                          <Field type="checkbox" name="skills"
-                            value="piano" />
-                          &nbsp;Piano
-                        </label>
-                      </Col>
-                      <Col xs={'auto'}>
-                        <label>
-                          <Field type="checkbox" name="skills" value="guitar"/>
-                          &nbsp;Guitar
-                        </label>
-                      </Col>
-                      <Col xs={'auto'}>
-                        <label>
-                          <Field type="checkbox" name="skills" value="drums" />
-                          &nbsp;Drums
-                        </label>
-                      </Col>
-                      <Col xs={'auto'}>
-                        <label>
-                          <Field type="checkbox" name="skills" value="violin"/>
-                          &nbsp;Violin
-                        </label>
-                      </Col>
-                      <Col xs={'auto'}>
-                        <label>
-                          <Field type="checkbox" name="skills"
-                            value="hurdygurdy" />
-                          &nbsp;Hurdygurdy
-                        </label>
-                      </Col>
-                    </Row>
-                  </div>
+                  <Form.Label className="font-we">Artist name</Form.Label>
+                  <Form.Control type="text"
+                    name="full_name"
+                    placeholder="Display name on profile page"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values?.artist_name}
+                    className={touched.full_name && errors.full_name ?
+                                  'error' : null}/>
+                  {touched.full_name && errors.full_name ? (
+                    <div className="error-message">{errors.full_name}</div>
+                  ): null}
                 </Form.Group>
                 <Form.Group
                   controlId="selectLocation"
@@ -404,6 +293,179 @@ const RegisterForm = ({setToggle}) => {
                     <option value="Varsinais-Suomi">Varsinais-Suomi</option>
                   </Field>
                 </Form.Group>
+                <Form.Group className="mx-4">
+                  <Form.Label>Bio</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    type="txt"
+                    name="bio"
+                    placeholder="Tell something about yourself..."
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values?.bio}
+                    style={{
+                      resize: 'none',
+                    }}
+                  />
+                  {touched.bio && errors.bio ? (
+                    <div className="error-message">{errors.bio}</div>
+                  ): null}
+                </Form.Group>
+                <Form.Group className="mx-4">
+                  <Form.Label>Choose skills/ instrument categories</Form.Label>
+                  <div role="group" aria-labelledby="checkbox-group">
+                    <Row>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills"
+                            value="bowed" />
+                          &nbsp;Bowed
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills" value="brass"/>
+                          &nbsp;Brass
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills"
+                            value="computer" />
+                          &nbsp;Computer
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills"
+                            value="keyboard" />
+                          &nbsp;Keyboard
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills" value="percussion" />
+                          &nbsp;Percussion
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills" value="string"/>
+                          &nbsp;String
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills" value="vocals"/>
+                          &nbsp;Vocals
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="skills"
+                            value="woodwind" />
+                          &nbsp;Woodwind
+                        </label>
+                      </Col>
+                    </Row>
+                  </div>
+                </Form.Group>
+                <Form.Group className="mx-4">
+                  <Form.Label className="mb-0">Choose genres</Form.Label>
+                  {/* eslint-disable-next-line max-len */}
+                  <Form.Text className="text-muted mb-2">Choose genres that characterise your music style</Form.Text>
+                  <div role="group" aria-labelledby="checkbox-group">
+                    <Row>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked"
+                            value="Alternative" />
+                          &nbsp;Alternative
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked"
+                            value="Classical" />
+                          &nbsp;Classical
+                        </label>
+                      </Col>
+                      <Col xs={'auto'} >
+                        <label>
+                          <Field type="checkbox" name="checked" value="EDM"/>
+                          &nbsp;EDM
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked"
+                            value="Electronic" />
+                          &nbsp;Electronic
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked"
+                            value="Evergreens" />
+                          &nbsp;Evergreens
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked"
+                            value="Hip-hop/ Rap" />
+                          &nbsp;Hip-hop/ Rap
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked"
+                            value="Jazz" />
+                          &nbsp;Jazz
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked" value="Metal"/>
+                          &nbsp;Metal
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked" value="Pop" />
+                          &nbsp;Pop
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked"
+                            value="R&B/ Soul" />
+                          &nbsp;R&B/ Soul
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked"
+                            value="Reggae" />
+                          &nbsp;Reggae
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked" value="Rock"/>
+                          &nbsp;Rock
+                        </label>
+                      </Col>
+                      <Col xs={'auto'}>
+                        <label>
+                          <Field type="checkbox" name="checked" value="Other"/>
+                          &nbsp;Other
+                        </label>
+                      </Col>
+                    </Row>
+                  </div>
+                </Form.Group>
                 <Form.Group className="d-flex justify-content-center">
                   <Button type="submit"
                     disabled={isSubmitting}
@@ -414,7 +476,7 @@ const RegisterForm = ({setToggle}) => {
               </Tab>
             </Tabs>
             <Form.Group className="d-flex justify-content-center">
-              <Button className="w-50 form-btn" onClick={(e) => toNextTab(e)}>{activeTab === 'account-info' ? 'NEXT' : 'BACK'}</Button>
+              <Button className="w-50 tab-btn" onClick={(e) => toNextTab(e)}>{activeTab === 'account-info' ? 'NEXT' : 'BACK'}</Button>
             </Form.Group>
           </Form>
         )}
