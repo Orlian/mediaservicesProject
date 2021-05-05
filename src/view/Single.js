@@ -110,7 +110,7 @@ const Single = ({location, history}) => {
                   <img src={uploadsUrl + file.filename} alt={file.title}
                     style={{
                       width: '100%',
-                      height: 'auto',
+                      maxHeight: '800px',
                       objectFit: 'cover',
                     }}
                   />

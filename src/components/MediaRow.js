@@ -65,7 +65,7 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
         <Card.Header className="d-flex justify-content-center align-items-center p-0 m-0"
           style={{
             width: '100%',
-            maxHeight: '260px',
+            height: '260px',
           }}>
           {file.media_type === 'image' &&
             <SRLWrapper options={options}>
@@ -73,6 +73,7 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
                 style={{
                   width: '100%',
                   maxHeight: '260px',
+                  objectFit: 'cover',
                 }}
               />
             </SRLWrapper>
@@ -81,7 +82,7 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
           <video src={uploadsUrl + file.filename} controls
             style={{
               width: '100%',
-              maxHeight: '260px',
+              height: '100%',
               objectFit: 'cover',
             }}
           />
