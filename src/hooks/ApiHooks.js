@@ -158,16 +158,18 @@ const useUsers = (update = false, user, input = '', follows = false) => {
       }, []);
     } else {
       useEffect( () => {
-        (async () => {
-          try {
-            const users = await getSearchResults(
-                localStorage.getItem('token'), input, user);
-            setUserArray(users);
-          } catch (e) {
-            console.error('useUsers error', e.message);
-          }
-        })();
-      }, []);
+        if (user) {
+          (async () => {
+            try {
+              const users = await getSearchResults(
+                  localStorage.getItem('token'), input, user);
+              setUserArray(users);
+            } catch (e) {
+              console.error('useUsers error', e.message);
+            }
+          })();
+        }
+      }, [user]);
     }
   }
   const register = async (inputs) => {
@@ -265,7 +267,6 @@ const useUsers = (update = false, user, input = '', follows = false) => {
         return await doFetch(baseUrl + 'users/' + item.user_id, fetchOptions);
       }));
       input = input.toLowerCase();
-
       return allUsers.filter((item) => {
         return user?.user_id !== item.user_id && ( (searchFilter(input, JSON.parse(item.full_name).skills)) || searchFilter(input, JSON.parse(item.full_name).genres) ||
           (JSON.parse(item.full_name).regions.toLowerCase().includes(input)) || JSON.parse(item.full_name).artist_name?.toLowerCase().includes(input) ||
