@@ -145,8 +145,8 @@ const Navigation = ({history}) => {
 
 
             <Nav.Link as={RouterLink} to="/" href="/">HOME</Nav.Link>
-            {user && <><Nav.Link as={RouterLink} to="/upload">UPLOAD</Nav.Link>
-              <Nav.Link as={RouterLink} to="/followed">FOLLOWED</Nav.Link>
+            {user && <><Nav.Link as={RouterLink} to="/upload" href="/upload">UPLOAD</Nav.Link>
+              <Nav.Link as={RouterLink} to="/followed" href="/followed">FOLLOWED</Nav.Link>
               <Nav.Item >
                 <Nav.Link as={RouterLink} to={
                   {

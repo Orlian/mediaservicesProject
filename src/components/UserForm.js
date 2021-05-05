@@ -8,7 +8,7 @@ import {
   Tabs,
   Tab,
 } from 'react-bootstrap';
-import {useUsers} from '../hooks/ApiHooks';
+import {useMedia, useTag, useUsers} from '../hooks/ApiHooks';
 import {Field, Formik} from 'formik';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
@@ -21,7 +21,8 @@ import {uploadsUrl} from '../utils/variables';
 const UserForm = ({user, setUser}) => {
   const {putUser, getUser, getUserAvatar} = useUsers();
   const history = useHistory();
-  // const {postMedia, deleteMedia} = useMedia();
+  const {postMedia, deleteMedia} = useMedia();
+  const {postTag} = useTag();
   const [currentAvatar, setCurrentAvatar] = useState({});
   const [file, setFile] = useState({file: null, dataUrl: ''});
 
@@ -48,7 +49,6 @@ const UserForm = ({user, setUser}) => {
           dataUrl: 'avatar-default.png',
         }));
       }
-      console.log('changed file', file.file);
     }
   }, [file.file]);
 
@@ -61,7 +61,7 @@ const UserForm = ({user, setUser}) => {
         console.error(e.message);
       }
     })();
-  }, []);
+  }, [user]);
   const supportedFormats = [
     'image/jpg',
     'image/jpeg',
@@ -69,6 +69,7 @@ const UserForm = ({user, setUser}) => {
     'image/png',
     'image/heic',
     'image/heif',
+    'undefined',
   ];
 
   const onChange = (evt) => {
@@ -82,7 +83,7 @@ const UserForm = ({user, setUser}) => {
 
   console.log('UserForm user, avatarFile', user, currentAvatar);
   const initialValues = {
-    file: currentAvatar?.filename,
+    file: null,
     artist_name: user?.full_name?.artist_name,
     bio: user?.full_name?.bio,
     genres: user?.full_name?.genres,
@@ -95,12 +96,12 @@ const UserForm = ({user, setUser}) => {
 
 
   const validationSchema = Yup.object({
-    file: Yup.mixed()
-        .required('Meep').test(
+    file: Yup.mixed().notRequired()
+        .test(
             'fileFormat',
             'Unsupported Format',
             (value) =>{
-              return !!file.file;
+              return value !== null ? file.file : 'undefined';
             },
         ),
     email: yup.string()
@@ -116,12 +117,20 @@ const UserForm = ({user, setUser}) => {
     try {
       console.log('user muokkaus lomake lähtee');
       delete inputs.confirm;
-      if (initialValues.file !== file.file) {
+      if (file.file !== null) {
         const fd = new FormData();
         fd.append('title', currentAvatar?.title);
         fd.append('description', currentAvatar?.description);
         fd.append('file', file.file);
         console.log('formData', fd);
+        const mediaResult = await postMedia(fd, localStorage.getItem('token'));
+        const tagResult = await postTag(localStorage.getItem('token'), mediaResult.file_id);
+        console.log(mediaResult);
+        console.log(tagResult);
+        if (mediaResult && tagResult) {
+          const delResult = await deleteMedia(currentAvatar.file_id, localStorage.getItem('token'));
+          console.log(delResult);
+        }
       }
       const fullName = {
         artist_name: inputs.artist_name,
@@ -201,7 +210,7 @@ const UserForm = ({user, setUser}) => {
                 tabClassName="font-weight-bold">
                 <Row className="d-flex justify-content-center">
                   <Col xs={'auto'}>
-                    <img src={file.dataUrl ? file.dataUrl : uploadsUrl + currentAvatar.filename}
+                    <img src={file.dataUrl ? file.dataUrl : uploadsUrl + currentAvatar?.filename}
                       style={{
                         maxWidth: '200px',
                         height: 'auto',
