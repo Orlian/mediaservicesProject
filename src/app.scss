@@ -91,3 +91,40 @@ body {
   height: auto;
   object-fit: cover;
 }
+
+.back-button{
+  background-color: $yellow;
+  border: 1px solid $yellow;
+  color: $black;
+  border-radius: 30em;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+
+  &:hover {
+    background-color: #c9c9d0;
+    border: 1px solid #c9c9d0;
+    color: $black;
+  }
+  &:active{
+    background-color: $yellow;
+    color: $black;
+  }
+  &:focus{
+    background-color: $yellow;
+    color: $black;
+  }
+}
+
+.navbar-brand{
+  h1{
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@media (max-width: 800px) {
+  .navbar-brand{
+    h1{
+     display: none;
+    }
+  }
+}

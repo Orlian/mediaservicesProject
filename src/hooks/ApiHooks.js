@@ -18,7 +18,6 @@ const useMedia = (update = false, ownFiles, currentUser) => {
   const [mediaArray, setMediaArray] = useState([]);
   const [loading, setLoading] = useState(false);
 
-
   if (update) {
     useEffect(() => {
       try {
@@ -32,7 +31,6 @@ const useMedia = (update = false, ownFiles, currentUser) => {
     }, [currentUser, update]);
   }
 
-
   const getMedia = async (currentUser, token) => {
     const fetchOptions = {
       method: 'GET',
@@ -44,10 +42,9 @@ const useMedia = (update = false, ownFiles, currentUser) => {
       setLoading(true);
       console.log('getmedia user', currentUser);
       const media = await doFetch(baseUrl + 'media/user/' + currentUser.user_id, fetchOptions);
-      const mediaFiles = await Promise.all(media.map(async (file)=>{
+      return await Promise.all(media.map(async (file)=>{
         return await doFetch(baseUrl + 'media/' + file.file_id);
       }));
-      return mediaFiles;
     } catch (e) {
       console.error(e.message);
     } finally {
@@ -124,46 +121,52 @@ const useUsers = (update = false, user, input = '', follows = false) => {
   const [loading, setLoading] = useState(false);
   if (update) {
     if (follows) {
-      useEffect(async () => {
-        try {
-          setLoading(true);
-          const users = await getUserAvatar(user, true);
-          const userFollows = await getFollows(localStorage.getItem('token'));
-          let followList = users.filter((item) => {
-            const isMegaMatch = userFollows?.filter((follow) => {
-              return follow.file_id === item.file_id;
+      useEffect( () => {
+        (async () => {
+          try {
+            setLoading(true);
+            const users = await getUserAvatar(user, true);
+            const userFollows = await getFollows(localStorage.getItem('token'));
+            let followList = users.filter((item) => {
+              const isMegaMatch = userFollows?.filter((follow) => {
+                return follow.file_id === item.file_id;
+              });
+              return isMegaMatch.length > 0;
             });
-            return isMegaMatch.length > 0;
-          });
-          followList = await Promise.all(followList.map(async (item) => {
-            return await getUserById(localStorage.getItem('token'), item.user_id);
-          }));
-          setUserArray(followList);
-        } catch (e) {
-          console.log(e.message);
-        } finally {
-          setLoading(false);
-        }
+            followList = await Promise.all(followList.map(async (item) => {
+              return await getUserById(localStorage.getItem('token'), item.user_id);
+            }));
+            setUserArray(followList);
+          } catch (e) {
+            console.log(e.message);
+          } finally {
+            setLoading(false);
+          }
+        })();
       }, []);
     } else if (input === '') {
-      useEffect(async () => {
-        try {
-          const users = await getUserRecommendations(
-              localStorage.getItem('token'), user);
-          setUserArray(users);
-        } catch (e) {
-          console.error('useUsers error', e.message);
-        }
+      useEffect( () => {
+        (async () => {
+          try {
+            const users = await getUserRecommendations(
+                localStorage.getItem('token'), user);
+            setUserArray(users);
+          } catch (e) {
+            console.error('useUsers error', e.message);
+          }
+        })();
       }, []);
     } else {
-      useEffect(async () => {
-        try {
-          const users = await getSearchResults(
-              localStorage.getItem('token'), input, user);
-          setUserArray(users);
-        } catch (e) {
-          console.error('useUsers error', e.message);
-        }
+      useEffect( () => {
+        (async () => {
+          try {
+            const users = await getSearchResults(
+                localStorage.getItem('token'), input, user);
+            setUserArray(users);
+          } catch (e) {
+            console.error('useUsers error', e.message);
+          }
+        })();
       }, []);
     }
   }
@@ -264,7 +267,6 @@ const useUsers = (update = false, user, input = '', follows = false) => {
       input = input.toLowerCase();
 
       return allUsers.filter((item) => {
-        // console.log('item', item, user.user_id, JSON.parse(item.full_name).skills ? JSON.parse(item.full_name).artist_name.includes(input): 'joo');
         return user?.user_id !== item.user_id && ( (searchFilter(input, JSON.parse(item.full_name).skills)) || searchFilter(input, JSON.parse(item.full_name).genres) ||
           (JSON.parse(item.full_name).regions.toLowerCase().includes(input)) || JSON.parse(item.full_name).artist_name?.toLowerCase().includes(input) ||
           item.username.includes(input));
@@ -327,10 +329,7 @@ const useUsers = (update = false, user, input = '', follows = false) => {
       body: JSON.stringify(data),
     };
     try {
-      console.log('onnistuin seuraamaan', JSON.stringify(avatars[0].file_id));
-      const result = await doFetch(baseUrl + 'favourites', fetchOptions);
-      console.log('result', result);
-      return result;
+      return await doFetch(baseUrl + 'favourites', fetchOptions);
     } catch (e) {
       throw new Error('Following failed');
     }
@@ -349,10 +348,7 @@ const useUsers = (update = false, user, input = '', follows = false) => {
       },
     };
     try {
-      console.log('onnistuin poistamaan seuraamisen', avatars[0].file_id);
-      const result = await doFetch(baseUrl + 'favourites/file/' + avatars[0].file_id, fetchOptions);
-      console.log('result', result);
-      return result;
+      return await doFetch(baseUrl + 'favourites/file/' + avatars[0].file_id, fetchOptions);
     } catch (e) {
       throw new Error('Unfollowing failed');
     }
@@ -366,8 +362,7 @@ const useUsers = (update = false, user, input = '', follows = false) => {
       },
     };
     try {
-      const response = await doFetch(baseUrl + 'favourites', fetchOptions);
-      return response;
+      return await doFetch(baseUrl + 'favourites', fetchOptions);
     } catch (e) {
       alert(e.message);
     }
@@ -403,8 +398,7 @@ const useLogin = () => {
     };
     try {
       setLoading(true);
-      const response = await doFetch(baseUrl + 'login', fetchOptions);
-      return response;
+      return await doFetch(baseUrl + 'login', fetchOptions);
     } catch (e) {
       alert(e.message);
     } finally {
@@ -437,8 +431,7 @@ const useTag = () => {
 
   const getTag = async (tag) => {
     try {
-      const response = await doFetch(baseUrl + 'tags/' + tag);
-      return response;
+      return await doFetch(baseUrl + 'tags/' + tag);
     } catch (e) {
       alert(e.message);
     }
@@ -513,26 +506,26 @@ const useRating = (user, fileId, update = false) => {
   const [avgRating, setAvgRating] = useState(0);
 
   if (update) {
-    useEffect(async () => {
-      try {
-        const ratings = await getRating(fileId);
-        console.log('fileIDDDDDDD', fileId);
-        let sum = 0;
-        ratings?.forEach((item) => {
-          return sum = sum + item.rating;
-        });
-        console.log('useRating average, sum', sum);
-        setAvgRating((sum / ratings.length).toFixed(1));
-        setRatingArray(ratings);
-        const ratingMatch = ratings?.filter((item) => {
-          return item.user_id === user?.user_id;
-        });
-        if (ratingMatch.length > 0) {
-          setRating(ratingMatch[0].rating);
+    useEffect( () => {
+      (async () => {
+        try {
+          const ratings = await getRating(fileId);
+          let sum = 0;
+          ratings?.forEach((item) => {
+            return sum = sum + item.rating;
+          });
+          setAvgRating((sum / ratings.length).toFixed(1));
+          setRatingArray(ratings);
+          const ratingMatch = ratings?.filter((item) => {
+            return item.user_id === user?.user_id;
+          });
+          if (ratingMatch.length > 0) {
+            setRating(ratingMatch[0].rating);
+          }
+        } catch (e) {
+          console.error(e.message);
         }
-      } catch (e) {
-        console.error(e.message);
-      }
+      })();
     }, [update]);
   }
 
@@ -579,5 +572,3 @@ const useRating = (user, fileId, update = false) => {
 };
 
 export {useMedia, useUsers, useLogin, useTag, useComment, useRating};
-
-

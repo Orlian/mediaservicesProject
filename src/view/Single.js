@@ -31,6 +31,22 @@ const Single = ({location, history}) => {
   let genreString = '';
 
   genreString = JSON.parse(file.description).genres?.join(', ');
+  const options = {
+    setting: {
+      autoplaySpeed: 0,
+      disableKeyboardControls: true,
+      disableWheelControls: true,
+    },
+    buttons: {
+      showAutoplayButton: false,
+      showThumbnailsButton: false,
+      showNextButton: false,
+      showPrevButton: false,
+    },
+    thumbnails: {
+      showThumbnails: false,
+    },
+  };
 
   useEffect(()=>{
     (async ()=>{
@@ -90,7 +106,7 @@ const Single = ({location, history}) => {
                 height: '100%',
               }}>
               {file.media_type === 'image' &&
-                <SRLWrapper>
+                <SRLWrapper options={options}>
                   <img src={uploadsUrl + file.filename} alt={file.title}
                     style={{
                       width: '100%',
@@ -141,7 +157,7 @@ const Single = ({location, history}) => {
                 <Col xs={'auto'} className="d-flex single-controls">
                   <Card.Text variant="small" className=" text-muted my-2 mx-0 no-ratings">{isNaN(avgRating) ? 'No ratings yet' : avgRating}</Card.Text>
                   <div className="actions-btn-container">
-                    <Button className="card-actions ml-2" onClick={() => setSmShow(true)}>
+                    <Button variant={null} className="card-actions ml-2" onClick={() => setSmShow(true)}>
                       {rating === 0 ?
                       <FaRegStar style={{
                         fontSize: '18px',
@@ -154,7 +170,7 @@ const Single = ({location, history}) => {
                     </Button>
                     {user?.user_id === file.user_id &&
                   <>
-                    <Button as={Link} to={
+                    <Button variant={null} as={Link} to={
                       {
                         pathname: '/editmedia',
                         state: file,
@@ -166,7 +182,7 @@ const Single = ({location, history}) => {
                           fontSize: '18px',
                         }}/>
                     </Button>
-                    <Button
+                    <Button variant={null}
                       className="card-actions"
                       onClick={async () => {
                         try {

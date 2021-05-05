@@ -67,14 +67,16 @@ const Navigation = ({history}) => {
           style={{
             paddingLeft: '1.25rem',
           }}
+          className="d-flex"
         >
           <img
-            src="logo512.png"
+            src="musical-note.svg"
             width="30"
             height="30"
             className="d-inline-block align-top"
-            alt="React Bootstrap logo"
+            alt="App logo"
           />
+          <h1 className="ml-2 mb-0 h4">Musikantti</h1>
         </Navbar.Brand>
         {user &&
         <Formik initialValues={{search: ''}} validationSchema={validationSchema}
@@ -123,7 +125,7 @@ const Navigation = ({history}) => {
                 <div className="error-message">{errors.search}</div>
               ) : null}
                 <InputGroup.Append>
-                  <Button type="submit" className="font-weight-bold"
+                  <Button variant={null} type="submit" className="font-weight-bold"
                     disabled={isSubmitting}
                     style={{
                       backgroundColor: '#f6aa1c',

@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import {Button, Form, Spinner, Row, Col} from 'react-bootstrap';
+import {Button, Form, Spinner, Row, Col, Container} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import CancelButton from '../components/CancelButton';
 import {Formik, Field} from 'formik';
@@ -50,16 +50,15 @@ const EditMedia = ({history, location}) => {
 
   return (
     <>
-      <div
-        className="container-fluid"
+      <Container fluid
         style={{backgroundImage: 'url(bg-image.jpg)',
           backgroundPosition: 'center',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           position: 'relative'}}
       >
-        <div className="row-cols d-flex justify-content-center">
-          <div className="col-lg-3 mt-5 mb-5" >
+        <Row className="d-flex justify-content-center">
+          <Col xs={12} sm={10} md={8} lg={6} className=" mt-5 mb-5" >
             {!loading ?
               <Formik
                 initialValues={initialValues}
@@ -86,13 +85,17 @@ const EditMedia = ({history, location}) => {
                     className="p-4 rounded-lg"
                     style={{backgroundColor: '#f8f8ff'}}
                   >
-                    <h1>Upload Content</h1>
+                    <Row className="d-flex justify-content-center">
+                      <Col xs={'auto'}>
+                        <h1>Edit media</h1>
+                      </Col>
+                    </Row>
                     <Row className="d-flex justify-content-center">
                       <Col xs={'auto'}>
                         {mediaFile.media_type === 'image' &&
                         <img src={uploadsUrl + mediaFile.filename} alt={mediaFile.title}
                           style={{
-                            maxWidth: '300px',
+                            maxWidth: '250px',
                             height: 'auto',
                           }}
                         />
@@ -100,13 +103,13 @@ const EditMedia = ({history, location}) => {
                         { mediaFile.media_type === 'video' &&
                         <video src={uploadsUrl + mediaFile.filename} controls
                           style={{
-                            maxWidth: '300px',
+                            maxWidth: '250px',
                             height: 'auto',
                           }}
                         />
                         }
                         {mediaFile.media_type === 'audio' &&
-                        <audio src={uploadsUrl + mediaFile.filename} controls/>
+                        <audio src={uploadsUrl + mediaFile.filename} style={{maxWidth: '250px'}} controls/>
                         }
                       </Col>
                     </Row>
@@ -144,40 +147,88 @@ const EditMedia = ({history, location}) => {
                         <Row>
                           <Col xs={'auto'}>
                             <label>
+                              <Field type="checkbox" name="checked"
+                                value="Alternative" />
+                              &nbsp;Alternative
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked"
+                                value="Classical" />
+                              &nbsp;Classical
+                            </label>
+                          </Col>
+                          <Col xs={'auto'} >
+                            <label>
                               <Field type="checkbox" name="checked" value="EDM"/>
-                              EDM
+                              &nbsp;EDM
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked"
+                                value="Electronic" />
+                              &nbsp;Electronic
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked"
+                                value="Evergreens" />
+                              &nbsp;Evergreens
                             </label>
                           </Col>
                           <Col xs={'auto'}>
                             <label>
                               <Field type="checkbox" name="checked"
                                 value="Hip-hop/ Rap" />
-                              Hip-hop/ Rap
-                            </label>
-                          </Col>
-                          <Col xs={'auto'}>
-                            <label>
-                              <Field type="checkbox" name="checked" value="Rock"/>
-                              Rock
-                            </label>
-                          </Col>
-                          <Col xs={'auto'}>
-                            <label>
-                              <Field type="checkbox" name="checked" value="Pop" />
-                              Pop
-                            </label>
-                          </Col>
-                          <Col xs={'auto'}>
-                            <label>
-                              <Field type="checkbox" name="checked" value="Metal"/>
-                              Metal
+                              &nbsp;Hip-hop/ Rap
                             </label>
                           </Col>
                           <Col xs={'auto'}>
                             <label>
                               <Field type="checkbox" name="checked"
-                                value="Alternative" />
-                              Alternative
+                                value="Jazz" />
+                              &nbsp;Jazz
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked" value="Metal"/>
+                              &nbsp;Metal
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked" value="Pop" />
+                              &nbsp;Pop
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked"
+                                value="R&B/ Soul" />
+                              &nbsp;R&B/ Soul
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked"
+                                value="Reggae" />
+                              &nbsp;Reggae
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked" value="Rock"/>
+                              &nbsp;Rock
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked" value="Other"/>
+                              &nbsp;Other
                             </label>
                           </Col>
                         </Row>
@@ -202,9 +253,9 @@ const EditMedia = ({history, location}) => {
               </Formik>:
               <Spinner animation="border" />
             }
-          </div>
-        </div>
-      </div>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };

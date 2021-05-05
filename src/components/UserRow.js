@@ -41,7 +41,7 @@ const UserRow = ({user}) => {
             <Card.Text className="text-light">{user.username}</Card.Text>
           </Row>
         </Card.ImgOverlay>
-        <Card.Img src={uploadsUrl + userAvatar.filename}/>
+        <Card.Img src={uploadsUrl + userAvatar.filename} style={{maxHeight: 217, objectFit: 'cover'}}/>
         <Card.Body className="d-flex flex-column align-items-center">
           <Card.Text className="text-light">
            Location: {userInfo?.regions === '' ? 'No location' : userInfo?.regions}
