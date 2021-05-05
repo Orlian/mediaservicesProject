@@ -38,9 +38,6 @@ const Navigation = ({history}) => {
           full_name: JSON.parse(userData.full_name),
 
         };
-
-        console.log('tuletko tästä?', userData);
-        console.log('oletko objekti?', newUser);
         setUser(newUser);
       } catch (e) {
         console.log(e.message);

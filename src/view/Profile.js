@@ -8,30 +8,26 @@ import {
 } from 'react-bootstrap-icons';
 import {FaUserEdit} from 'react-icons/fa';
 import {GiGuitar} from 'react-icons/gi';
-import {Button, Card, Col, Container, Row} from 'react-bootstrap';
+import {Button, Card, Col, Container, Row, Spinner} from 'react-bootstrap';
 import MediaTable from '../components/MediaTable';
 import {Link, withRouter} from 'react-router-dom';
 import {MediaContext} from '../contexts/MediaContext';
 import PropTypes from 'prop-types';
 import {useUsers} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
+import {SRLWrapper} from 'simple-react-lightbox';
 
 const Profile = ({location}) => {
   // eslint-disable-next-line no-unused-vars
   const [user] = useContext(MediaContext);
   const userInfo = location.state;
-  const {postFollow, deleteFollow, getFollows, getUserAvatar} = useUsers(true, user);
+  const {postFollow, deleteFollow, getFollows, getUserAvatar, loading} = useUsers(true, user);
   const [ownFiles, setOwnFiles] = useState(false);
   const [followed, setFollowed] = useState(false);
   const [update, setUpdate] = useState(1);
   const [mediaType, setMediaType] = useState('all');
   const [activeLink, setActiveLink] = useState('all');
   const [userAvatar, setUserAvatar] = useState({});
-
-
-  console.log('ownFiles beginning', ownFiles);
-  console.log('user from context', user);
-  console.log('mikä olet userInfo', userInfo);
 
 
   let parsedInfo;
@@ -91,11 +87,18 @@ const Profile = ({location}) => {
             <Row>
               <Col md={{order: 'last', col: 2}}
                 className=" d-flex justify-content-md-end justify-content-center">
-                <Card.Img src={uploadsUrl + userAvatar?.filename} id="profile-card-avatar" alt={userAvatar?.title} className="w-75"
-                  style={{
-                    maxHeight: '400px',
-                  }}
-                />
+                {!loading ?
+                  <SRLWrapper>
+                    <Card.Img src={uploadsUrl + userAvatar?.filename}
+                      id="profile-card-avatar" alt={userAvatar?.title}
+                      className="w-75"
+                      style={{
+                        maxHeight: '400px',
+                      }}
+                    />
+                  </SRLWrapper>:
+                    <Spinner className="align-self-center m-auto" animation={'border'} />
+                }
               </Col>
               <Col md={{order: 'first', col: 5}} className="px-3">
                 <Card.Body className="px-3">
@@ -104,12 +107,12 @@ const Profile = ({location}) => {
                       <Card.Title className="h4 position-relative">
                         {ownFiles ? user?.username : userInfo?.username}</Card.Title>
                     </Col>
-                    <Col xs={7}>
-                      <Card.Text>{ownFiles ? user?.full_name.artist_name : parsedInfo?.artist_name}</Card.Text>
+                    <Col xs={7} className="d-flex align-items-center">
+                      <Card.Text>{ownFiles ? user?.full_name.artist_name : parsedInfo?.artist_name }</Card.Text>
                     </Col>
 
                     {ownFiles &&
-                    <Col xs={{col: 'auto', offset: 3}}>
+                    <Col xs={'auto'} className="ml-auto">
                       <Button
                         className="card-actions"
                         as={Link} to={
@@ -297,7 +300,8 @@ const Profile = ({location}) => {
           </section>
         </Container>
       </section>
-      <MediaTable update={update} ownFiles={ownFiles} currentUser={ownFiles ? user : userInfo}
+      <MediaTable update={update} ownFiles={ownFiles}
+        currentUser={ownFiles ? user : userInfo}
         mediaType={mediaType} setUpdate={setUpdate}
       />
     </Container>

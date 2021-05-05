@@ -20,7 +20,7 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
   const {avgRating} = useRating(user, file?.file_id, update);
   const {commentArray} = useComment(true, file);
   const [owner, setOwner] = useState(null);
-  console.log('MediaRow update', update);
+
 
   const genreString = JSON.parse(file.description).genres?.join(', ');
 
@@ -37,7 +37,7 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
       }
     })();
   }, []);
-  console.log('CommentCount', commentArray.length);
+
   return (
     <>
       <Card className="media-card"

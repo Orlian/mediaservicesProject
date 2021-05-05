@@ -235,8 +235,8 @@ const RegisterForm = ({setToggle}) => {
                       resize: 'none',
                     }}
                   />
-                  {touched.full_name && errors.full_name ? (
-                    <div className="error-message">{errors.full_name}</div>
+                  {touched.bio && errors.bio ? (
+                    <div className="error-message">{errors.bio}</div>
                   ): null}
                 </Form.Group>
                 <Form.Group className="mx-4">

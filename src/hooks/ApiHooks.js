@@ -448,7 +448,6 @@ const useTag = () => {
 
 const useComment = (update = false, file) => {
   const [commentArray, setCommentArray] = useState([]);
-  console.log('useComments update', update);
   if (update) {
     useEffect(() => {
       try {

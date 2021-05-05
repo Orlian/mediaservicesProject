@@ -62,7 +62,7 @@ const MediaTable = ({update, ownFiles, currentUser, mediaType, setUpdate}) => {
 };
 
 MediaTable.propTypes = {
-  update: PropTypes.bool,
+  update: PropTypes.number,
   ownFiles: PropTypes.bool,
   currentUser: PropTypes.object,
   mediaType: PropTypes.string,
