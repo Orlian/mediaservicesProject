@@ -208,7 +208,7 @@ const Single = ({location, history}) => {
                       <Form onSubmit={handleSubmit}>
                         <InputGroup className="my-3">
                           <FormControl
-                            as="textarea" rows={2}
+                            as="textarea" rows={1}
                             placeholder="Please comment"
                             aria-label="Comment"
                             type="text"
@@ -223,7 +223,7 @@ const Single = ({location, history}) => {
                               resize: 'none',
                             }}
                           />{touched.comment && errors.comment ? (
-                              <div className="error-message comment-error">{errors.comment}</div>
+                              <div className="error-message comment-error" style={{paddingTop: '4em'}}>{errors.comment}</div>
                             ): null}
                           <InputGroup.Append className="d-flex align-items-center">
                             <Button type="submit" className="font-weight-bold form-btn ml-2 comment-btn" disabled={isSubmitting}

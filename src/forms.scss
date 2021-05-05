@@ -31,6 +31,29 @@ form {
     }
   }
 
+  .tab-btn{
+    background-color: #065A82;
+    border: 1px solid #065A82;
+    color: $white;
+    border-radius: 30em;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+
+    &:hover {
+      background-color: $dark;
+      border: 1px solid $dark;
+      color: $white;
+    }
+    &:active{
+      background-color: #065A82;
+      color: $white;
+    }
+    &:focus{
+      background-color: #065A82;
+      color: $white;
+    }
+  }
+
   .error-message {
     color: $error;
     height: 1em;
