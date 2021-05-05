@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import
 {Form, Button, Row, Col, Tabs, Tab} from 'react-bootstrap';
 // import useForm from '../hooks/FormHooks';
@@ -5,7 +6,7 @@ import {useLogin, useMedia, useUsers, useTag} from '../hooks/ApiHooks';
 import {Field, Formik} from 'formik';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
 import {dataUri, dataURItoBase} from '../utils/avatarImg';
 import {MediaContext} from '../contexts/MediaContext';
 import {useHistory} from 'react-router-dom';
@@ -19,6 +20,7 @@ const RegisterForm = ({setToggle}) => {
   const {postTag} = useTag();
   // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useContext(MediaContext);
+  const [activeTab, setActiveTab] = useState('account-info');
   const checkUsername = async (value) => {
     if (value?.length > 2) {
       try {
@@ -139,6 +141,20 @@ const RegisterForm = ({setToggle}) => {
     }
   };
 
+  const toNextTab =(e)=> {
+    e.preventDefault();
+    handleTabChange();
+  };
+
+  const handleTabChange= () => {
+    if (activeTab === 'account-info') {
+      setActiveTab('preferences');
+    }
+    if (activeTab === 'preferences') {
+      setActiveTab('account-info');
+    }
+  };
+
   return (
     <>
       <Formik
@@ -169,7 +185,9 @@ const RegisterForm = ({setToggle}) => {
             <div className="d-flex justify-content-center">
               <h1>Register</h1>
             </div>
-            <Tabs className="m-4">
+            <Tabs className="m-4"
+              activeKey={activeTab} onSelect={(k) => setActiveTab(k)}
+            >
               <Tab
                 eventKey="account-info"
                 title="User information"
@@ -213,6 +231,9 @@ const RegisterForm = ({setToggle}) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values?.bio}
+                    style={{
+                      resize: 'none',
+                    }}
                   />
                   {touched.full_name && errors.full_name ? (
                     <div className="error-message">{errors.full_name}</div>
@@ -388,6 +409,7 @@ const RegisterForm = ({setToggle}) => {
               </Tab>
             </Tabs>
             <Form.Group className="d-flex justify-content-center">
+              <button onClick={(e) => toNextTab(e)}>{activeTab === 'account-info' ? 'NEXT' : 'BACK'}</button>
               <Button type="submit"
                 disabled={isSubmitting}
                 className="w-50 mt-3 form-btn"
