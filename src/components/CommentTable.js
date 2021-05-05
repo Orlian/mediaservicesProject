@@ -14,7 +14,7 @@ const CommentTable = ({file, update, setUpdate}) => {
     }}>
       <Row>
         { commentArray?.length > 0 &&
-          commentArray?.map((item) =>
+          commentArray?.slice(0).reverse().map((item) =>
             <Col xs={12} key={item.comment_id}>
               <CommentRow comment={item} deleteComment={deleteComment} setUpdate={setUpdate} update={update}/>
             </Col>)

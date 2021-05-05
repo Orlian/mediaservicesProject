@@ -86,7 +86,7 @@ const EditMedia = ({history, location}) => {
                     className="p-4 rounded-lg"
                     style={{backgroundColor: '#f8f8ff'}}
                   >
-                    <h1>Upload Content</h1>
+                    <h1>Edit media</h1>
                     <Row className="d-flex justify-content-center">
                       <Col xs={'auto'}>
                         {mediaFile.media_type === 'image' &&
@@ -144,40 +144,88 @@ const EditMedia = ({history, location}) => {
                         <Row>
                           <Col xs={'auto'}>
                             <label>
+                              <Field type="checkbox" name="checked"
+                                value="Alternative" />
+                              &nbsp;Alternative
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked"
+                                value="Classical" />
+                              &nbsp;Classical
+                            </label>
+                          </Col>
+                          <Col xs={'auto'} >
+                            <label>
                               <Field type="checkbox" name="checked" value="EDM"/>
-                              EDM
+                              &nbsp;EDM
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked"
+                                value="Electronic" />
+                              &nbsp;Electronic
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked"
+                                value="Evergreens" />
+                              &nbsp;Evergreens
                             </label>
                           </Col>
                           <Col xs={'auto'}>
                             <label>
                               <Field type="checkbox" name="checked"
                                 value="Hip-hop/ Rap" />
-                              Hip-hop/ Rap
-                            </label>
-                          </Col>
-                          <Col xs={'auto'}>
-                            <label>
-                              <Field type="checkbox" name="checked" value="Rock"/>
-                              Rock
-                            </label>
-                          </Col>
-                          <Col xs={'auto'}>
-                            <label>
-                              <Field type="checkbox" name="checked" value="Pop" />
-                              Pop
-                            </label>
-                          </Col>
-                          <Col xs={'auto'}>
-                            <label>
-                              <Field type="checkbox" name="checked" value="Metal"/>
-                              Metal
+                              &nbsp;Hip-hop/ Rap
                             </label>
                           </Col>
                           <Col xs={'auto'}>
                             <label>
                               <Field type="checkbox" name="checked"
-                                value="Alternative" />
-                              Alternative
+                                value="Jazz" />
+                              &nbsp;Jazz
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked" value="Metal"/>
+                              &nbsp;Metal
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked" value="Pop" />
+                              &nbsp;Pop
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked"
+                                value="R&B/ Soul" />
+                              &nbsp;R&B/ Soul
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked"
+                                value="Reggae" />
+                              &nbsp;Reggae
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked" value="Rock"/>
+                              &nbsp;Rock
+                            </label>
+                          </Col>
+                          <Col xs={'auto'}>
+                            <label>
+                              <Field type="checkbox" name="checked" value="Other"/>
+                              &nbsp;Other
                             </label>
                           </Col>
                         </Row>
