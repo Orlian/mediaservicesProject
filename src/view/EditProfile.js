@@ -28,7 +28,7 @@ const EditProfile = () => {
           </Row>
           <Row className="d-flex justify-content-center">
             {/* eslint-disable-next-line max-len */}
-            <Col xs={12} sm={10} md={8} lg={6} className="mt-5 pb-3 mb-5 rounded-lg"
+            <Col xs={11} md={8} lg={6} xl={4} className="mt-5 pb-3 mb-5 rounded-lg"
               style={{backgroundColor: '#f8f8ff'}}>
               <UserForm user={user} setUser={setUser}/>
             </Col>

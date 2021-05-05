@@ -54,12 +54,18 @@ const EditMedia = ({history, location}) => {
         style={{backgroundImage: 'url(bg-image.jpg)',
           backgroundPosition: 'center',
           backgroundSize: 'cover',
+          minHeight: '100vh',
           backgroundRepeat: 'no-repeat',
           position: 'relative'}}
       >
-        <Row className="d-flex justify-content-center">
-          <Col xs={12} sm={10} md={8} lg={6} className=" mt-5 mb-5" >
-            {!loading ?
+        <div
+          style={{background: 'rgba(0, 0, 0, 0.4)',
+            minHeight: '100vh'}}
+        >
+
+          <Row className="d-flex justify-content-center">
+            <Col xs={11} md={8} lg={6} xl={4} className=" mt-5 mb-5" >
+              {!loading ?
               <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -252,9 +258,10 @@ const EditMedia = ({history, location}) => {
                   </Form> )}
               </Formik>:
               <Spinner animation="border" />
-            }
-          </Col>
-        </Row>
+              }
+            </Col>
+          </Row>
+        </div>
       </Container>
     </>
   );

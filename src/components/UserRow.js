@@ -23,7 +23,7 @@ const UserRow = ({user}) => {
 
   return (
     <>
-      <Card bg={'dark'} className="mb-3"
+      <Card bg={'dark'}
         as={Link} to={
           {
             pathname: '/profile',
@@ -33,6 +33,7 @@ const UserRow = ({user}) => {
         style={{
           backgroundColor: '#f6aa1c',
           textDecoration: 'none',
+          marginBottom: '2em',
         }}
       >
         <Card.ImgOverlay className="pt-0">

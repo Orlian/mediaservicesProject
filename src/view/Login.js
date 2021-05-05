@@ -25,7 +25,7 @@ const Login = () => {
             minHeight: '100vh'}}
         >
           <Row className="d-flex justify-content-center">
-            <Col lg={4} className="mt-5 pb-5 rounded-lg"
+            <Col xs={11} md={8} lg={6} xl={4} className="mt-5 pb-5 rounded-lg"
               style={{backgroundColor: '#f8f8ff'}}>
               { toggle ? <LoginForm/> : <RegisterForm setToggle={setToggle}/> }
               <div className="d-flex justify-content-center">

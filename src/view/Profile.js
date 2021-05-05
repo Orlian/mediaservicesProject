@@ -102,16 +102,18 @@ const Profile = ({location}) => {
           <Card className="p-3">
             <Row>
               <Col xs={12} sm={12} md={{order: 'last'}} lg={4}
-                className=" d-flex justify-content-center justify-content-md-end col-md-5">
+                className=" d-flex justify-content-center align-items-center  col-md-5">
                 {!loading ?
                   <SRLWrapper options={options}>
-                    <Card.Img src={uploadsUrl + userAvatar?.filename}
-                      id="profile-card-avatar" alt={userAvatar?.title}
-                      className="w-75"
-                      style={{
-                        maxHeight: '400px',
-                      }}
-                    />
+                    <div className="d-flex justify-content-center align-items-center">
+                      <Card.Img src={uploadsUrl + userAvatar?.filename}
+                        id="profile-card-avatar" alt={userAvatar?.title}
+                        className="w-75"
+                        style={{
+                          maxHeight: '400px',
+                        }}
+                      />
+                    </div>
                   </SRLWrapper>:
                     <Spinner className="align-self-center m-auto" animation={'border'} />
                 }
