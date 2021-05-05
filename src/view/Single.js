@@ -120,9 +120,9 @@ const Single = ({location, history}) => {
               <Card.Title className="mb-1">{file.title}</Card.Title>
               <div className="d-flex text-muted">
                 <MusicNoteBeamed/>
-                <Card.Text className="ml-2 mb-3">{genreString}</Card.Text>
+                <Card.Text className="ml-2 mb-3">{genreString === '' ? 'No genres' : genreString}</Card.Text>
               </div>
-              <Card.Text>{desc.description}</Card.Text>
+              <Card.Text>{desc.description === '' ? 'No description' : desc.description}</Card.Text>
               <Card.Text className="text-muted">{moment(file.time_added).format('HH:mm DD-MM-YYYY')}</Card.Text>
               <Modal
                 size="sm"

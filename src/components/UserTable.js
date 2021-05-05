@@ -35,7 +35,7 @@ const UserTable = ({sortType, user, input, follows}) => {
         { sortType === 'all' && userArray?.length === 0 &&
         <Row className="m-auto">
           <Col xs={'auto'}>
-            <h2 className="h-5">No user matches found</h2>
+            <h2 className="h-5" style={{color: '#f8f8ff'}}>No user matches found</h2>
           </Col>
         </Row>
         }
@@ -48,7 +48,7 @@ const UserTable = ({sortType, user, input, follows}) => {
         { sortType === 'skills' && skillsArray?.length === 0 &&
         <Row className="m-auto">
           <Col xs={'auto'}>
-            <h2 className="h-5">No skills matches found</h2>
+            <h2 className="h-5" style={{color: '#f8f8ff'}}>No skills matches found</h2>
           </Col>
         </Row>
         }
@@ -61,7 +61,7 @@ const UserTable = ({sortType, user, input, follows}) => {
         { sortType === 'genres' && genresArray?.length === 0 &&
         <Row className="m-auto">
           <Col xs={'auto'}>
-            <h2 className="h-5">No genre matches found</h2>
+            <h2 className="h-5" style={{color: '#f8f8ff'}}>No genre matches found</h2>
           </Col>
         </Row>
         }
@@ -74,7 +74,7 @@ const UserTable = ({sortType, user, input, follows}) => {
         { sortType === 'location' && locationArray?.length === 0 &&
         <Row className="m-auto">
           <Col xs={'auto'}>
-            <h2 className="h-5">No location matches found</h2>
+            <h2 className="h-5" style={{color: '#f8f8ff'}}>No location matches found</h2>
           </Col>
         </Row>
         }
