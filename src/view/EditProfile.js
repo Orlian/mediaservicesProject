@@ -1,4 +1,4 @@
-import UserForm from '../components/UserForm'; ;
+import UserForm from '../components/UserForm';
 import {Col, Row} from 'react-bootstrap';
 import {MediaContext} from '../contexts/MediaContext';
 import {useContext} from 'react';
