@@ -147,7 +147,7 @@ const Profile = ({location}) => {
                       <MusicNoteBeamed/>
                     </Col>
                     <Col xs={'auto'} className="pl-0">
-                      <p>{ownFiles ? user?.full_name.genres?.join(', ') : parsedInfo?.genres.join(', ') }</p>
+                      <p>{ownFiles ? (user?.full_name.genres.length < 1 ? 'No preferred genres' : user?.full_name.genres?.join(', ')) : (parsedInfo?.genres.length < 1 ? 'No preferred genres' : parsedInfo?.genres.join(', '))}</p>
                     </Col>
                   </Row>
                   <Row>
@@ -155,10 +155,10 @@ const Profile = ({location}) => {
                       <GiGuitar/>
                     </Col>
                     <Col xs={'auto'} className="pl-0">
-                      <p>{ownFiles ? user?.full_name.skills?.join(', ') : parsedInfo?.skills.join(', ')}</p>
+                      <p>{ownFiles ? (user?.full_name.skills.length < 1 ? 'No skills yet' : user?.full_name.skills?.join(', ')) : (parsedInfo?.skills.length < 1 ? 'No skills yet' : parsedInfo?.skills.join(', '))}</p>
                     </Col>
                   </Row>
-                  <Card.Text>{ownFiles ? user?.full_name.bio : parsedInfo?.bio}</Card.Text>
+                  <Card.Text>{ownFiles ? user?.full_name.bio === '' ? 'No biography' : user?.full_name.bio : parsedInfo?.bio === '' ? 'No biography' : parsedInfo?.bio}</Card.Text>
                   {!ownFiles && !followed &&
                   <Button className="w-25 font-weight-bold form-btn"
                     style={{
