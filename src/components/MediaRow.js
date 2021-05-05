@@ -23,9 +23,22 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
 
 
   const genreString = JSON.parse(file.description).genres?.join(', ');
-
-
-  // console.log('file.thumbnail', file);
+  const options = {
+    setting: {
+      autoplaySpeed: 0,
+      disableKeyboardControls: true,
+      disableWheelControls: true,
+    },
+    buttons: {
+      showAutoplayButton: false,
+      showThumbnailsButton: false,
+      showNextButton: false,
+      showPrevButton: false,
+    },
+    thumbnails: {
+      showThumbnails: false,
+    },
+  };
 
   useEffect(() => {
     (async () => {
@@ -52,15 +65,14 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
         <Card.Header className="d-flex justify-content-center align-items-center p-0 m-0"
           style={{
             width: '100%',
-            height: '260px',
+            maxHeight: '260px',
           }}>
           {file.media_type === 'image' &&
-            <SRLWrapper>
+            <SRLWrapper options={options}>
               <img src={uploadsUrl + file.filename} alt={file.title}
                 style={{
                   width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
+                  maxHeight: '260px',
                 }}
               />
             </SRLWrapper>

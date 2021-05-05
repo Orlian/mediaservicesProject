@@ -34,6 +34,22 @@ const Profile = ({location}) => {
   if (user?.user_id !== userInfo?.user_id && user !== null && userInfo !== undefined) {
     parsedInfo = JSON.parse(userInfo?.full_name);
   }
+  const options = {
+    setting: {
+      autoplaySpeed: 0,
+      disableKeyboardControls: true,
+      disableWheelControls: true,
+    },
+    buttons: {
+      showAutoplayButton: false,
+      showThumbnailsButton: false,
+      showNextButton: false,
+      showPrevButton: false,
+    },
+    thumbnails: {
+      showThumbnails: false,
+    },
+  };
 
 
   useEffect(()=>{
@@ -88,7 +104,7 @@ const Profile = ({location}) => {
               <Col md={{order: 'last', col: 2}}
                 className=" d-flex justify-content-md-end justify-content-center">
                 {!loading ?
-                  <SRLWrapper>
+                  <SRLWrapper options={options}>
                     <Card.Img src={uploadsUrl + userAvatar?.filename}
                       id="profile-card-avatar" alt={userAvatar?.title}
                       className="w-75"
