@@ -404,19 +404,18 @@ const RegisterForm = ({setToggle}) => {
                     <option value="Varsinais-Suomi">Varsinais-Suomi</option>
                   </Field>
                 </Form.Group>
-
-
+                <Form.Group className="d-flex justify-content-center">
+                  <Button type="submit"
+                    disabled={isSubmitting}
+                    className="w-50 mt-3 form-btn"
+                  >REGISTER
+                  </Button>
+                </Form.Group>
               </Tab>
             </Tabs>
             <Form.Group className="d-flex justify-content-center">
-              <button onClick={(e) => toNextTab(e)}>{activeTab === 'account-info' ? 'NEXT' : 'BACK'}</button>
-              <Button type="submit"
-                disabled={isSubmitting}
-                className="w-50 mt-3 form-btn"
-              >REGISTER
-              </Button>
+              <Button className="w-50 form-btn" onClick={(e) => toNextTab(e)}>{activeTab === 'account-info' ? 'NEXT' : 'BACK'}</Button>
             </Form.Group>
-
           </Form>
         )}
       </Formik>

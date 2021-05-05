@@ -35,7 +35,7 @@ const MediaTable = ({update, ownFiles, currentUser, mediaType, setUpdate}) => {
         { mediaType === 'all' && mediaArrayNoAvatar?.length === 0 &&
         <Row className="m-auto">
           <Col xs={'auto'}>
-            <h2 className="h-5" style={{color: '#f8f8ff'}}>No uploads found</h2>
+            <h2 style={{color: '#f8f8ff', fontSize: '16px'}}>No uploads found</h2>
           </Col>
         </Row>
         }
@@ -49,7 +49,7 @@ const MediaTable = ({update, ownFiles, currentUser, mediaType, setUpdate}) => {
         { mediaType === 'audio' && audioArray?.length === 0 &&
         <Row className="m-auto">
           <Col xs={'auto'}>
-            <h2 className="h-5" style={{color: '#f8f8ff'}}>No audio uploads found</h2>
+            <h2 style={{color: '#f8f8ff', fontSize: '16px'}}>No audio uploads found</h2>
           </Col>
         </Row>
         }
@@ -63,7 +63,7 @@ const MediaTable = ({update, ownFiles, currentUser, mediaType, setUpdate}) => {
         { mediaType === 'video' && videoArray?.length === 0 &&
         <Row className="m-auto">
           <Col xs={'auto'}>
-            <h2 className="h-5" style={{color: '#f8f8ff'}}>No video uploads found</h2>
+            <h2 style={{color: '#f8f8ff', fontSize: '16px'}}>No video uploads found</h2>
           </Col>
         </Row>
         }
@@ -77,7 +77,7 @@ const MediaTable = ({update, ownFiles, currentUser, mediaType, setUpdate}) => {
         { mediaType === 'image' && imageArray?.length === 0 &&
         <Row className="m-auto">
           <Col xs={'auto'}>
-            <h2 className="h-5" style={{color: '#f8f8ff'}}>No image uploads found</h2>
+            <h2 style={{color: '#f8f8ff', fontSize: '16px'}}>No image uploads found</h2>
           </Col>
         </Row>
         }

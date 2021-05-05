@@ -41,17 +41,16 @@ const UserRow = ({user}) => {
             <Card.Text className="text-light">{user.username}</Card.Text>
           </Row>
         </Card.ImgOverlay>
-        {/* TODO: User avatar here */}
         <Card.Img src={uploadsUrl + userAvatar.filename}/>
         <Card.Body className="d-flex flex-column align-items-center">
           <Card.Text className="text-light">
-           Location: {userInfo?.regions ? userInfo?.regions : 'No location'}
+           Location: {userInfo?.regions === '' ? 'No location' : userInfo?.regions}
           </Card.Text>
           <Card.Text className="text-light">
-           Skills: {userInfo?.skills ? userInfo?.skills.join(', ') : 'Still learning'}
+           Skills: {userInfo?.skills.length < 1 ? 'Still learning' : userInfo?.skills.join(', ')}
           </Card.Text>
           <Card.Text className="text-light">
-            Genres: {userInfo?.genres ? userInfo?.genres.join(', ') : 'No genres'}
+            Genres: {userInfo?.genres.length < 1 ? 'No genres' : userInfo?.genres.join(', ')}
           </Card.Text>
         </Card.Body>
       </Card>
