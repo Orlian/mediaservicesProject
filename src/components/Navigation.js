@@ -61,7 +61,6 @@ const Navigation = ({history}) => {
     }
   };
 
-
   return (
     <>
       <Navbar expand={false} className="navbar-dark">
@@ -142,21 +141,23 @@ const Navigation = ({history}) => {
         }
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="justify-content-end w-100">
+          <Nav activeKey={history.location.pathname}>
 
 
-            <Nav.Link as={RouterLink} to="/">HOME</Nav.Link>
+            <Nav.Link as={RouterLink} to="/" href="/">HOME</Nav.Link>
             {user && <><Nav.Link as={RouterLink} to="/upload">UPLOAD</Nav.Link>
               <Nav.Link as={RouterLink} to="/followed">FOLLOWED</Nav.Link>
-              <Nav.Link as={RouterLink} to={
-                {
-                  pathname: '/profile',
-                  state: user,
-                }
-              } >MY PROFILE</Nav.Link>
+              <Nav.Item >
+                <Nav.Link as={RouterLink} to={
+                  {
+                    pathname: '/profile',
+                    state: user,
+                  }
+                } href="/profile" >MY PROFILE</Nav.Link>
+              </Nav.Item>
             </>}
-            {user ? <Nav.Link as={RouterLink} to="/logout">LOGOUT</Nav.Link> :
-              <Nav.Link as={RouterLink} to="/login">LOGIN</Nav.Link> }
+            {user ? <Nav.Link as={RouterLink} to="/logout" href="/logout">LOGOUT</Nav.Link> :
+              <Nav.Link as={RouterLink} to="/login" href="/login">LOGIN</Nav.Link> }
           </Nav>
         </Navbar.Collapse>
       </Navbar>

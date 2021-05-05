@@ -16,6 +16,7 @@ import CancelButton from './CancelButton';
 import {useHistory} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import * as Yup from 'yup';
+import {uploadsUrl} from '../utils/variables';
 
 const UserForm = ({user, setUser}) => {
   const {putUser, getUser, getUserAvatar} = useUsers();
@@ -81,7 +82,7 @@ const UserForm = ({user, setUser}) => {
 
   console.log('UserForm user, avatarFile', user, currentAvatar);
   const initialValues = {
-    file: {name: currentAvatar?.filename, size: currentAvatar?.filesize, type: currentAvatar?.mime_type},
+    file: currentAvatar?.filename,
     artist_name: user?.full_name?.artist_name,
     bio: user?.full_name?.bio,
     genres: user?.full_name?.genres,
@@ -200,7 +201,7 @@ const UserForm = ({user, setUser}) => {
                 tabClassName="font-weight-bold">
                 <Row className="d-flex justify-content-center">
                   <Col xs={'auto'}>
-                    <img src={file.dataUrl}
+                    <img src={file.dataUrl ? file.dataUrl : uploadsUrl + currentAvatar.filename}
                       style={{
                         maxWidth: '200px',
                         height: 'auto',
