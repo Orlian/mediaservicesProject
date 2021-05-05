@@ -102,7 +102,7 @@ const Profile = ({location}) => {
           <Card className="p-3">
             <Row>
               <Col md={{order: 'last', col: 2}}
-                className=" d-flex justify-content-md-end justify-content-center">
+                className=" d-flex justify-content-center justify-content-md-end">
                 {!loading ?
                   <SRLWrapper options={options}>
                     <Card.Img src={uploadsUrl + userAvatar?.filename}
@@ -119,11 +119,11 @@ const Profile = ({location}) => {
               <Col md={{order: 'first', col: 5}} className="px-3">
                 <Card.Body className="px-3">
                   <Row>
-                    <Col xs={7}>
+                    <Col xs={12}>
                       <Card.Title className="h4 position-relative">
                         {ownFiles ? user?.username : userInfo?.username}</Card.Title>
                     </Col>
-                    <Col xs={7} className="d-flex align-items-center">
+                    <Col xs={12} className="d-flex align-items-center">
                       <Card.Text>{ownFiles ? user?.full_name.artist_name : parsedInfo?.artist_name }</Card.Text>
                     </Col>
 
@@ -175,8 +175,10 @@ const Profile = ({location}) => {
                     </Col>
                   </Row>
                   <Card.Text>{ownFiles ? user?.full_name.bio === '' ? 'No biography' : user?.full_name.bio : parsedInfo?.bio === '' ? 'No biography' : parsedInfo?.bio}</Card.Text>
-                  {!ownFiles && !followed && !loading &&
-                    <Button className="w-50 font-weight-bold form-btn"
+                  <Row>
+                    <Col xs={8} sm={6} md={8} lg={6}>
+                      {!ownFiles && !followed && !loading &&
+                    <Button className="w-100 font-weight-bold form-btn"
                       style={{
                         backgroundColor: '#f6aa1c',
                         border: '1px solid #f6aa1c',
@@ -198,8 +200,8 @@ const Profile = ({location}) => {
                     >
                     FOLLOW
                     </Button>
-                  }{!ownFiles && followed && !loading &&
-                <Button className="w-50 font-weight-bold form-btn"
+                      }{!ownFiles && followed && !loading &&
+                <Button className="w-100 font-weight-bold form-btn"
                   style={{
                     backgroundColor: '#f6aa1c',
                     border: '1px solid #f6aa1c',
@@ -221,7 +223,9 @@ const Profile = ({location}) => {
                 >
                   UNFOLLOW
                 </Button>
-                  }
+                      }
+                    </Col>
+                  </Row>
                 </Card.Body>
               </Col>
             </Row>
