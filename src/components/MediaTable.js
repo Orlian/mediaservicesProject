@@ -6,9 +6,6 @@ import PropTypes from 'prop-types';
 
 const MediaTable = ({update, ownFiles, currentUser, mediaType, setUpdate}) => {
   const {mediaArray, deleteMedia} = useMedia(update, ownFiles, currentUser);
-  console.log('MediaArray', mediaArray);
-  console.log('CurrentUser', currentUser);
-  console.log('MediaTable update', update);
   const mediaArrayNoAvatar = mediaArray?.filter((item) => {
     return item.description.includes('description');
   });
@@ -28,33 +25,61 @@ const MediaTable = ({update, ownFiles, currentUser, mediaType, setUpdate}) => {
   return (
     <Container>
       <Row>
-        { mediaType === 'all' &&
+        { mediaType === 'all' && mediaArrayNoAvatar?.length > 0 &&
           mediaArrayNoAvatar?.slice(0).reverse().map((item) =>
             <Col xs={12} md={6} lg={6} key={item.file_id}>
               <MediaRow file={item} ownFiles={ownFiles}
                 deleteMedia={deleteMedia} update={update} setUpdate={setUpdate}/>
             </Col>)
         }
-        { mediaType === 'audio' &&
+        { mediaType === 'all' && mediaArrayNoAvatar?.length === 0 &&
+        <Row className="m-auto">
+          <Col xs={'auto'}>
+            <h2 className="h-5" style={{color: '#f8f8ff'}}>No uploads found</h2>
+          </Col>
+        </Row>
+        }
+        { mediaType === 'audio' && audioArray?.length > 0 &&
         audioArray?.slice(0).reverse().map((item) =>
           <Col xs={12} md={6} lg={6} key={item.file_id}>
             <MediaRow file={item} ownFiles={ownFiles}
               deleteMedia={deleteMedia} update={update} setUpdate={setUpdate}/>
           </Col>)
         }
-        { mediaType === 'video' &&
+        { mediaType === 'audio' && audioArray?.length === 0 &&
+        <Row className="m-auto">
+          <Col xs={'auto'}>
+            <h2 className="h-5" style={{color: '#f8f8ff'}}>No audio uploads found</h2>
+          </Col>
+        </Row>
+        }
+        { mediaType === 'video' && videoArray?.length > 0 &&
         videoArray?.slice(0).reverse().map((item) =>
           <Col xs={12} md={6} lg={6} key={item.file_id}>
             <MediaRow file={item} ownFiles={ownFiles}
               deleteMedia={deleteMedia} update={update} setUpdate={setUpdate}/>
           </Col>)
         }
-        { mediaType === 'image' &&
+        { mediaType === 'video' && videoArray?.length === 0 &&
+        <Row className="m-auto">
+          <Col xs={'auto'}>
+            <h2 className="h-5" style={{color: '#f8f8ff'}}>No video uploads found</h2>
+          </Col>
+        </Row>
+        }
+        { mediaType === 'image' && imageArray?.length > 0 &&
         imageArray?.slice(0).reverse().map((item) =>
           <Col xs={12} md={6} lg={6} key={item.file_id}>
             <MediaRow file={item} ownFiles={ownFiles}
               deleteMedia={deleteMedia} update={update} setUpdate={setUpdate}/>
           </Col>)
+        }
+        { mediaType === 'image' && imageArray?.length === 0 &&
+        <Row className="m-auto">
+          <Col xs={'auto'}>
+            <h2 className="h-5" style={{color: '#f8f8ff'}}>No image uploads found</h2>
+          </Col>
+        </Row>
         }
       </Row>
     </Container>

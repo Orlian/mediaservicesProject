@@ -65,7 +65,6 @@ const Upload = ({history}) => {
     title: Yup.string()
         .max(20, 'Must be 20 characters or less')
         .required('Required'),
-    description: Yup.string().required('Required'),
   });
 
 
@@ -142,7 +141,7 @@ const Upload = ({history}) => {
           position: 'relative'}}
       >
         <div className="row-cols d-flex justify-content-center">
-          <div className="col-lg-3 mt-5 mb-5" >
+          <div className="col-xs-12 mt-5 mb-5" >
             {!loading ?
             <Formik
               initialValues={initialValues}
@@ -169,7 +168,11 @@ const Upload = ({history}) => {
                   className="p-4 rounded-lg"
                   style={{backgroundColor: '#f8f8ff'}}
                 >
-                  <h1>Upload Content</h1>
+                  <Row className="d-flex justify-content-center">
+                    <Col xs={'auto'}>
+                      <h1>Upload Content</h1>
+                    </Col>
+                  </Row>
                   <Row className="d-flex justify-content-center">
                     <Col xs={'auto'}>
                       <img src={file.dataUrl}
@@ -223,9 +226,6 @@ const Upload = ({history}) => {
                         resize: 'none',
                       }}
                     />
-                    {touched.description && errors.description ? (
-                      <div className="error-message">{errors.description}</div>
-                    ): null}
                   </Form.Group>
                   <Form.Group>
                     <h2 className="h6">Choose genres</h2>
