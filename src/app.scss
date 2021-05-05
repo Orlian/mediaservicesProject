@@ -114,3 +114,17 @@ body {
     color: $black;
   }
 }
+
+.navbar-brand{
+  h1{
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@media (max-width: 800px) {
+  .navbar-brand{
+    h1{
+     display: none;
+    }
+  }
+}
