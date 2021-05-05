@@ -83,6 +83,48 @@ form {
 }
 
 
+.comments, .single-controls {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#comments-field {
+  width: 100%;
+}
+
+.comments-button {
+  margin-top: 1em;
+}
+
+
+
+
+
+@media (min-width: 768px) {
+  .comments, .single-controls {
+    flex-direction: row;
+  }
+
+  #comments-field {
+    flex: 9;
+  }
+
+  .comments-button{
+    flex: 1;
+    margin-top: 0;
+  }
+
+  .no-ratings {
+    flex: 4;
+  }
+
+  .action-btn-container {
+    flex: 6;
+  }
+
+}
+
 
 
 

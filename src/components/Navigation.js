@@ -125,7 +125,7 @@ const Navigation = ({history}) => {
                 <div className="error-message">{errors.search}</div>
               ) : null}
                 <InputGroup.Append>
-                  <Button type="submit" className="font-weight-bold"
+                  <Button variant={null} type="submit" className="font-weight-bold"
                     disabled={isSubmitting}
                     style={{
                       backgroundColor: '#f6aa1c',
