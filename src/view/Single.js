@@ -46,7 +46,7 @@ const Single = ({location, history}) => {
   }, []);
 
   const validationSchema = yup.object({
-    comment: yup.string().min(1).required('Write something').matches(/^[a-zA-Z 0-9'*:;_.-]*$/,
+    comment: yup.string().min(1).required('Write something').matches(/^[a-zA-ZäöåÄÖÅ 0-9'*:!;_.-]*$/,
         'Invalid characters'),
   });
   const doComment = async (input) => {
