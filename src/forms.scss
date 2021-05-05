@@ -21,6 +21,14 @@ form {
       border: 1px solid $dark;
       color: $white;
     }
+    &:active{
+      background-color: $yellow;
+      color: $black;
+    }
+    &:focus{
+      background-color: $yellow;
+      color: $black;
+    }
   }
 
   .error-message {
