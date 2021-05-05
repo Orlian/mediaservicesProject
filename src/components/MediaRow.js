@@ -81,13 +81,20 @@ const MediaRow = ({file, ownFiles, deleteMedia, update, setUpdate}) => {
           <video src={uploadsUrl + file.filename} controls
             style={{
               width: '100%',
-              height: '100%',
+              maxHeight: '260px',
               objectFit: 'cover',
             }}
           />
           }
           {file.media_type === 'audio' &&
-          <audio src={uploadsUrl + file.filename} controls/>
+            <div
+              style={{
+                height: '260px',
+                width: '80%',
+              }}
+              className="d-flex align-items-center justify-content-center">
+              <audio src={uploadsUrl + file.filename} controls/>
+            </div>
           }
         </Card.Header>
         <Card.Body>

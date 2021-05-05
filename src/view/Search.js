@@ -22,8 +22,9 @@ const Search = ({location}) => {
           }}>
           <Row className="d-flex justify-content-center pt-5">
             <Col xs={'auto'}>
-              <h1 style={{
+              <h1 className="h3" style={{
                 color: '#f8f8ff',
+                textAlign: 'center',
               }}>Search results for {input}</h1>
             </Col>
           </Row>
