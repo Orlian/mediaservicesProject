@@ -101,8 +101,8 @@ const Profile = ({location}) => {
         <Container className="py-3">
           <Card className="p-3">
             <Row>
-              <Col md={{order: 'last', col: 2}}
-                className=" d-flex justify-content-center justify-content-md-end">
+              <Col xs={12} sm={12} md={{order: 'last'}} lg={4}
+                className=" d-flex justify-content-center justify-content-md-end col-md-5">
                 {!loading ?
                   <SRLWrapper options={options}>
                     <Card.Img src={uploadsUrl + userAvatar?.filename}
@@ -123,12 +123,12 @@ const Profile = ({location}) => {
                       <Card.Title className="h4 position-relative">
                         {ownFiles ? user?.username : userInfo?.username}</Card.Title>
                     </Col>
-                    <Col xs={12} className="d-flex align-items-center">
+                    <Col xs={10} className="d-flex align-items-center">
                       <Card.Text>{ownFiles ? user?.full_name.artist_name : parsedInfo?.artist_name }</Card.Text>
                     </Col>
 
                     {ownFiles &&
-                    <Col xs={'auto'} className="ml-auto">
+                    <Col xs={2} className="ml-auto d-flex justify-content-end">
                       <Button
                         className="card-actions"
                         as={Link} to={
