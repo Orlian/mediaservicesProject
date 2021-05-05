@@ -159,31 +159,31 @@ const Profile = ({location}) => {
                     </Col>
                   </Row>
                   <Card.Text>{ownFiles ? user?.full_name.bio === '' ? 'No biography' : user?.full_name.bio : parsedInfo?.bio === '' ? 'No biography' : parsedInfo?.bio}</Card.Text>
-                  {!ownFiles && !followed &&
-                  <Button className="w-25 font-weight-bold form-btn"
-                    style={{
-                      backgroundColor: '#f6aa1c',
-                      border: '1px solid #f6aa1c',
-                      color: '#161616',
-                      borderRadius: '30em',
-                      marginTop: '1rem',
-                    }}
-                    onClick={
-                      () => {
-                        try {
-                          postFollow(userInfo,
-                              localStorage.getItem('token'));
-                          setFollowed(true);
-                        } catch (e) {
-                          console.log(e.message);
+                  {!ownFiles && !followed && !loading &&
+                    <Button className="w-50 font-weight-bold form-btn"
+                      style={{
+                        backgroundColor: '#f6aa1c',
+                        border: '1px solid #f6aa1c',
+                        color: '#161616',
+                        borderRadius: '30em',
+                        marginTop: '1rem',
+                      }}
+                      onClick={
+                        () => {
+                          try {
+                            postFollow(userInfo,
+                                localStorage.getItem('token'));
+                            setFollowed(true);
+                          } catch (e) {
+                            console.log(e.message);
+                          }
                         }
                       }
-                    }
-                  >
+                    >
                     FOLLOW
-                  </Button>
-                  }{!ownFiles && followed &&
-                <Button className="w-25 font-weight-bold form-btn"
+                    </Button>
+                  }{!ownFiles && followed && !loading &&
+                <Button className="w-50 font-weight-bold form-btn"
                   style={{
                     backgroundColor: '#f6aa1c',
                     border: '1px solid #f6aa1c',

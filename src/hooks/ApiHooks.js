@@ -125,18 +125,25 @@ const useUsers = (update = false, user, input = '', follows = false) => {
   if (update) {
     if (follows) {
       useEffect(async () => {
-        const users = await getUserAvatar(user, true);
-        const userFollows = await getFollows(localStorage.getItem('token'));
-        let followList = users.filter((item) => {
-          const isMegaMatch = userFollows?.filter((follow) => {
-            return follow.file_id === item.file_id;
+        try {
+          setLoading(true);
+          const users = await getUserAvatar(user, true);
+          const userFollows = await getFollows(localStorage.getItem('token'));
+          let followList = users.filter((item) => {
+            const isMegaMatch = userFollows?.filter((follow) => {
+              return follow.file_id === item.file_id;
+            });
+            return isMegaMatch.length > 0;
           });
-          return isMegaMatch.length > 0;
-        });
-        followList = await Promise.all(followList.map(async (item) => {
-          return await getUserById(localStorage.getItem('token'), item.user_id);
-        }));
-        setUserArray(followList);
+          followList = await Promise.all(followList.map(async (item) => {
+            return await getUserById(localStorage.getItem('token'), item.user_id);
+          }));
+          setUserArray(followList);
+        } catch (e) {
+          console.log(e.message);
+        } finally {
+          setLoading(false);
+        }
       }, []);
     } else if (input === '') {
       useEffect(async () => {
@@ -359,19 +366,15 @@ const useUsers = (update = false, user, input = '', follows = false) => {
       },
     };
     try {
-      setLoading(true);
       const response = await doFetch(baseUrl + 'favourites', fetchOptions);
       return response;
     } catch (e) {
       alert(e.message);
-    } finally {
-      setLoading(false);
     }
   };
 
   const getUserAvatar = async (user, getAll = false) => {
     try {
-      setLoading(true);
       const avatars = await doFetch(baseUrl + 'tags/' + appIdentifier);
       if (getAll) {
         return avatars;
@@ -382,8 +385,6 @@ const useUsers = (update = false, user, input = '', follows = false) => {
       return userAvatar[0];
     } catch (e) {
       console.error(e.message);
-    } finally {
-      setLoading(false);
     }
   };
 
