@@ -65,11 +65,11 @@ const Home = () => {
               </div>
               <div className="d-flex flex-column justify-content-between">
                 {user ?
-                  <Button
+                  <Button variant={null}
                     className="mt-5 banner-btn px-5 py-2"
                     href="#home-cards-area"
                   >DISCOVER
-                  </Button> : <> <Button
+                  </Button> : <> <Button variant={null}
                     className="mt-5 banner-btn px-5 py-2"
                     as={Link} to={
                       {
@@ -78,7 +78,7 @@ const Home = () => {
                     }>
                     REGISTER
                   </Button>
-                  <Button href="#about" className="mt-3 about-button">ABOUT</Button>
+                  <Button variant={null} href="#about" className="mt-3 about-button">ABOUT</Button>
                   </>
                 }
               </div>
