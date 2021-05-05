@@ -82,7 +82,7 @@ const Profile = ({location}) => {
     })();
   }, [userInfo, user]);
 
-  useEffect(async ()=>{
+  useEffect( ()=>{
 
   }, [mediaType, ownFiles, followed, activeLink]);
 

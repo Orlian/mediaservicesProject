@@ -121,46 +121,52 @@ const useUsers = (update = false, user, input = '', follows = false) => {
   const [loading, setLoading] = useState(false);
   if (update) {
     if (follows) {
-      useEffect(async () => {
-        try {
-          setLoading(true);
-          const users = await getUserAvatar(user, true);
-          const userFollows = await getFollows(localStorage.getItem('token'));
-          let followList = users.filter((item) => {
-            const isMegaMatch = userFollows?.filter((follow) => {
-              return follow.file_id === item.file_id;
+      useEffect( () => {
+        (async () => {
+          try {
+            setLoading(true);
+            const users = await getUserAvatar(user, true);
+            const userFollows = await getFollows(localStorage.getItem('token'));
+            let followList = users.filter((item) => {
+              const isMegaMatch = userFollows?.filter((follow) => {
+                return follow.file_id === item.file_id;
+              });
+              return isMegaMatch.length > 0;
             });
-            return isMegaMatch.length > 0;
-          });
-          followList = await Promise.all(followList.map(async (item) => {
-            return await getUserById(localStorage.getItem('token'), item.user_id);
-          }));
-          setUserArray(followList);
-        } catch (e) {
-          console.log(e.message);
-        } finally {
-          setLoading(false);
-        }
+            followList = await Promise.all(followList.map(async (item) => {
+              return await getUserById(localStorage.getItem('token'), item.user_id);
+            }));
+            setUserArray(followList);
+          } catch (e) {
+            console.log(e.message);
+          } finally {
+            setLoading(false);
+          }
+        })();
       }, []);
     } else if (input === '') {
-      useEffect(async () => {
-        try {
-          const users = await getUserRecommendations(
-              localStorage.getItem('token'), user);
-          setUserArray(users);
-        } catch (e) {
-          console.error('useUsers error', e.message);
-        }
+      useEffect( () => {
+        (async () => {
+          try {
+            const users = await getUserRecommendations(
+                localStorage.getItem('token'), user);
+            setUserArray(users);
+          } catch (e) {
+            console.error('useUsers error', e.message);
+          }
+        })();
       }, []);
     } else {
-      useEffect(async () => {
-        try {
-          const users = await getSearchResults(
-              localStorage.getItem('token'), input, user);
-          setUserArray(users);
-        } catch (e) {
-          console.error('useUsers error', e.message);
-        }
+      useEffect( () => {
+        (async () => {
+          try {
+            const users = await getSearchResults(
+                localStorage.getItem('token'), input, user);
+            setUserArray(users);
+          } catch (e) {
+            console.error('useUsers error', e.message);
+          }
+        })();
       }, []);
     }
   }
@@ -500,24 +506,26 @@ const useRating = (user, fileId, update = false) => {
   const [avgRating, setAvgRating] = useState(0);
 
   if (update) {
-    useEffect(async () => {
-      try {
-        const ratings = await getRating(fileId);
-        let sum = 0;
-        ratings?.forEach((item) => {
-          return sum = sum + item.rating;
-        });
-        setAvgRating((sum / ratings.length).toFixed(1));
-        setRatingArray(ratings);
-        const ratingMatch = ratings?.filter((item) => {
-          return item.user_id === user?.user_id;
-        });
-        if (ratingMatch.length > 0) {
-          setRating(ratingMatch[0].rating);
+    useEffect( () => {
+      (async () => {
+        try {
+          const ratings = await getRating(fileId);
+          let sum = 0;
+          ratings?.forEach((item) => {
+            return sum = sum + item.rating;
+          });
+          setAvgRating((sum / ratings.length).toFixed(1));
+          setRatingArray(ratings);
+          const ratingMatch = ratings?.filter((item) => {
+            return item.user_id === user?.user_id;
+          });
+          if (ratingMatch.length > 0) {
+            setRating(ratingMatch[0].rating);
+          }
+        } catch (e) {
+          console.error(e.message);
         }
-      } catch (e) {
-        console.error(e.message);
-      }
+      })();
     }, [update]);
   }
 
