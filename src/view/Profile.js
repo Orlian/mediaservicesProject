@@ -32,7 +32,11 @@ const Profile = ({location}) => {
 
   let parsedInfo;
   if (user?.user_id !== userInfo?.user_id && user !== null && userInfo !== undefined) {
-    parsedInfo = JSON.parse(userInfo?.full_name);
+    try {
+      parsedInfo = JSON.parse(userInfo?.full_name);
+    } catch (e) {
+      parsedInfo = {};
+    }
   }
   const options = {
     setting: {
@@ -64,6 +68,7 @@ const Profile = ({location}) => {
             setOwnFiles(true);
             const avatar = await getUserAvatar(user);
             setUserAvatar(avatar);
+            console.log('avatar', avatar);
           } else {
             setOwnFiles(false);
             const follows = await getFollows(localStorage.getItem('token'));
@@ -165,7 +170,7 @@ const Profile = ({location}) => {
                       <MusicNoteBeamed/>
                     </Col>
                     <Col xs={'auto'} className="pl-0">
-                      <p>{ownFiles ? (user?.full_name.genres.length < 1 ? 'No preferred genres' : user?.full_name.genres?.join(', ')) : (parsedInfo?.genres.length < 1 ? 'No preferred genres' : parsedInfo?.genres.join(', '))}</p>
+                      <p>{ownFiles ? (user?.full_name?.genres?.length < 1 ? 'No preferred genres' : user?.full_name?.genres?.join(', ')) : (parsedInfo?.genres?.length < 1 ? 'No preferred genres' : parsedInfo?.genres?.join(', '))}</p>
                     </Col>
                   </Row>
                   <Row>
@@ -173,10 +178,10 @@ const Profile = ({location}) => {
                       <GiGuitar/>
                     </Col>
                     <Col xs={'auto'} className="pl-0">
-                      <p>{ownFiles ? (user?.full_name.skills.length < 1 ? 'No skills yet' : user?.full_name.skills?.join(', ')) : (parsedInfo?.skills.length < 1 ? 'No skills yet' : parsedInfo?.skills.join(', '))}</p>
+                      <p>{ownFiles ? (user?.full_name?.skills?.length < 1 ? 'No skills yet' : user?.full_name?.skills?.join(', ')) : (parsedInfo?.skills?.length < 1 ? 'No skills yet' : parsedInfo?.skills?.join(', '))}</p>
                     </Col>
                   </Row>
-                  <Card.Text>{ownFiles ? user?.full_name.bio === '' ? 'No biography' : user?.full_name.bio : parsedInfo?.bio === '' ? 'No biography' : parsedInfo?.bio}</Card.Text>
+                  <Card.Text>{ownFiles ? user?.full_name?.bio === '' ? 'No biography' : user?.full_name?.bio : parsedInfo?.bio === '' ? 'No biography' : parsedInfo?.bio}</Card.Text>
                   <Row>
                     <Col xs={8} sm={6} md={8} lg={6}>
                       {!ownFiles && !followed && !loading &&
