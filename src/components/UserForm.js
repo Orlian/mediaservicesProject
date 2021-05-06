@@ -240,7 +240,6 @@ const UserForm = ({user, setUser}) => {
                 </Form.Group>
                 <Form.Group className="mx-4">
                   <Form.Label className="mb-0">Change password</Form.Label>
-                  <Form.Text className="text-muted mb-2">Or provide your current password</Form.Text>
                   <Form.Control
                     type="password"
                     name="password"
@@ -338,6 +337,7 @@ const UserForm = ({user, setUser}) => {
                     <option value="Satakunta">Satakunta</option>
                     <option value="Uusimaa">Uusimaa</option>
                     <option value="Varsinais-Suomi">Varsinais-Suomi</option>
+                    <option value="Other">Other</option>
                   </Field>
                 </Form.Group>
                 <Form.Group className="mx-4">
@@ -353,8 +353,8 @@ const UserForm = ({user, setUser}) => {
                     value={values?.bio}
                     style={{resize: 'none'}}
                   />
-                  {touched.full_name && errors.full_name ? (
-                    <div className="error-message">{errors.full_name}</div>
+                  {touched.bio && errors.bio ? (
+                    <div className="error-message">{errors.bio}</div>
                   ): null}
                 </Form.Group>
                 <Form.Group className="mx-4">

@@ -109,7 +109,7 @@ const Navigation = ({history}) => {
             >
               <InputGroup className="mb-3">
                 <FormControl
-                  placeholder="Search..."
+                  placeholder="Search for users"
                   aria-label="Search"
                   type="text"
                   name="search"

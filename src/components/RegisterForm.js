@@ -193,7 +193,8 @@ const RegisterForm = ({setToggle}) => {
                 title="Account information"
                 tabClassName="font-weight-bold">
                 <Form.Group className="mx-4">
-                  <Form.Label className="font-we">Username</Form.Label>
+                  <Form.Text className="text-muted mb-2">Fields with an asterisk (*) are required</Form.Text>
+                  <Form.Label className="font-we">Username *</Form.Label>
                   <Form.Control type="text"
                     name="username"
                     placeholder="Username"
@@ -207,7 +208,7 @@ const RegisterForm = ({setToggle}) => {
               ): null}
                 </Form.Group>
                 <Form.Group className="mx-4">
-                  <Form.Label>Email</Form.Label>
+                  <Form.Label>Email *</Form.Label>
                   <Form.Control type="email"
                     name="email"
                     placeholder="Email will be visible"
@@ -221,7 +222,7 @@ const RegisterForm = ({setToggle}) => {
                   {/* eslint-disable-next-line max-len */}
                 </Form.Group>
                 <Form.Group className="mx-4">
-                  <Form.Label>Password</Form.Label>
+                  <Form.Label>Password *</Form.Label>
                   <Form.Control type="password"
                     name="password"
                     placeholder="Password"
@@ -235,7 +236,7 @@ const RegisterForm = ({setToggle}) => {
                   ): null}
                 </Form.Group>
                 <Form.Group className="mx-4">
-                  <Form.Label>Repeat password</Form.Label>
+                  <Form.Label>Repeat password *</Form.Label>
                   <Form.Control type="password"
                     name="confirm"
                     placeholder="Repeat password"
@@ -254,7 +255,8 @@ const RegisterForm = ({setToggle}) => {
                 title="User information"
                 tabClassName="font-weight-bold">
                 <Form.Group className="mx-4">
-                  <Form.Label className="font-we">Artist name</Form.Label>
+                  <Form.Text className="text-muted mb-2">Fields with an asterisk (*) are required</Form.Text>
+                  <Form.Label className="font-we">Artist name *</Form.Label>
                   <Form.Control type="text"
                     name="full_name"
                     placeholder="Display name on profile page"
@@ -272,7 +274,7 @@ const RegisterForm = ({setToggle}) => {
                   className="mx-4">
                   <Form.Label>Region&nbsp;</Form.Label>
                   <Field as="select" name="selected" custom>
-                    <option value="Ahvenanmaa">Avenanmaa</option>
+                    <option value="Ahvenanmaa">Ahvenanmaa</option>
                     <option value="Etelä-Karjala">Etelä-Karjala</option>
                     <option value="Etelä-Pohjanmaa">Etelä-Pohjanmaa</option>
                     <option value="Etelä-Savo">Etelä-Savo</option>
@@ -291,6 +293,7 @@ const RegisterForm = ({setToggle}) => {
                     <option value="Satakunta">Satakunta</option>
                     <option value="Uusimaa">Uusimaa</option>
                     <option value="Varsinais-Suomi">Varsinais-Suomi</option>
+                    <option value="Other">Other</option>
                   </Field>
                 </Form.Group>
                 <Form.Group className="mx-4">
