@@ -188,7 +188,8 @@ const Upload = ({history}) => {
                     </Col>
                   </Row>
                   <Form.Group>
-                    <Form.Label>File</Form.Label>
+                    <Form.Text className="text-muted mb-2">Fields with an asterisk (*) are required</Form.Text>
+                    <Form.Label>File *</Form.Label>
                     <Form.Control
                       id="form-file"
                       name="file"
@@ -207,7 +208,7 @@ const Upload = ({history}) => {
                     ): null}
                   </Form.Group>
                   <Form.Group>
-                    <Form.Label>Title</Form.Label>
+                    <Form.Label>Title *</Form.Label>
                     <Form.Control type="text" placeholder="Title" name="title"
                       onChange={handleChange}
                       onBlur={handleBlur}
